@@ -1,0 +1,4 @@
+@import "tailwindcss";
+html { scroll-behavior: smooth; }
+body { background: #07090f; color: #e7e9ee; font-family: ui-sans-serif, system-ui, sans-serif; }
+.guilloche { background-image: repeating-radial-gradient(circle at 30% 40%, rgba(252,211,77,.07) 0 1px, transparent 1px 14px); }

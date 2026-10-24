@@ -1,8 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Newsreader, Inter, IBM_Plex_Mono } from "next/font/google";
+import { Playfair_Display, Inter, IBM_Plex_Mono } from "next/font/google";
 
-const display = Newsreader({
+const display = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable}`}>
-      <body className="paper-grain antialiased">{children}</body>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }

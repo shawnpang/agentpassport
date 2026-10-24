@@ -1,17 +1,22 @@
 @import "tailwindcss";
 
+/* AllScale-inspired tokens — easy re-skin via these variables only */
 :root {
-  --bg: #F7F4EC;
-  --bg-elevated: #FFFDF8;
-  --text: #1A1915;
-  --text-muted: #6B6560;
-  --accent: #B45309;
-  --accent-soft: #F5E6D3;
-  --border: #E4DFD4;
-  --code-bg: #1C1B19;
-  --code-text: #EDEAE3;
-  --code-accent: #D4A574;
-  --stamp: #9A3412;
+  --bg: #ffffff;
+  --bg-wash: #f4f8f5;
+  --bg-elevated: #ffffff;
+  --text: #0c0c0c;
+  --text-muted: #888888;
+  --accent: #00c96d;
+  --accent-ink: #0c0c0c;
+  --accent-soft: #e8f8f0;
+  --accent-deep: #24603a;
+  --border: #e0e0e0;
+  --code-bg: #0c0c0c;
+  --code-text: #f3f3f3;
+  --code-accent: #00c96d;
+  --stamp: #00c96d;
+  --danger: #c2410c;
 }
 
 html {
@@ -35,14 +40,6 @@ body {
   font-family: var(--font-mono), ui-monospace, "SF Mono", Menlo, monospace;
 }
 
-/* Paper grain — subtle, no particles */
-.paper-grain {
-  background-image:
-    radial-gradient(circle at 20% 30%, rgba(26, 25, 21, 0.018) 0 1px, transparent 1px),
-    radial-gradient(circle at 80% 70%, rgba(26, 25, 21, 0.012) 0 1px, transparent 1px);
-  background-size: 18px 18px, 22px 22px;
-}
-
 .hairline {
   border-color: var(--border);
 }
@@ -55,9 +52,14 @@ body {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   transform: rotate(-8deg);
-  opacity: 0.85;
+  opacity: 0.9;
   user-select: none;
   pointer-events: none;
+}
+
+.stamp-revoked {
+  color: var(--danger);
+  border-color: var(--danger);
 }
 
 .stamp-enter {
@@ -70,7 +72,7 @@ body {
     transform: rotate(-8deg) scale(0.9);
   }
   to {
-    opacity: 0.85;
+    opacity: 0.9;
     transform: rotate(-8deg) scale(1);
   }
 }
@@ -90,7 +92,6 @@ body {
   }
 }
 
-/* Binding holes for passport panel */
 .binding-holes {
   background-image: radial-gradient(circle, var(--border) 3px, transparent 3.5px);
   background-size: 100% 28px;

@@ -10,7 +10,7 @@ export default function Waitlist() {
   const [err, setErr] = useState(false);
 
   if (done) {
-    return <p className="text-[var(--accent)]">{w.thanks}</p>;
+    return <p className="font-medium text-[var(--accent-deep)]">{w.thanks}</p>;
   }
 
   return (
@@ -42,7 +42,7 @@ export default function Waitlist() {
       />
       <button
         type="submit"
-        className="rounded-sm bg-[var(--accent)] px-6 py-3 text-sm font-medium text-white transition hover:brightness-110"
+        className="rounded-sm bg-[var(--accent)] px-6 py-3 text-sm font-medium text-[var(--accent-ink)] transition hover:brightness-105"
       >
         {w.button}
       </button>

@@ -108,7 +108,7 @@ export default function LiveDemo() {
                   <span className="stamp stamp-enter px-2 py-1 text-[11px]">Issued</span>
                 )}
                 {revoked && (
-                  <span className="stamp stamp-enter px-2 py-1 text-[11px]" style={{ color: "var(--stamp)", borderColor: "var(--stamp)" }}>
+                  <span className="stamp stamp-revoked stamp-enter px-2 py-1 text-[11px]">
                     Revoked
                   </span>
                 )}
@@ -229,7 +229,7 @@ export default function LiveDemo() {
                   className="pointer-events-none absolute inset-0 flex items-center justify-center"
                   aria-hidden
                 >
-                  <span className="stamp stamp-enter px-4 py-2 text-2xl sm:text-3xl">Revoked</span>
+                  <span className="stamp stamp-revoked stamp-enter px-4 py-2 text-2xl sm:text-3xl">Revoked</span>
                 </div>
               )}
             </div>
@@ -319,9 +319,9 @@ function DemoBtn({
   const base =
     "rounded-sm px-3 py-2.5 text-left text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-35";
   const style = danger
-    ? "border border-[var(--stamp)]/40 text-[var(--stamp)] hover:bg-[var(--accent-soft)]"
+    ? "border border-[var(--danger)]/40 text-[var(--danger)] hover:bg-[var(--accent-soft)]"
     : primary
-      ? "bg-[var(--accent)] text-white hover:brightness-110"
+      ? "bg-[var(--accent)] text-[var(--accent-ink)] hover:brightness-105"
       : "border border-[var(--border)] bg-[var(--bg-elevated)] text-[var(--text)] hover:bg-[var(--accent-soft)]";
   return (
     <button type="button" onClick={onClick} disabled={disabled} className={`${base} ${style}`}>

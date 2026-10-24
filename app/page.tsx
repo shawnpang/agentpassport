@@ -38,7 +38,7 @@ function Sec({
 
 function PassportPanel() {
   return (
-    <div className="relative w-full max-w-md overflow-hidden rounded-sm border border-[var(--border)] bg-[var(--bg-elevated)] shadow-[0_20px_50px_-28px_rgba(26,25,21,0.35)]">
+    <div className="relative w-full max-w-md overflow-hidden rounded-sm border border-[var(--border)] bg-[var(--bg-elevated)] shadow-[0_24px_60px_-32px_rgba(12,12,12,0.28)]">
       <div className="absolute bottom-5 left-0 top-5 w-3.5 binding-holes opacity-80" aria-hidden />
       <div className="border-b border-[var(--border)] bg-[var(--bg)]/60 px-6 py-3 pl-9">
         <div className="flex items-center justify-between">
@@ -80,7 +80,7 @@ export default function Home() {
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-3.5">
           <a href="#" className="flex items-center gap-2 font-medium tracking-tight">
             <span
-              className="grid h-6 w-6 place-items-center rounded-sm border border-[var(--border)] bg-[var(--bg-elevated)] font-display text-xs text-[var(--accent)]"
+              className="grid h-6 w-6 place-items-center rounded-sm bg-[var(--accent)] font-display text-xs font-semibold text-[var(--accent-ink)]"
               aria-hidden
             >
               AP
@@ -96,7 +96,7 @@ export default function Home() {
           </nav>
           <a
             href="#waitlist"
-            className="rounded-sm bg-[var(--accent)] px-3.5 py-1.5 text-sm font-medium text-white transition hover:brightness-110"
+            className="rounded-sm bg-[var(--accent)] px-3.5 py-1.5 text-sm font-medium text-[var(--accent-ink)] transition hover:brightness-105"
           >
             {c.hero.primary}
           </a>
@@ -128,7 +128,7 @@ export default function Home() {
             <div className="mt-8 flex flex-wrap gap-3">
               <a
                 href="#waitlist"
-                className="rounded-sm bg-[var(--accent)] px-5 py-2.5 text-sm font-medium text-white transition hover:brightness-110"
+                className="rounded-sm bg-[var(--accent)] px-5 py-2.5 text-sm font-medium text-[var(--accent-ink)] transition hover:brightness-105"
               >
                 {c.hero.primary}
               </a>
@@ -147,7 +147,7 @@ export default function Home() {
       </section>
 
       {/* Live demo */}
-      <Sec id="demo" className="pt-4 sm:pt-8">
+      <Sec id="demo" className="pt-4 sm:pt-8 rounded-sm">
         <div className="mb-8 max-w-2xl">
           <Eyebrow>Live demo</Eyebrow>
           <H2>Issue · mint · call · revoke</H2>
@@ -288,7 +288,7 @@ export default function Home() {
       </Sec>
 
       {/* Waitlist */}
-      <section id="waitlist" className="border-t border-[var(--border)] bg-[var(--bg-elevated)]">
+      <section id="waitlist" className="border-t border-[var(--border)] bg-[var(--bg-wash)]">
         <div className="mx-auto flex max-w-3xl flex-col items-center px-6 py-24 text-center">
           <p className="text-[var(--text-muted)]">{c.vision.lead}</p>
           <h2 className="font-display mt-4 text-[clamp(1.75rem,3.5vw,2.5rem)] font-medium tracking-tight">

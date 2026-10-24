@@ -153,3 +153,8 @@ Public pages: no vendor names; no unverified “licensed / bank” claims.
 - Standing/Disposable and Vault claims must match real capabilities (e.g. whether the agent can see PAN).
 - Multi-currency / global bank wording must match actual coverage.
 
+---
+
+## Maintainer note: GitHub via local `gh`
+
+Cursor Cloud Agents may lack access to this repository even when the owner's local `gh` CLI can push. Until the Cursor GitHub App grants `shawnpang/agentpassport`, make doc/code updates with local `gh` (or the GitHub Contents API), not a cloud agent launch on this repo.

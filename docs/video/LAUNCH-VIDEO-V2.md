@@ -85,3 +85,13 @@ Map to live demo + mockup boards:
 - [ ] Founder eyeballs fine screens (Issue / Mint / Call / Revoke / Ledger / Vault · empty+success)  
 - [ ] Pick primary formula (default: **#3** for site, **#2** for X punch)  
 - [ ] Then encode v2 — not before
+
+---
+
+## Audio (boss + founder + 测试, 2026-10-25)
+
+- **Site `#video`:** muted autoplay; captions carry the story. Keep a silent master.
+- **X / social:** scored cut — documentary / product ambient, **low under captions**, no EDM/neon pulse, no lyrics.
+- **License:** royalty-free or cleared; save file + license note under `docs/video/audio/` (path listed in README when chosen).
+- Design delivers **both** tracks when encoding after fine-screen approval.
+

@@ -24,3 +24,20 @@ ffmpeg -y -i /tmp/ambient-pad.wav -c:a libmp3lame -q:a 3 docs/video/audio/ambien
 - X / social: `agent-passport-60s-v2.mp4` — same picture + this pad, fade in/out.
 - Target loudness after mix: **mean ≈ −22 dB · max ≈ −11 dB** (audible on phone, still under captions). Prior −90 dB bed was a bug — do not ship quiet pads.
 - No lyrics, no EDM, no neon pulse.
+
+## V3 — upbeat bed (locked for X / scored)
+
+| File | Use | License |
+|------|-----|---------|
+| `upbeat-bed-v3.mp3` | Cheerful electronic bed under captions (X punch + full scored) | **Original** for Agent Passport — generated with procedural kick/hat/snare + major chord stabs in Python→WAV→ffmpeg mp3. No third-party sample. Royalty-free for this product. |
+
+- Tempo: **128 BPM** · duration ≈ **45s** · no lyrics  
+- Raw pad after loudnorm: mean ≈ **−19.5 dB** · max ≈ **−1 dB** (before mix volume trim)  
+- After mix into `agent-passport-60s-v3.mp4` / punch: mean ≈ **−20 dB** · max ≈ **−2.3 dB** (drum transients; still under captions)  
+- Do **not** reuse `ambient-pad.mp3` for v3 — that class was rejected (too quiet / not upbeat).
+
+Regenerate sketch (procedural source of truth is `/workspace/ap-video-v3` gen script history; pad file in-repo is the master):
+
+```bash
+# See commit that added upbeat-bed-v3.mp3 — Python drum/chord renderer → ffmpeg libmp3lame
+```

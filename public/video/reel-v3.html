@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Agent Passport — Launch Video V3</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&family=JetBrains+Mono:wght@500&display=swap');
+:root {
+  --bg: #ffffff;
+  --wash: #f4f8f5;
+  --ink: #0c0c0c;
+  --muted: #6b7280;
+  --green: #00c96d;
+  --green-deep: #24603a;
+  --danger: #c0392b;
+  --border: #e1e6e1;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  width: 1280px; height: 720px; overflow: hidden;
+  background: var(--bg); color: var(--ink);
+  font-family: Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+#stage {
+  position: relative; width: 1280px; height: 720px;
+  background: var(--bg); overflow: hidden;
+}
+
+.brand {
+  position: absolute; top: 22px; left: 28px; z-index: 50;
+  display: flex; align-items: center; gap: 10px;
+  font-weight: 600; font-size: 14px; letter-spacing: -0.02em;
+  opacity: 0; transition: opacity .25s;
+}
+.brand.on { opacity: 1; }
+.mark {
+  width: 20px; height: 20px; border-radius: 6px; background: var(--ink); position: relative;
+}
+.mark::after {
+  content: ""; position: absolute; inset: 6px; background: var(--green);
+  border-radius: 2px; transform: rotate(45deg);
+}
+.sim {
+  position: absolute; top: 22px; right: 28px; z-index: 50;
+  font-family: "JetBrains Mono", monospace; font-size: 11px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--green-deep); background: rgba(0,201,109,0.12);
+  border: 1px solid rgba(0,201,109,0.28);
+  padding: 5px 10px; border-radius: 999px;
+  opacity: 0; transition: opacity .25s;
+}
+.sim.on { opacity: 1; }
+.sim::before {
+  content: ""; display: inline-block; width: 6px; height: 6px;
+  border-radius: 50%; background: var(--green); margin-right: 6px; vertical-align: middle;
+}
+
+/* Kinetic captions */
+.caption {
+  position: absolute; left: 0; right: 0; z-index: 40;
+  text-align: center; padding: 0 64px; pointer-events: none;
+  font-weight: 700; letter-spacing: -0.035em; line-height: 1.18;
+  color: var(--ink);
+  opacity: 0; transform: translateY(14px) scale(.98);
+  transition: opacity .28s ease, transform .32s cubic-bezier(.22,1,.36,1);
+  text-shadow: 0 1px 0 rgba(255,255,255,.95), 0 10px 28px rgba(255,255,255,.75);
+}
+.caption.on { opacity: 1; transform: none; }
+.caption.hero {
+  top: 42%; font-size: 42px; padding: 0 80px;
+}
+.caption.mid {
+  bottom: 48px; font-size: 30px;
+}
+.caption.big {
+  top: 38%; font-size: 48px;
+}
+.caption .g { color: var(--green-deep); }
+.caption .x { color: var(--danger); }
+
+.caption-veil {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 140px;
+  background: linear-gradient(transparent, rgba(255,255,255,.94));
+  opacity: 0; transition: opacity .25s; z-index: 35; pointer-events: none;
+}
+.caption-veil.on { opacity: 1; }
+
+/* Pain flash cards */
+.pain-row {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  gap: 18px; z-index: 12; opacity: 0; pointer-events: none;
+  transition: opacity .3s;
+}
+.pain-row.on { opacity: 1; }
+.pain-card {
+  width: 280px; padding: 22px 20px; border-radius: 14px;
+  background: #fff; border: 1px solid var(--border);
+  box-shadow: 0 12px 40px rgba(12,12,12,.08);
+  text-align: left;
+}
+.pain-card .tag {
+  font-family: "JetBrains Mono", monospace; font-size: 11px;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--danger);
+  margin-bottom: 8px;
+}
+.pain-card .title { font-size: 18px; font-weight: 700; letter-spacing: -.02em; }
+.pain-card .sub { margin-top: 6px; font-size: 13px; color: var(--muted); line-height: 1.4; }
+
+/* UI shell with screenshot */
+.ui-shell {
+  position: absolute;
+  left: 48px; right: 48px; top: 64px; bottom: 110px;
+  border-radius: 14px; overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 2px rgba(12,12,12,.04), 0 18px 48px rgba(12,12,12,.08);
+  background: #fff;
+  opacity: 0; transform: translateY(10px) scale(.985);
+  transition: opacity .35s ease, transform .4s cubic-bezier(.22,1,.36,1);
+  z-index: 10;
+}
+.ui-shell.on { opacity: 1; transform: none; }
+.ui-shell img {
+  position: absolute; left: 0; top: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: top left;
+}
+
+/* Cursor */
+#cursor {
+  position: absolute; width: 22px; height: 22px; z-index: 60;
+  pointer-events: none; opacity: 0; transition: opacity .2s;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,.25));
+}
+#cursor.on { opacity: 1; }
+#cursor.clicking { transform: scale(.86); }
+.click-ripple {
+  position: absolute; width: 18px; height: 18px; border-radius: 50%;
+  border: 2px solid var(--green); pointer-events: none; z-index: 59;
+  opacity: 0; transform: scale(.4);
+}
+.click-ripple.go { animation: rip .4s ease-out forwards; }
+@keyframes rip {
+  0% { opacity: .9; transform: scale(.4); }
+  100% { opacity: 0; transform: scale(2.4); }
+}
+
+/* CTA */
+.cta-scene {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity .35s; z-index: 15;
+  background: radial-gradient(700px 360px at 50% 40%, rgba(0,201,109,.08), transparent 65%), var(--bg);
+}
+.cta-scene.on { opacity: 1; }
+.cta-logo { font-size: 36px; font-weight: 750; letter-spacing: -.03em; text-align: center; }
+.cta-sub { color: var(--muted); font-size: 16px; text-align: center; margin-top: 8px; }
+.cta-btn {
+  margin: 22px auto 0; display: inline-flex; align-items: center; gap: 8px;
+  background: var(--ink); color: #fff; font-weight: 600; font-size: 14px;
+  padding: 12px 18px; border-radius: 10px;
+}
+.cta-btn span { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+
+/* Ink open title bg */
+.ink-bg {
+  position: absolute; inset: 0; background: var(--ink); opacity: 0; z-index: 5;
+  transition: opacity .35s;
+}
+.ink-bg.on { opacity: 1; }
+.caption.on-ink { color: #fff; text-shadow: none; }
+.caption.on-ink .g { color: var(--green); }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="ink-bg" id="ink"></div>
+  <div class="brand" id="brand"><div class="mark"></div>Agent Passport</div>
+  <div class="sim" id="sim">Simulated</div>
+  <div class="caption-veil" id="veil"></div>
+
+  <div class="caption hero" id="cap-a">Agents can plan. The internet still only trusts people.</div>
+  <div class="caption mid" id="cap-b">No proof you authorized it. No card. No number. Secrets pasted everywhere.</div>
+  <div class="caption mid" id="cap-c">Stuck booking a hotel. Stuck paying. Stuck calling.</div>
+  <div class="caption big" id="cap-d">Verify once → <span class="g">Agent Passport</span></div>
+  <div class="caption mid" id="cap-e">Identity · Disposable card · Phone · Limits · One ledger</div>
+  <div class="caption mid" id="cap-f">Mint · Call the desk · Paid</div>
+  <div class="caption mid" id="cap-g">Revoke. Authority gone.</div>
+  <div class="caption mid" id="cap-h">One Passport. Many agents. Request access.</div>
+
+  <div class="pain-row" id="pain">
+    <div class="pain-card"><div class="tag">Blocked</div><div class="title">No card</div><div class="sub">Checkout needs a number the agent can’t hold safely.</div></div>
+    <div class="pain-card"><div class="tag">Blocked</div><div class="title">No number</div><div class="sub">Hotel desk / OTP — agent has nothing to call from.</div></div>
+    <div class="pain-card"><div class="tag">Blocked</div><div class="title">No auth</div><div class="sub">Secrets pasted into every agent. Can’t revoke.</div></div>
+  </div>
+
+  <div class="ui-shell" id="ui"><img id="shot" alt="" src="reel-assets/issue.png" /></div>
+
+  <div class="cta-scene" id="sc-cta">
+    <div>
+      <div class="cta-logo">Agent Passport</div>
+      <div class="cta-sub">Verify once. Disposable card · phone · one ledger.</div>
+      <div class="cta-btn"><span></span>Request early access</div>
+    </div>
+  </div>
+
+  <div id="cursor" aria-hidden="true">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <path d="M5 3l14 8.2-6.2 1.6L9.4 21 5 3z" fill="#0c0c0c" stroke="#fff" stroke-width="1.2" stroke-linejoin="round"/>
+    </svg>
+  </div>
+  <div class="click-ripple" id="ripple"></div>
+</div>
+<script>
+const TOTAL = 42;
+const ASSETS = 'reel-assets';
+const shot = document.getElementById('shot');
+const ui = document.getElementById('ui');
+const cursor = document.getElementById('cursor');
+const ripple = document.getElementById('ripple');
+
+function show(ids){ ids.forEach(id => document.getElementById(id)?.classList.add('on')); }
+function hide(ids){ ids.forEach(id => document.getElementById(id)?.classList.remove('on')); }
+function hideAllCaps(){
+  ['cap-a','cap-b','cap-c','cap-d','cap-e','cap-f','cap-g','cap-h'].forEach(id => {
+    document.getElementById(id)?.classList.remove('on','on-ink');
+  });
+}
+function setShot(name){ shot.src = `${ASSETS}/${name}.png`; }
+function setCursor(x, y, on=true) {
+  cursor.style.left = x + 'px';
+  cursor.style.top = y + 'px';
+  cursor.classList.toggle('on', on);
+}
+function clickAt(x, y) {
+  setCursor(x, y, true);
+  cursor.classList.add('clicking');
+  ripple.style.left = (x - 4) + 'px';
+  ripple.style.top = (y - 4) + 'px';
+  ripple.classList.remove('go');
+  void ripple.offsetWidth;
+  ripple.classList.add('go');
+  setTimeout(() => cursor.classList.remove('clicking'), 120);
+}
+function moveCursor(x1,y1,x2,y2,ms) {
+  return new Promise(resolve => {
+    const t0 = performance.now();
+    setCursor(x1,y1,true);
+    function step(now) {
+      const p = Math.min(1, (now - t0) / ms);
+      const e = 1 - Math.pow(1 - p, 3);
+      setCursor(x1 + (x2-x1)*e, y1 + (y2-y1)*e, true);
+      if (p < 1) requestAnimationFrame(step);
+      else resolve();
+    }
+    requestAnimationFrame(step);
+  });
+}
+
+async function applySeek(sec) {
+  document.querySelectorAll('.on').forEach(el => el.classList.remove('on'));
+  hideAllCaps();
+  setCursor(0,0,false);
+
+  if (sec < 3) {
+    show(['ink']);
+    const c = document.getElementById('cap-a');
+    c.classList.add('on','on-ink');
+  } else if (sec < 8) {
+    show(['brand','cap-b']);
+    document.getElementById('cap-b').classList.add('on');
+  } else if (sec < 12) {
+    show(['brand','pain','cap-c']);
+    document.getElementById('cap-c').classList.add('on');
+  } else if (sec < 18) {
+    show(['brand','sim','veil','ui','cap-d']);
+    document.getElementById('cap-d').classList.add('on');
+    setShot('issue');
+    setCursor(920, 400, true);
+  } else if (sec < 24) {
+    show(['brand','sim','veil','ui','cap-e']);
+    document.getElementById('cap-e').classList.add('on');
+    setShot(sec < 21 ? 'passport' : 'mint');
+    setCursor(880, 380, true);
+  } else if (sec < 32) {
+    show(['brand','sim','veil','ui','cap-f']);
+    document.getElementById('cap-f').classList.add('on');
+    if (sec < 26.5) { setShot('mint'); setCursor(940, 430, true); }
+    else if (sec < 29.5) { setShot('call'); setCursor(700, 460, true); }
+    else { setShot('ledger'); setCursor(640, 300, true); }
+  } else if (sec < 38) {
+    show(['brand','sim','veil','ui','cap-g']);
+    document.getElementById('cap-g').classList.add('on');
+    setShot('revoke');
+    setCursor(980, 500, true);
+  } else {
+    show(['brand','sc-cta','cap-h']);
+    document.getElementById('cap-h').classList.add('on');
+    setCursor(640, 430, true);
+  }
+  // wait for image
+  await new Promise(r => {
+    if (shot.complete) r();
+    else shot.onload = () => r();
+    setTimeout(r, 400);
+  });
+  window.__REEL_READY__ = true;
+}
+
+async function play() {
+  window.__REEL_READY__ = true;
+  const t0 = performance.now();
+  const beats = [
+    { t: 0.0, on: async () => {
+      hide(['ui','sc-cta','veil','sim','brand','pain']); hideAllCaps();
+      show(['ink']); document.getElementById('cap-a').classList.add('on','on-ink');
+      setCursor(0,0,false);
+    }},
+    { t: 3.0, on: async () => {
+      hide(['ink']); hideAllCaps();
+      show(['brand']); document.getElementById('cap-b').classList.add('on');
+    }},
+    { t: 8.0, on: async () => {
+      hideAllCaps(); show(['brand','pain']);
+      document.getElementById('cap-c').classList.add('on');
+    }},
+    { t: 12.0, on: async () => {
+      hide(['pain']); hideAllCaps();
+      show(['brand','sim','veil','ui']);
+      setShot('issue');
+      document.getElementById('cap-d').classList.add('on');
+      setCursor(980, 420, true);
+      await moveCursor(980, 420, 860, 380, 700);
+      clickAt(860, 380);
+    }},
+    { t: 15.5, on: async () => {
+      setShot('passport');
+      await moveCursor(860, 380, 640, 280, 600);
+      clickAt(640, 280);
+    }},
+    { t: 18.0, on: async () => {
+      hideAllCaps();
+      document.getElementById('cap-e').classList.add('on');
+      setShot('mint');
+      setCursor(900, 440, true);
+    }},
+    { t: 21.0, on: async () => {
+      setShot('card');
+      await moveCursor(900, 440, 700, 320, 500);
+    }},
+    { t: 22.5, on: async () => {
+      setShot('phone');
+    }},
+    { t: 24.0, on: async () => {
+      hideAllCaps();
+      document.getElementById('cap-f').classList.add('on');
+      setShot('mint');
+      await moveCursor(700, 320, 940, 430, 550);
+      clickAt(940, 430);
+    }},
+    { t: 26.5, on: async () => {
+      setShot('call');
+      await moveCursor(940, 430, 700, 460, 500);
+      clickAt(700, 460);
+    }},
+    { t: 29.5, on: async () => {
+      setShot('ledger');
+      await moveCursor(700, 460, 640, 300, 450);
+      clickAt(640, 300);
+    }},
+    { t: 32.0, on: async () => {
+      hideAllCaps();
+      document.getElementById('cap-g').classList.add('on');
+      setShot('revoke');
+      setCursor(980, 480, true);
+      await moveCursor(980, 480, 980, 500, 400);
+      clickAt(980, 500);
+    }},
+    { t: 38.0, on: async () => {
+      hide(['ui','sim','veil']); hideAllCaps();
+      show(['sc-cta','brand']);
+      document.getElementById('cap-h').classList.add('on');
+      setCursor(640, 400, true);
+      await moveCursor(640, 400, 640, 430, 350);
+      clickAt(640, 430);
+    }},
+  ];
+  for (const b of beats) {
+    const delay = Math.max(0, b.t * 1000 - (performance.now() - t0));
+    setTimeout(() => { b.on().catch(e => console.warn(e)); }, delay);
+  }
+}
+
+const params = new URLSearchParams(location.search);
+const seek = params.has('seek') ? parseFloat(params.get('seek')) : null;
+if (seek != null && !Number.isNaN(seek)) {
+  requestAnimationFrame(() => applySeek(seek));
+} else {
+  play();
+}
+window.__REEL_DURATION__ = TOTAL;
+</script>
+</body>
+</html>

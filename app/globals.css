@@ -1,4 +1,107 @@
 @import "tailwindcss";
-html { scroll-behavior: smooth; }
-body { background: #07090f; color: #e7e9ee; font-family: ui-sans-serif, system-ui, sans-serif; }
-.guilloche { background-image: repeating-radial-gradient(circle at 30% 40%, rgba(252,211,77,.07) 0 1px, transparent 1px 14px); }
+
+:root {
+  --bg: #F7F4EC;
+  --bg-elevated: #FFFDF8;
+  --text: #1A1915;
+  --text-muted: #6B6560;
+  --accent: #B45309;
+  --accent-soft: #F5E6D3;
+  --border: #E4DFD4;
+  --code-bg: #1C1B19;
+  --code-text: #EDEAE3;
+  --code-accent: #D4A574;
+  --stamp: #9A3412;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-display {
+  font-family: var(--font-display), Georgia, "Times New Roman", serif;
+}
+
+.font-mono {
+  font-family: var(--font-mono), ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+/* Paper grain — subtle, no particles */
+.paper-grain {
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(26, 25, 21, 0.018) 0 1px, transparent 1px),
+    radial-gradient(circle at 80% 70%, rgba(26, 25, 21, 0.012) 0 1px, transparent 1px);
+  background-size: 18px 18px, 22px 22px;
+}
+
+.hairline {
+  border-color: var(--border);
+}
+
+.stamp {
+  color: var(--stamp);
+  border: 2px solid var(--stamp);
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transform: rotate(-8deg);
+  opacity: 0.85;
+  user-select: none;
+  pointer-events: none;
+}
+
+.stamp-enter {
+  animation: stampIn 320ms ease-out both;
+}
+
+@keyframes stampIn {
+  from {
+    opacity: 0;
+    transform: rotate(-8deg) scale(0.9);
+  }
+  to {
+    opacity: 0.85;
+    transform: rotate(-8deg) scale(1);
+  }
+}
+
+.fade-up {
+  animation: fadeUp 280ms ease-out both;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Binding holes for passport panel */
+.binding-holes {
+  background-image: radial-gradient(circle, var(--border) 3px, transparent 3.5px);
+  background-size: 100% 28px;
+  background-repeat: repeat-y;
+  background-position: center top;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+details summary {
+  list-style: none;
+}

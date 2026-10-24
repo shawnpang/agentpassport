@@ -1,6 +1,9 @@
 # docs/video/
 
-Storyboard + script notes for the ~60s silent-UI caption video.  
-Exports land in `public/video/`.
+| Path | Purpose |
+|------|---------|
+| `storyboard.md` | Locked-light 60s beat sheet |
+| `reel/reel.html` | Silent-UI caption reel (source) |
+| `storyboard-legacy-cream.md` | Deprecated cream Paper Issue |
 
-Visual system: **LOCKED light** (white/ink/green). Cream/amber Paper Issue reel is deprecated.
+Exports: `public/video/agent-passport-60s.mp4`

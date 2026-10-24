@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Agent Passport — 60s silent UI (LOCKED light)</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+:root {
+  --bg: #ffffff;
+  --wash: #f4f8f5;
+  --ink: #0c0c0c;
+  --muted: #6b7280;
+  --green: #00c96d;
+  --green-deep: #24603a;
+  --border: #e1e6e1;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1280px; height: 720px; overflow: hidden; background: var(--bg); color: var(--ink); font-family: Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+#stage {
+  position: relative; width: 1280px; height: 720px;
+  background: radial-gradient(900px 420px at 85% -10%, rgba(0,201,109,0.06), transparent 60%), var(--bg);
+  overflow: hidden;
+}
+.sim {
+  position: absolute; top: 28px; right: 36px; z-index: 40;
+  font-family: "JetBrains Mono", monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--green-deep); background: rgba(0,201,109,0.12); border: 1px solid rgba(0,201,109,0.28);
+  padding: 5px 10px; border-radius: 999px; opacity: 0; transition: opacity .35s;
+}
+.sim.on { opacity: 1; }
+.sim::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--green); margin-right: 6px; vertical-align: middle; }
+.brand {
+  position: absolute; top: 28px; left: 36px; z-index: 40;
+  display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 14px; letter-spacing: -0.02em;
+  opacity: 0; transition: opacity .35s;
+}
+.brand.on { opacity: 1; }
+.mark { width: 20px; height: 20px; border-radius: 6px; background: var(--ink); position: relative; }
+.mark::after { content: ""; position: absolute; inset: 6px; background: var(--green); border-radius: 2px; transform: rotate(45deg); }
+
+.caption {
+  position: absolute; left: 0; right: 0; bottom: 52px; text-align: center;
+  font-size: 36px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.2;
+  color: var(--ink); opacity: 0; transform: translateY(8px);
+  transition: opacity .4s ease, transform .4s ease; z-index: 30; padding: 0 80px; pointer-events: none;
+}
+.caption.on { opacity: 1; transform: translateY(0); }
+.caption.hero { bottom: auto; top: 50%; transform: translateY(-40%); font-size: 52px; }
+.caption.hero.on { transform: translateY(-50%); }
+
+.scene {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity .35s ease; z-index: 10;
+}
+.scene.on { opacity: 1; }
+
+.panel {
+  background: #fff; border: 1px solid var(--border); border-radius: 16px;
+  box-shadow: 0 1px 2px rgba(12,12,12,.04), 0 12px 32px rgba(12,12,12,.05);
+  padding: 28px 32px; position: relative;
+}
+.passport { width: 460px; background: linear-gradient(160deg,#fff 0%,#f4f8f5 100%); }
+.passport::before {
+  content: ""; position: absolute; inset: 12px; border: 1px dashed rgba(67,142,96,.35); border-radius: 12px; pointer-events: none;
+}
+.pp-id { font-family: "JetBrains Mono", monospace; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+.pp-title { font-size: 22px; font-weight: 650; letter-spacing: -0.03em; margin-bottom: 18px; }
+.attrs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 20px; }
+.attr .l { font-size: 10px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+.attr .d { font-size: 14px; font-weight: 550; }
+.stamp {
+  position: absolute; right: 36px; top: 36px;
+  border: 1.5px solid var(--green); color: var(--green-deep);
+  font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+  padding: 6px 12px; border-radius: 4px; background: rgba(0,201,109,.08);
+  transform: rotate(-8deg) scale(.7); opacity: 0;
+  transition: opacity .35s, transform .45s cubic-bezier(.34,1.4,.64,1);
+}
+.stamp.on { opacity: 1; transform: rotate(-8deg) scale(1); }
+.stamp.revoked { border-color: #b42318; color: #b42318; background: #fff5f5; }
+
+.plastic {
+  width: 380px; aspect-ratio: 1.586; border-radius: 16px; color: #fff; padding: 22px 24px;
+  background: linear-gradient(135deg, #0c0c0c 0%, #1a1f1c 55%, #122018 100%);
+  display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden;
+  box-shadow: 0 8px 28px rgba(12,12,12,.12);
+}
+.plastic::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.06); background: none;
+}
+.plastic .chip { width: 34px; height: 26px; border-radius: 5px; background: linear-gradient(135deg,#d4af37,#f5e6a3); }
+.plastic .num { font-family: "JetBrains Mono", monospace; font-size: 20px; letter-spacing: .12em; position: relative; }
+.plastic .meta { display: flex; justify-content: space-between; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: rgba(255,255,255,.65); position: relative; }
+.plastic .meta strong { display: block; color: #fff; margin-top: 3px; text-transform: none; letter-spacing: .02em; font-size: 13px; }
+
+.call {
+  width: 420px; text-align: center; padding: 36px 28px;
+}
+.avatar {
+  width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 14px;
+  background: var(--wash); border: 1px solid var(--border);
+  display: grid; place-items: center; font-weight: 650; color: var(--green-deep);
+}
+.call-num { font-family: "JetBrains Mono", monospace; font-size: 24px; letter-spacing: .04em; margin: 6px 0; }
+.call-st { font-size: 13px; color: var(--muted); margin-bottom: 18px; }
+.wave { display: flex; align-items: flex-end; justify-content: center; gap: 4px; height: 28px; margin-bottom: 8px; }
+.wave i { width: 3px; background: var(--green); border-radius: 2px; animation: pulse 1.1s ease-in-out infinite; }
+.wave i:nth-child(1){height:8px}.wave i:nth-child(2){height:16px;animation-delay:.1s}
+.wave i:nth-child(3){height:24px;animation-delay:.2s}.wave i:nth-child(4){height:14px;animation-delay:.3s}
+.wave i:nth-child(5){height:20px;animation-delay:.15s}.wave i:nth-child(6){height:10px;animation-delay:.25s}
+.wave i:nth-child(7){height:18px;animation-delay:.05s}
+@keyframes pulse { 0%,100%{transform:scaleY(.55);opacity:.5} 50%{transform:scaleY(1);opacity:1} }
+
+.ledger-wrap { display: flex; gap: 28px; align-items: stretch; }
+.bal { width: 280px; }
+.bal .amt { font-size: 36px; font-weight: 650; letter-spacing: -.04em; }
+.bal .lbl { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.ledger { list-style: none; width: 340px; }
+.ledger li { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; opacity: 0; transform: translateY(4px); transition: .35s; }
+.ledger li.show { opacity: 1; transform: none; }
+.ledger .sub { color: var(--muted); font-size: 11px; margin-top: 2px; }
+.ledger .neg { font-family: "JetBrains Mono", monospace; }
+.ledger .pos { font-family: "JetBrains Mono", monospace; color: var(--green-deep); }
+
+.cta-logo { font-size: 28px; font-weight: 650; letter-spacing: -.03em; margin-bottom: 10px; }
+.cta-sub { color: var(--muted); font-size: 16px; }
+.cta-btn {
+  margin-top: 22px; display: inline-flex; align-items: center; gap: 8px;
+  background: var(--ink); color: #fff; font-weight: 600; font-size: 14px;
+  padding: 12px 18px; border-radius: 10px;
+}
+.cta-btn span { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="brand" id="brand"><div class="mark"></div>Agent Passport</div>
+  <div class="sim" id="sim">Simulated</div>
+
+  <div class="caption hero" id="cap-title">Every agent deserves a passport.</div>
+  <div class="caption hero" id="cap-pain">The internet still only trusts people.</div>
+  <div class="caption" id="cap-verify">Verify once.</div>
+  <div class="caption" id="cap-issue">Issue a portable credential.</div>
+  <div class="caption" id="cap-mint">Passkey-mint a card. Per purchase.</div>
+  <div class="caption" id="cap-call">Card · Phone · One ledger.</div>
+  <div class="caption" id="cap-revoke">Revoke anytime. Full audit.</div>
+  <div class="caption" id="cap-cta">Agent Passport · Request early access</div>
+
+  <section class="scene" id="sc-issue">
+    <div class="panel passport">
+      <div class="stamp" id="stamp-issued">Issued</div>
+      <div class="pp-id">APT-7F2C-91E0</div>
+      <div class="pp-title">Operator credential</div>
+      <div class="attrs">
+        <div class="attr"><div class="l">Layer 1</div><div class="d">Authorized by human</div></div>
+        <div class="attr"><div class="l">Layer 2</div><div class="d">Acts on your behalf</div></div>
+        <div class="attr"><div class="l">Layer 3</div><div class="d">Adult · US · selective</div></div>
+        <div class="attr"><div class="l">Scope</div><div class="d">Cards · Phone · Balance</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="scene" id="sc-mint">
+    <div class="plastic">
+      <div style="display:flex;justify-content:space-between;align-items:center;position:relative">
+        <div class="chip"></div>
+        <span style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.7">Disposable</span>
+      </div>
+      <div class="num">4242 ··· ··· 9183</div>
+      <div class="meta">
+        <div>Holder<strong>OPS-AGENT-01</strong></div>
+        <div>Exp<strong>12 / 27</strong></div>
+        <div>Limit<strong>$120.00</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="scene" id="sc-call">
+    <div class="ledger-wrap">
+      <div class="panel call">
+        <div class="avatar">AP</div>
+        <div style="font-size:12px;color:var(--muted)">Outbound · agent line</div>
+        <div class="call-num">+1 (415) 555-0142</div>
+        <div class="call-st">Connected · 00:42 · Simulated</div>
+        <div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="panel" style="padding:22px 24px">
+        <div class="bal">
+          <div class="lbl">Available · USD</div>
+          <div class="amt">2,480.17</div>
+        </div>
+        <ul class="ledger" id="ledger">
+          <li data-i="0"><div><div>Disposable card</div><div class="sub">···9183 · settled</div></div><div class="neg">−$18.40</div></li>
+          <li data-i="1"><div><div>Outbound call</div><div class="sub">42s</div></div><div class="neg">−$0.02</div></li>
+          <li data-i="2"><div><div>Top-up</div><div class="sub">USDC → USD</div></div><div class="pos">+$500.00</div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="scene" id="sc-revoke">
+    <div class="panel passport">
+      <div class="stamp revoked" id="stamp-revoked">Revoked</div>
+      <div class="pp-id">APT-7F2C-91E0</div>
+      <div class="pp-title">Operator credential</div>
+      <div class="attrs">
+        <div class="attr"><div class="l">Status</div><div class="d">Authority killed</div></div>
+        <div class="attr"><div class="l">Cards</div><div class="d">Burned</div></div>
+        <div class="attr"><div class="l">Phone</div><div class="d">Detached</div></div>
+        <div class="attr"><div class="l">Audit</div><div class="d">Full trail kept</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="scene" id="sc-cta">
+    <div style="text-align:center">
+      <div class="cta-logo">Agent Passport</div>
+      <div class="cta-sub">Verify once. Account · card · phone.</div>
+      <div class="cta-btn"><span></span>Request early access</div>
+    </div>
+  </section>
+</div>
+<script>
+const beats = [
+  // t0, t1, actions
+  { t: 0,  on: () => { show(['cap-title']); hideChrome(); } },
+  { t: 4,  on: () => { show(['cap-pain']); hide(['cap-title']); } },
+  { t: 10, on: () => { show(['cap-verify','brand']); hide(['cap-pain']); } },
+  { t: 12, on: () => { show(['sc-issue','cap-issue','sim','brand']); hide(['cap-verify']); } },
+  { t: 18, on: () => { document.getElementById('stamp-issued').classList.add('on'); } },
+  { t: 24, on: () => { show(['sc-mint','cap-mint','sim','brand']); hide(['sc-issue','cap-issue']); document.getElementById('stamp-issued').classList.remove('on'); } },
+  { t: 34, on: () => {
+      show(['sc-call','cap-call','sim','brand']); hide(['sc-mint','cap-mint']);
+      [...document.querySelectorAll('#ledger li')].forEach((el,i) => setTimeout(() => el.classList.add('show'), 200 + i*350));
+    } },
+  { t: 46, on: () => {
+      show(['sc-revoke','cap-revoke','sim','brand']); hide(['sc-call','cap-call']);
+      [...document.querySelectorAll('#ledger li')].forEach(el => el.classList.remove('show'));
+      document.getElementById('stamp-revoked').classList.add('on');
+    } },
+  { t: 54, on: () => {
+      show(['sc-cta','cap-cta','brand']); hide(['sc-revoke','cap-revoke','sim']);
+      document.getElementById('stamp-revoked').classList.remove('on');
+    } },
+];
+
+function show(ids){ ids.forEach(id => document.getElementById(id)?.classList.add('on')); }
+function hide(ids){ ids.forEach(id => document.getElementById(id)?.classList.remove('on')); }
+function hideChrome(){ hide(['brand','sim']); }
+
+function applySeek(sec) {
+  // reset
+  document.querySelectorAll('.on').forEach(el => el.classList.remove('on'));
+  document.getElementById('stamp-issued').classList.remove('on');
+  document.getElementById('stamp-revoked').classList.remove('on');
+  [...document.querySelectorAll('#ledger li')].forEach(el => el.classList.remove('show'));
+  let last = null;
+  for (const b of beats) {
+    if (b.t <= sec) last = b;
+    else break;
+  }
+  // replay all up to last
+  for (const b of beats) {
+    if (b.t <= sec) b.on();
+    else break;
+  }
+  window.__REEL_READY__ = true;
+}
+
+const params = new URLSearchParams(location.search);
+const seek = params.has('seek') ? parseFloat(params.get('seek')) : null;
+if (seek != null && !Number.isNaN(seek)) {
+  // freeze at seek for frame capture
+  requestAnimationFrame(() => applySeek(seek));
+} else {
+  // play
+  const t0 = performance.now();
+  function tick(now) {
+    const sec = (now - t0) / 1000;
+    // find current beat range — simple: re-apply
+    applySeek(sec);
+    if (sec < 60) requestAnimationFrame(tick);
+  }
+  window.__REEL_READY__ = true;
+  requestAnimationFrame(tick);
+}
+</script>
+</body>
+</html>

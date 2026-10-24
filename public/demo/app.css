@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
-@import "tokens.css";
+@import url("/demo/tokens.css");
 
 .app{min-height:100vh;display:grid;grid-template-columns:220px 1fr;background:var(--page)}
 @media(max-width:900px){.app{grid-template-columns:1fr}.sidebar{display:none}}

@@ -1,75 +1,251 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { content } from "./content";
 
-type Phase = "blank" | "issued" | "minting" | "minted" | "calling" | "connected" | "revoked";
+type Phase =
+  | "blank"
+  | "issued"
+  | "minting"
+  | "minted"
+  | "calling"
+  | "connected"
+  | "revoked";
 
 type LogEntry = { t: string; msg: string };
+type LedgerRow = {
+  id: string;
+  ico: string;
+  title: string;
+  sub: string;
+  amt: string;
+  kind: "neg" | "pos" | "zero" | "freeze";
+};
+type VaultCard = {
+  last4: string;
+  type: "Disposable" | "Standing";
+  limit: string;
+  status: string;
+  live: boolean;
+  burned?: boolean;
+};
+
+const PASSPORT_ID = "APT-7F2C-91E0";
+const AGENT = "travel-ops";
+const CARD_LAST4 = "4291";
+const CARD_LIMIT = "$400.00";
+const HOTEL_NUM = "+1 (512) 555-0100";
+const AGENT_LINE = "+1 (415) 555-0142";
+const STANDING_LAST4 = "4410";
+
+const DISCLOSURE = [
+  {
+    lvl: "L1",
+    name: "Authorized by human",
+    desc: "Operator presence attested",
+    chip: "Shared",
+    shared: true,
+  },
+  {
+    lvl: "L2",
+    name: "Acts on your behalf",
+    desc: "Agency + mandate",
+    chip: "Shared",
+    shared: true,
+  },
+  {
+    lvl: "L3",
+    name: "Adult · jurisdiction",
+    desc: "Age + region selective",
+    chip: "On request",
+    shared: false,
+  },
+  {
+    lvl: "L4",
+    name: "Full KYC dossier",
+    desc: "Never default · vaulted",
+    chip: "Hidden",
+    shared: false,
+  },
+] as const;
 
 function now() {
   const d = new Date();
-  return d.toLocaleTimeString("en-US", { hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit" });
+  return d.toLocaleTimeString("en-US", {
+    hour12: false,
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+}
+
+function formatCall(secs: number) {
+  const m = Math.floor(secs / 60);
+  const s = secs % 60;
+  return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
 export default function LiveDemo() {
   const [phase, setPhase] = useState<Phase>("blank");
   const [log, setLog] = useState<LogEntry[]>([]);
+  const [ledger, setLedger] = useState<LedgerRow[]>([]);
+  const [vault, setVault] = useState<VaultCard[]>([]);
   const [callSecs, setCallSecs] = useState(0);
+  const [hadCard, setHadCard] = useState(false);
+  const timers = useRef<number[]>([]);
+  const settledCall = useRef(false);
 
-  const push = (msg: string) => setLog((prev) => [{ t: now(), msg }, ...prev].slice(0, 8));
+  const clearTimers = () => {
+    timers.current.forEach((id) => {
+      window.clearTimeout(id);
+      window.clearInterval(id);
+    });
+    timers.current = [];
+  };
+
+  useEffect(() => () => clearTimers(), []);
+
+  const pushLog = (msg: string) =>
+    setLog((prev) => [{ t: now(), msg }, ...prev].slice(0, 10));
+
+  const pushLedger = (row: Omit<LedgerRow, "id">) =>
+    setLedger((prev) => [{ ...row, id: `${Date.now()}-${prev.length}` }, ...prev]);
 
   const issue = () => {
     if (phase !== "blank" && phase !== "revoked") return;
+    clearTimers();
+    settledCall.current = false;
     setPhase("issued");
     setCallSecs(0);
-    push("authorized · holder verified · passport AP-2026-2938");
+    setHadCard(false);
+    setLedger([]);
+    setVault([
+      {
+        last4: STANDING_LAST4,
+        type: "Standing",
+        limit: "$2,000 / day",
+        status: "Idle",
+        live: false,
+      },
+    ]);
+    pushLog(`passport.issue · ${PASSPORT_ID} · holder verified`);
+    pushLedger({
+      ico: "P",
+      title: "Passport issued",
+      sub: `${PASSPORT_ID} · progressive L1–L2 shared`,
+      amt: "$0.00",
+      kind: "zero",
+    });
   };
 
   const mint = () => {
-    if (phase !== "issued" && phase !== "connected") return;
+    if (phase !== "issued") return;
+    clearTimers();
     setPhase("minting");
-    push("passkey.confirm · waiting");
-    window.setTimeout(() => {
+    pushLog("passkey.confirm · mint disposable · waiting");
+    const t = window.setTimeout(() => {
       setPhase("minted");
-      push("card.mint · disposable ·•••• 4291 · $400 limit");
-    }, 700);
+      setHadCard(true);
+      setVault((prev) => [
+        {
+          last4: CARD_LAST4,
+          type: "Disposable",
+          limit: CARD_LIMIT,
+          status: "Live · 15m",
+          live: true,
+        },
+        ...prev.filter((c) => c.type === "Standing"),
+      ]);
+      pushLog(`card.mint · disposable ···· ${CARD_LAST4} · ${CARD_LIMIT} limit`);
+      pushLedger({
+        ico: "C",
+        title: "Disposable card minted",
+        sub: `···· ${CARD_LAST4} · hotel intent · passkey`,
+        amt: "$0.00",
+        kind: "zero",
+      });
+    }, 750);
+    timers.current.push(t);
   };
 
   const call = () => {
-    if (phase !== "minted" && phase !== "issued" && phase !== "connected") return;
+    if (phase !== "minted") return;
+    clearTimers();
+    settledCall.current = false;
     setPhase("calling");
     setCallSecs(0);
-    push("phone.dial · +1-512-555-0100");
-    window.setTimeout(() => {
+    pushLog(`phone.dial · hotel front desk · ${HOTEL_NUM}`);
+    const t1 = window.setTimeout(() => {
       setPhase("connected");
-      push("phone.connected · hotel front desk");
+      pushLog("phone.connected · hotel front desk");
       let n = 0;
-      const id = window.setInterval(() => {
+      const tick = window.setInterval(() => {
         n += 1;
         setCallSecs(n);
-        if (n >= 12) window.clearInterval(id);
+        if (n >= 12 && !settledCall.current) {
+          settledCall.current = true;
+          window.clearInterval(tick);
+          pushLedger({
+            ico: "☎",
+            title: "Outbound call · hotel",
+            sub: `${HOTEL_NUM} · ${formatCall(n)}`,
+            amt: "−$0.42",
+            kind: "neg",
+          });
+          pushLog("phone.settled · −$0.42 · ledger");
+        }
       }, 1000);
+      timers.current.push(tick);
     }, 900);
+    timers.current.push(t1);
   };
 
   const revoke = () => {
-    if (phase === "blank") return;
+    if (phase === "blank" || phase === "revoked") return;
+    clearTimers();
     setPhase("revoked");
-    push("revoke · all scopes · card void · line released");
+    setVault((prev) =>
+      prev.map((c) => ({
+        ...c,
+        live: false,
+        burned: c.type === "Disposable" ? true : c.burned,
+        status: c.type === "Disposable" ? "Burned" : "Frozen",
+      })),
+    );
+    pushLog("revoke · all scopes · card void · line released");
+    pushLedger({
+      ico: "×",
+      title: "PASSPORT_REVOKED",
+      sub: "Cards burned · number suspended · L1–L2 invalid",
+      amt: "$0.00",
+      kind: "freeze",
+    });
   };
 
   const restore = () => {
+    clearTimers();
+    settledCall.current = false;
     setPhase("blank");
     setLog([]);
+    setLedger([]);
+    setVault([]);
     setCallSecs(0);
+    setHadCard(false);
   };
 
   const issued = phase !== "blank";
   const revoked = phase === "revoked";
-  const hasCard = phase === "minted" || phase === "calling" || phase === "connected" || (revoked && log.some((l) => l.msg.includes("card.mint")));
   const calling = phase === "calling";
   const connected = phase === "connected";
+
+  let main: ReactNode = null;
+  if (phase === "blank") main = <EmptySurface onIssue={issue} />;
+  else if (phase === "issued") main = <IssueSurface revoked={false} />;
+  else if (phase === "minting") main = <MintingSurface />;
+  else if (phase === "minted") main = <MintSurface revoked={false} />;
+  else if (calling || connected)
+    main = <CallSurface calling={calling} connected={connected} callSecs={callSecs} />;
+  else if (revoked) main = <RevokeSurface hadCard={hadCard} />;
 
   return (
     <div className="overflow-hidden rounded-sm border border-[var(--border)] bg-[var(--bg-elevated)] shadow-[0_1px_0_rgba(26,25,21,0.04)]">
@@ -83,160 +259,42 @@ export default function LiveDemo() {
         <p className="text-sm text-[var(--text-muted)]">{content.demo.sub}</p>
       </div>
 
-      <div className="grid lg:grid-cols-[1.15fr_0.85fr]">
-        {/* Passport panel */}
-        <div className="relative border-b border-[var(--border)] p-5 sm:p-8 lg:border-b-0 lg:border-r">
+      <div className="flex flex-wrap gap-2 border-b border-[var(--border)] bg-[var(--bg-wash)] px-5 py-3 sm:px-6">
+        {(
+          [
+            { n: "01", t: "Issue", on: phase === "blank" || phase === "issued" },
+            { n: "02", t: "Mint", on: phase === "minting" || phase === "minted" },
+            { n: "03", t: "Call", on: calling || connected },
+            { n: "04", t: "Revoke", on: revoked },
+          ] as const
+        ).map((s) => (
           <div
-            className={`relative overflow-hidden rounded-sm border border-[var(--border)] bg-[var(--bg)] transition-opacity duration-300 ${
-              revoked ? "opacity-55" : ""
+            key={s.n}
+            className={`min-w-[5.5rem] flex-1 rounded-sm border px-3 py-2 ${
+              s.on
+                ? "border-[var(--accent)]/50 bg-[var(--bg-elevated)]"
+                : "border-[var(--border)] bg-[var(--bg-elevated)]/60"
             }`}
           >
-            {/* binding holes */}
-            <div className="absolute bottom-4 left-0 top-4 w-4 binding-holes opacity-70" aria-hidden />
-
-            <div className="pl-7 pr-5 py-5 sm:pl-9 sm:pr-7 sm:py-6">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[var(--text-muted)]">
-                    Agent Passport
-                  </p>
-                  <p className="mt-1 font-mono text-xs text-[var(--text-muted)]">
-                    No. {issued ? "AP-2026-····-2938" : "AP-————-————"}
-                  </p>
-                </div>
-                {issued && !revoked && (
-                  <span className="stamp stamp-enter px-2 py-1 text-[11px]">Issued</span>
-                )}
-                {revoked && (
-                  <span className="stamp stamp-revoked stamp-enter px-2 py-1 text-[11px]">
-                    Revoked
-                  </span>
-                )}
-              </div>
-
-              <div className="mt-5 border-t border-[var(--border)] pt-4">
-                <dl className="grid grid-cols-[7.5rem_1fr] gap-x-3 gap-y-2.5 text-sm">
-                  <dt className="text-[var(--text-muted)]">Holder</dt>
-                  <dd className={issued ? "fade-up" : "text-[var(--text-muted)]"}>
-                    {issued ? "Verified human" : "—"}
-                  </dd>
-                  <dt className="text-[var(--text-muted)]">Agent</dt>
-                  <dd className={`font-mono text-[13px] ${issued ? "fade-up" : "text-[var(--text-muted)]"}`}>
-                    {issued ? "travel-ops" : "—"}
-                  </dd>
-                  <dt className="text-[var(--text-muted)]">Status</dt>
-                  <dd className={issued ? "fade-up" : "text-[var(--text-muted)]"}>
-                    {revoked ? "REVOKED" : issued ? "ISSUED · live" : "—"}
-                  </dd>
-                  <dt className="text-[var(--text-muted)]">Scope</dt>
-                  <dd className={issued ? "fade-up" : "text-[var(--text-muted)]"}>
-                    {issued ? (
-                      <span className="flex flex-wrap gap-1.5">
-                        {["identity", "pay", "sms"].map((s) => (
-                          <span
-                            key={s}
-                            className={`rounded-sm border px-1.5 py-0.5 font-mono text-[11px] ${
-                              revoked
-                                ? "border-[var(--border)] text-[var(--text-muted)] line-through"
-                                : "border-[var(--border)] bg-[var(--bg-elevated)]"
-                            }`}
-                          >
-                            {s}
-                          </span>
-                        ))}
-                      </span>
-                    ) : (
-                      "—"
-                    )}
-                  </dd>
-                  <dt className="text-[var(--text-muted)]">Card</dt>
-                  <dd
-                    className={`font-mono text-[13px] ${
-                      hasCard && !revoked ? "fade-up" : "text-[var(--text-muted)]"
-                    } ${revoked && hasCard ? "line-through" : ""}`}
-                  >
-                    {phase === "minting"
-                      ? "Confirming passkey…"
-                      : hasCard
-                        ? "•••• •••• •••• 4291"
-                        : "—"}
-                  </dd>
-                  <dt className="text-[var(--text-muted)]">Phone</dt>
-                  <dd
-                    className={`font-mono text-[13px] ${
-                      calling || connected ? "fade-up" : "text-[var(--text-muted)]"
-                    } ${revoked ? "line-through" : ""}`}
-                  >
-                    {calling
-                      ? "Ringing +1-512-555-0100…"
-                      : connected
-                        ? `Connected · ${callSecs}s`
-                        : issued
-                          ? "+1-512-555-0199"
-                          : "—"}
-                  </dd>
-                </dl>
-              </div>
-
-              {/* Passkey mock strip */}
-              {phase === "minting" && (
-                <div className="fade-up mt-5 flex items-center gap-3 rounded-sm border border-[var(--border)] bg-[var(--bg-elevated)] px-3 py-2.5">
-                  <span className="grid h-8 w-8 place-items-center rounded-full bg-[var(--accent-soft)] text-[var(--accent)]">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
-                      <path
-                        d="M12 3a5 5 0 00-3 9v2h6v-2a5 5 0 00-3-9z"
-                        stroke="currentColor"
-                        strokeWidth="1.6"
-                      />
-                      <path d="M9 14h6v4a2 2 0 01-2 2h-2a2 2 0 01-2-2v-4z" stroke="currentColor" strokeWidth="1.6" />
-                    </svg>
-                  </span>
-                  <div className="text-sm">
-                    <p className="font-medium">Confirm with passkey</p>
-                    <p className="text-[var(--text-muted)]">Mint disposable card · $400 limit</p>
-                  </div>
-                </div>
-              )}
-
-              {/* Call mock */}
-              {(calling || connected) && !revoked && (
-                <div className="fade-up mt-5 flex items-center justify-between gap-3 rounded-sm border border-[var(--border)] bg-[var(--bg-elevated)] px-3 py-2.5">
-                  <div className="flex items-center gap-3">
-                    <span
-                      className={`grid h-8 w-8 place-items-center rounded-full ${
-                        connected ? "bg-[var(--accent-soft)] text-[var(--accent)]" : "bg-[var(--border)] text-[var(--text-muted)]"
-                      }`}
-                    >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                        <path d="M6.6 10.8a15.5 15.5 0 006.6 6.6l2.2-2.2a1 1 0 011-.25 11.4 11.4 0 003.6.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.4 11.4 0 00.57 3.6 1 1 0 01-.25 1L6.6 10.8z" />
-                      </svg>
-                    </span>
-                    <div className="text-sm">
-                      <p className="font-medium">{calling ? "Calling hotel…" : "On the line"}</p>
-                      <p className="font-mono text-[12px] text-[var(--text-muted)]">
-                        +1-512-555-0100{connected ? ` · 0:${String(callSecs).padStart(2, "0")}` : ""}
-                      </p>
-                    </div>
-                  </div>
-                  {connected && (
-                    <span className="font-mono text-[11px] text-[var(--text-muted)]">ledger +$0.42</span>
-                  )}
-                </div>
-              )}
-
-              {revoked && (
-                <div
-                  className="pointer-events-none absolute inset-0 flex items-center justify-center"
-                  aria-hidden
-                >
-                  <span className="stamp stamp-revoked stamp-enter px-4 py-2 text-2xl sm:text-3xl">Revoked</span>
-                </div>
-              )}
-            </div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-muted)]">
+              {s.n}
+            </p>
+            <p
+              className={`text-[13px] font-medium ${
+                s.on ? "text-[var(--accent-deep)]" : "text-[var(--text)]"
+              }`}
+            >
+              {s.t}
+            </p>
           </div>
+        ))}
+      </div>
+
+      <div className="grid lg:grid-cols-[1.2fr_0.8fr]">
+        <div className="relative border-b border-[var(--border)] p-5 sm:p-6 lg:border-b-0 lg:border-r">
+          {main}
         </div>
 
-        {/* Controls + audit */}
         <div className="flex flex-col gap-5 p-5 sm:p-6">
           <div className="grid grid-cols-2 gap-2">
             <DemoBtn
@@ -248,13 +306,13 @@ export default function LiveDemo() {
             <DemoBtn
               label="2 · Mint disposable"
               onClick={mint}
-              disabled={phase !== "issued" && phase !== "connected"}
+              disabled={phase !== "issued"}
               primary={phase === "issued"}
             />
             <DemoBtn
               label="3 · Simulate call"
               onClick={call}
-              disabled={(phase !== "minted" && phase !== "issued") || calling}
+              disabled={phase !== "minted" || calling}
               primary={phase === "minted"}
             />
             <DemoBtn
@@ -275,31 +333,577 @@ export default function LiveDemo() {
             </button>
           )}
 
-          <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--text-muted)]">
-              Audit log
-            </p>
-            <ul className="mt-2 max-h-48 space-y-1.5 overflow-y-auto font-mono text-[12px] leading-relaxed text-[var(--text-muted)]">
-              {log.length === 0 && <li className="text-[var(--border)]">waiting for issue…</li>}
-              {log.map((e, i) => (
-                <li key={`${e.t}-${i}`} className="fade-up flex gap-2">
-                  <span className="shrink-0 text-[var(--border)]">{e.t}</span>
-                  <span className="text-[var(--text)]">{e.msg}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {(connected || (hasCard && !revoked)) && (
-            <div className="rounded-sm border border-[var(--border)] bg-[var(--bg)] px-3 py-2 font-mono text-[11px] text-[var(--text-muted)]">
-              <p className="uppercase tracking-[0.18em]">Ledger (sim)</p>
-              {hasCard && <p className="mt-1 text-[var(--text)]">-$0.00 pending · card •••• 4291</p>}
-              {connected && <p className="text-[var(--text)]">-$0.42 call · hotel front desk</p>}
-            </div>
-          )}
+          <VaultPanel vault={vault} issued={issued} revoked={revoked} />
+          <LedgerPanel rows={ledger} />
+          <AuditPanel log={log} />
         </div>
       </div>
     </div>
+  );
+}
+
+function EmptySurface({ onIssue }: { onIssue: () => void }) {
+  return (
+    <div className="fade-up flex min-h-[320px] flex-col items-center justify-center rounded-sm border border-dashed border-[var(--border)] bg-[var(--bg-wash)] px-6 py-12 text-center">
+      <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--text-muted)]">
+        No passport yet
+      </p>
+      <h3 className="font-display mt-2 text-xl tracking-tight">Verify once as a human</h3>
+      <p className="mt-2 max-w-sm text-sm text-[var(--text-muted)]">
+        Issue a reusable credential your agents can carry — progressive disclosure, not a dossier
+        dump.
+      </p>
+      <button
+        type="button"
+        onClick={onIssue}
+        className="mt-5 inline-flex items-center gap-2 rounded-sm bg-[var(--text)] px-4 py-2.5 text-sm font-medium text-white hover:brightness-110"
+      >
+        <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" aria-hidden />
+        Start verification
+      </button>
+    </div>
+  );
+}
+
+function IssueSurface({ revoked }: { revoked: boolean }) {
+  return (
+    <div className={`fade-up space-y-4 ${revoked ? "opacity-60" : ""}`}>
+      <div className="demo-passport relative">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="font-mono text-[11px] text-[var(--text-muted)]">{PASSPORT_ID}</p>
+            <h3 className="font-display mt-1 text-xl tracking-tight">Operator credential</h3>
+            <p className="mt-1 text-sm text-[var(--text-muted)]">
+              Bound to verified human · reusable across agents
+            </p>
+          </div>
+          {revoked ? (
+            <span className="stamp stamp-revoked stamp-enter px-2 py-1 text-[11px]">Revoked</span>
+          ) : (
+            <span className="stamp stamp-enter px-2 py-1 text-[11px]">Issued</span>
+          )}
+        </div>
+        <div className="mt-5 grid grid-cols-2 gap-3 sm:gap-4">
+          <Attr label="Holder" value="Verified human · US" />
+          <Attr
+            label="Status"
+            value={revoked ? <Chip danger>Revoked</Chip> : <Chip live>Active</Chip>}
+          />
+          <Attr label="Agent" value={<span className="font-mono text-[13px]">{AGENT}</span>} />
+          <Attr label="Scope" value="Cards · Phone · Balance" />
+        </div>
+      </div>
+
+      <div className="rounded-sm border border-[var(--border)] bg-[var(--bg-elevated)]">
+        <div className="flex items-center justify-between border-b border-[var(--border)] px-4 py-3">
+          <p className="text-sm font-medium">Progressive disclosure</p>
+          <p className="text-xs text-[var(--text-muted)]">Prove only what&apos;s needed</p>
+        </div>
+        <div className="demo-disclosure">
+          {DISCLOSURE.map((d) => (
+            <div key={d.lvl} className="demo-disclosure-layer">
+              <span className="font-mono text-[11px] font-semibold text-[var(--accent-deep)]">
+                {d.lvl}
+              </span>
+              <div className="min-w-0">
+                <p
+                  className={`text-sm font-medium ${
+                    revoked && d.shared ? "text-[var(--text-muted)] line-through" : ""
+                  }`}
+                >
+                  {d.name}
+                </p>
+                <p className="text-xs text-[var(--text-muted)]">{d.desc}</p>
+              </div>
+              {revoked && d.shared ? (
+                <Chip danger>Invalid</Chip>
+              ) : d.shared ? (
+                <Chip live>{d.chip}</Chip>
+              ) : (
+                <Chip>{d.chip}</Chip>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MintingSurface() {
+  return (
+    <div className="fade-up space-y-4">
+      <div className="demo-plastic demo-plastic-ghost" aria-label="Card minting">
+        <div className="flex items-center justify-between">
+          <span className="demo-chip-icon opacity-40" />
+          <span className="text-[11px] uppercase tracking-[0.12em]">Confirming…</span>
+        </div>
+        <p className="font-mono text-lg tracking-[0.12em]">···· ···· ···· ····</p>
+        <div className="flex justify-between text-[10px] uppercase tracking-[0.06em] opacity-70">
+          <span>
+            Holder
+            <strong className="mt-0.5 block text-[12px] font-semibold normal-case tracking-normal">
+              —
+            </strong>
+          </span>
+          <span>
+            Limit
+            <strong className="mt-0.5 block text-[12px] font-semibold normal-case tracking-normal">
+              —
+            </strong>
+          </span>
+        </div>
+      </div>
+      <div className="demo-passkey">
+        <span className="demo-passkey-icon" aria-hidden>
+          ⌀
+        </span>
+        <div>
+          <p className="text-sm font-medium">Confirm with passkey</p>
+          <p className="text-xs text-[var(--text-muted)]">
+            Mint disposable · {CARD_LIMIT} limit · hotel intent
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MintSurface({ revoked }: { revoked: boolean }) {
+  return (
+    <div className={`fade-up space-y-4 ${revoked ? "opacity-70" : ""}`}>
+      <div
+        className={`demo-plastic relative ${revoked ? "demo-plastic-void" : ""}`}
+        aria-label="Disposable card"
+      >
+        <div className="flex items-center justify-between">
+          <span className="demo-chip-icon" />
+          <span className="text-[11px] uppercase tracking-[0.12em] opacity-70">
+            {revoked ? "Void" : "Disposable"}
+          </span>
+        </div>
+        <p
+          className={`font-mono text-[17px] tracking-[0.12em] ${
+            revoked ? "line-through opacity-60" : ""
+          }`}
+        >
+          4242&nbsp;····&nbsp;····&nbsp;{CARD_LAST4}
+        </p>
+        <div className="flex justify-between gap-3 text-[10px] uppercase tracking-[0.06em] text-white/65">
+          <span>
+            Holder
+            <strong className="mt-0.5 block text-[12.5px] font-semibold normal-case tracking-[0.03em] text-white">
+              {AGENT.toUpperCase()}
+            </strong>
+          </span>
+          <span>
+            Exp
+            <strong className="mt-0.5 block text-[12.5px] font-semibold normal-case tracking-[0.03em] text-white">
+              12 / 27
+            </strong>
+          </span>
+          <span>
+            Limit
+            <strong
+              className={`mt-0.5 block text-[12.5px] font-semibold normal-case tracking-[0.03em] text-white ${
+                revoked ? "line-through" : ""
+              }`}
+            >
+              {CARD_LIMIT}
+            </strong>
+          </span>
+        </div>
+        {revoked && (
+          <div
+            className="pointer-events-none absolute inset-0 flex items-center justify-center"
+            aria-hidden
+          >
+            <span className="stamp stamp-revoked stamp-enter px-3 py-1.5 text-lg">Void</span>
+          </div>
+        )}
+      </div>
+
+      <div className="rounded-sm border border-[var(--border)] bg-[var(--bg-elevated)] p-4">
+        <div className="flex items-center justify-between gap-2">
+          <p className="text-sm font-medium">Mint form</p>
+          <Chip>Simulated</Chip>
+        </div>
+        <div className="mt-3 grid gap-3 sm:grid-cols-2">
+          <Field label="Card type" value="Disposable · single-use" />
+          <Field label="Spend ceiling" value={CARD_LIMIT} />
+          <Field label="TTL" value="15 minutes · auto-revoke" />
+          <Field label="Merchant intent" value="Hotel · Austin booking" />
+        </div>
+        <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-[var(--bg-wash)]">
+          <i
+            className="block h-full rounded-full bg-[var(--accent)]"
+            style={{ width: revoked ? "0%" : "8%" }}
+          />
+        </div>
+        <p className="mt-1.5 text-[11px] text-[var(--text-muted)]">
+          {revoked ? "Card burned · zero residual auth" : "$0.00 used · remaining under ceiling"}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function CallSurface({
+  calling,
+  connected,
+  callSecs,
+}: {
+  calling: boolean;
+  connected: boolean;
+  callSecs: number;
+}) {
+  return (
+    <div className="fade-up grid gap-4 sm:grid-cols-[1.1fr_0.9fr]">
+      <div className="rounded-sm border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-6 text-center">
+        <div className="mx-auto mb-3 grid h-14 w-14 place-items-center rounded-full border border-[var(--border)] bg-[var(--bg-wash)] text-sm font-semibold text-[var(--accent-deep)]">
+          HT
+        </div>
+        <p className="text-xs text-[var(--text-muted)]">Outbound · agent line · hotel</p>
+        <p className="font-mono mt-1 text-xl tracking-wide">{HOTEL_NUM}</p>
+        <p className="mt-2 text-sm text-[var(--text-muted)]">
+          {calling ? (
+            "Ringing…"
+          ) : (
+            <>
+              Connected · <span className="font-mono">{formatCall(callSecs)}</span> · Simulated
+            </>
+          )}
+        </p>
+        {connected && (
+          <div className="demo-waveform mx-auto mt-4" aria-hidden>
+            <i />
+            <i />
+            <i />
+            <i />
+            <i />
+            <i />
+            <i />
+          </div>
+        )}
+        <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+          <span className="rounded-sm border border-[var(--border)] px-3 py-1.5 text-xs text-[var(--text-muted)]">
+            Mute
+          </span>
+          <span className="rounded-sm border border-[var(--danger)]/40 px-3 py-1.5 text-xs text-[var(--danger)]">
+            End call
+          </span>
+        </div>
+      </div>
+      <div className="space-y-3">
+        <div className="rounded-sm border border-[var(--border)] bg-[var(--bg-elevated)] p-4">
+          <div className="flex items-center justify-between">
+            <p className="text-sm font-medium">Call audit</p>
+            <Chip live>{calling ? "Dialing" : "Live"}</Chip>
+          </div>
+          <dl className="mt-3 grid grid-cols-[5.5rem_1fr] gap-x-3 gap-y-2 text-sm">
+            <dt className="text-[var(--text-muted)]">Direction</dt>
+            <dd>Outbound</dd>
+            <dt className="text-[var(--text-muted)]">From</dt>
+            <dd className="font-mono text-[13px]">{AGENT_LINE}</dd>
+            <dt className="text-[var(--text-muted)]">To</dt>
+            <dd>Hotel front desk</dd>
+            <dt className="text-[var(--text-muted)]">Rate</dt>
+            <dd>$0.02 / min (mock)</dd>
+            <dt className="text-[var(--text-muted)]">Ledger</dt>
+            <dd>{connected && callSecs >= 12 ? "−$0.42 posted" : "pending tick"}</dd>
+          </dl>
+        </div>
+        <div className="rounded-sm border border-[var(--border)] bg-[var(--bg-wash)] px-4 py-3">
+          <p className="text-[11px] text-[var(--text-muted)]">SMS · redacted stub</p>
+          <p className="mt-1 text-sm">Your verification code is</p>
+          <p className="font-mono mt-2 text-lg tracking-[0.2em]">8 4 2 · · ·</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RevokeSurface({ hadCard }: { hadCard: boolean }) {
+  return (
+    <div className="fade-up space-y-4">
+      <div className="flex items-start gap-3 rounded-sm border border-[var(--danger)]/30 bg-[#fff5f5] px-4 py-3 text-sm">
+        <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[var(--danger)] text-[11px] font-bold text-white">
+          ×
+        </span>
+        <p>
+          <strong>Passport revoked.</strong> All agent rails dead. Audit event written. Human
+          balance preserved.
+        </p>
+      </div>
+
+      <div className="demo-passport relative">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="font-mono text-[11px] text-[var(--text-muted)]">{PASSPORT_ID}</p>
+            <h3 className="font-display mt-1 text-xl tracking-tight">Operator credential</h3>
+          </div>
+          <span className="stamp stamp-revoked stamp-enter px-2 py-1 text-[11px]">Revoked</span>
+        </div>
+        <div className="mt-4 grid grid-cols-2 gap-3">
+          <Attr label="Revoked at" value="Just now · Simulated" />
+          <Attr label="Actor" value="Human operator" />
+        </div>
+        <div
+          className="pointer-events-none absolute inset-0 flex items-center justify-center"
+          aria-hidden
+        >
+          <span className="stamp stamp-revoked stamp-enter px-4 py-2 text-2xl sm:text-3xl">
+            Revoked
+          </span>
+        </div>
+      </div>
+
+      {hadCard && (
+        <div className="demo-plastic demo-plastic-void relative">
+          <div className="flex items-center justify-between">
+            <span className="demo-chip-icon opacity-50" />
+            <span className="text-[11px] uppercase tracking-[0.12em] opacity-70">Burned</span>
+          </div>
+          <p className="font-mono text-[17px] tracking-[0.12em] line-through opacity-50">
+            4242&nbsp;····&nbsp;····&nbsp;{CARD_LAST4}
+          </p>
+          <div className="text-[10px] uppercase tracking-[0.06em] text-white/50">
+            Limit
+            <strong className="mt-0.5 block text-[12px] font-semibold normal-case tracking-normal text-white/70 line-through">
+              {CARD_LIMIT}
+            </strong>
+          </div>
+          <div
+            className="pointer-events-none absolute inset-0 flex items-center justify-center"
+            aria-hidden
+          >
+            <span className="stamp stamp-revoked stamp-enter px-3 py-1.5 text-lg">Void</span>
+          </div>
+        </div>
+      )}
+
+      <div className="rounded-sm border border-[var(--border)] bg-[var(--bg)] p-4">
+        <p className="mb-2 text-sm font-medium">Scopes</p>
+        <div className="flex flex-wrap gap-1.5">
+          {["identity", "pay", "sms", "card", "phone"].map((s) => (
+            <span
+              key={s}
+              className="rounded-sm border border-[var(--border)] px-1.5 py-0.5 font-mono text-[11px] text-[var(--text-muted)] line-through"
+            >
+              {s}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div className="rounded-sm border border-[var(--border)] bg-[var(--bg-elevated)]">
+        <div className="border-b border-[var(--border)] px-4 py-3">
+          <p className="text-sm font-medium">Progressive disclosure</p>
+        </div>
+        <div className="demo-disclosure">
+          {DISCLOSURE.map((d) => (
+            <div key={d.lvl} className="demo-disclosure-layer">
+              <span className="font-mono text-[11px] font-semibold text-[var(--accent-deep)]">
+                {d.lvl}
+              </span>
+              <div className="min-w-0">
+                <p
+                  className={`text-sm font-medium ${
+                    d.shared ? "text-[var(--text-muted)] line-through" : ""
+                  }`}
+                >
+                  {d.name}
+                </p>
+                <p className="text-xs text-[var(--text-muted)]">{d.desc}</p>
+              </div>
+              {d.shared ? <Chip danger>Invalid</Chip> : <Chip>{d.chip}</Chip>}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function VaultPanel({
+  vault,
+  issued,
+  revoked,
+}: {
+  vault: VaultCard[];
+  issued: boolean;
+  revoked: boolean;
+}) {
+  return (
+    <div>
+      <div className="flex items-center justify-between">
+        <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--text-muted)]">
+          Vault
+        </p>
+        <span className="text-[11px] text-[var(--text-muted)]">
+          {revoked
+            ? "Emptied / frozen"
+            : vault.length
+              ? `${vault.length} in vault`
+              : issued
+                ? "Standing only"
+                : "—"}
+        </span>
+      </div>
+      <div className="mt-2 overflow-hidden rounded-sm border border-[var(--border)] bg-[var(--bg)]">
+        {vault.length === 0 ? (
+          <p className="px-3 py-4 text-center text-xs text-[var(--text-muted)]">
+            Vault empty · mint a disposable after issue
+          </p>
+        ) : (
+          <table className="w-full text-left text-[12px]">
+            <thead>
+              <tr className="border-b border-[var(--border)] text-[10px] uppercase tracking-[0.08em] text-[var(--text-muted)]">
+                <th className="px-3 py-2 font-medium">Card</th>
+                <th className="px-2 py-2 font-medium">Type</th>
+                <th className="px-3 py-2 font-medium">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {vault.map((c) => (
+                <tr
+                  key={`${c.type}-${c.last4}`}
+                  className="border-b border-[var(--border)] last:border-0"
+                >
+                  <td className="font-mono px-3 py-2.5">···· {c.last4}</td>
+                  <td className="px-2 py-2.5 text-[var(--text-muted)]">{c.type}</td>
+                  <td className="px-3 py-2.5">
+                    {c.burned || (revoked && c.type === "Disposable") ? (
+                      <Chip danger>Burned</Chip>
+                    ) : revoked ? (
+                      <Chip danger>Frozen</Chip>
+                    ) : c.live ? (
+                      <Chip live>{c.status}</Chip>
+                    ) : (
+                      <Chip>{c.status}</Chip>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function LedgerPanel({ rows }: { rows: LedgerRow[] }) {
+  return (
+    <div>
+      <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--text-muted)]">
+        Ledger
+      </p>
+      <ul className="mt-2 max-h-44 space-y-0 overflow-y-auto rounded-sm border border-[var(--border)] bg-[var(--bg)]">
+        {rows.length === 0 && (
+          <li className="px-3 py-4 text-center text-xs text-[var(--text-muted)]">
+            No movements yet
+          </li>
+        )}
+        {rows.map((r) => (
+          <li
+            key={r.id}
+            className="fade-up grid grid-cols-[2rem_1fr_auto] items-center gap-2 border-b border-[var(--border)] px-3 py-2.5 last:border-0"
+          >
+            <span
+              className={`grid h-7 w-7 place-items-center rounded-sm border border-[var(--border)] text-[11px] font-semibold ${
+                r.kind === "freeze"
+                  ? "bg-[#fffaeb] text-[#b54708]"
+                  : r.kind === "neg"
+                    ? "bg-[var(--bg-wash)] text-[var(--text)]"
+                    : "bg-[var(--accent-soft)] text-[var(--accent-deep)]"
+              }`}
+            >
+              {r.ico}
+            </span>
+            <div className="min-w-0">
+              <p className="truncate text-[13px] font-medium">{r.title}</p>
+              <p className="truncate text-[11px] text-[var(--text-muted)]">{r.sub}</p>
+            </div>
+            <span
+              className={`font-mono text-[12px] ${
+                r.kind === "pos"
+                  ? "text-[var(--accent-deep)]"
+                  : r.kind === "neg"
+                    ? "text-[var(--text)]"
+                    : "text-[var(--text-muted)]"
+              }`}
+            >
+              {r.amt}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function AuditPanel({ log }: { log: LogEntry[] }) {
+  return (
+    <div>
+      <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--text-muted)]">
+        Audit log
+      </p>
+      <ul className="mt-2 max-h-36 space-y-1.5 overflow-y-auto font-mono text-[12px] leading-relaxed text-[var(--text-muted)]">
+        {log.length === 0 && <li className="text-[var(--border)]">waiting for issue…</li>}
+        {log.map((e, i) => (
+          <li key={`${e.t}-${i}`} className="fade-up flex gap-2">
+            <span className="shrink-0 text-[var(--border)]">{e.t}</span>
+            <span className="text-[var(--text)]">{e.msg}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function Attr({ label, value }: { label: string; value: ReactNode }) {
+  return (
+    <div>
+      <p className="text-[10px] font-semibold uppercase tracking-[0.06em] text-[var(--text-muted)]">
+        {label}
+      </p>
+      <div className="mt-0.5 text-sm font-medium">{value}</div>
+    </div>
+  );
+}
+
+function Field({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <label className="block text-[11px] font-medium text-[var(--text-muted)]">{label}</label>
+      <div className="mt-1 flex h-9 items-center rounded-sm border border-[var(--border)] bg-[var(--bg-wash)] px-2.5 text-[13px]">
+        {value}
+      </div>
+    </div>
+  );
+}
+
+function Chip({
+  children,
+  live,
+  danger,
+}: {
+  children: ReactNode;
+  live?: boolean;
+  danger?: boolean;
+}) {
+  const cls = danger
+    ? "border-[#f1c8c8] bg-[#fff5f5] text-[var(--danger)]"
+    : live
+      ? "border-[var(--accent)]/30 bg-[var(--accent-soft)] text-[var(--accent-deep)]"
+      : "border-[var(--border)] bg-[var(--bg-wash)] text-[var(--text-muted)]";
+  return (
+    <span
+      className={`inline-flex items-center rounded-full border px-2 py-0.5 text-[11px] font-medium ${cls}`}
+    >
+      {children}
+    </span>
   );
 }
 

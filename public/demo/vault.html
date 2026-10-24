@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vault · Agent Passport mockup v2</title>
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="side-brand"><div class="mark" aria-hidden="true"></div>Agent Passport</div>
+    <nav class="side-nav">
+        <div class="sec">Product</div>
+        <a class="" href="index.html"><span class="dot"></span>Overview</a>
+        <a class="" href="issue.html"><span class="dot"></span>Issue</a>
+        <a class="" href="mint.html"><span class="dot"></span>Mint</a>
+        <a class="" href="call.html"><span class="dot"></span>Call</a>
+        <a class="" href="revoke.html"><span class="dot"></span>Revoke</a>
+        <a class="" href="ledger.html"><span class="dot"></span>Ledger</a>
+        <a class="active" href="vault.html"><span class="dot"></span>Vault</a>
+    </nav>
+    <div class="side-foot">AllScale tokens · Simulated · light LOCKED</div>
+  </aside>
+  <div class="workspace">
+    <header class="topbar">
+      <div class="crumbs">Console <span>/</span> <strong>Vault</strong></div>
+      <div class="top-actions">
+        
+        <span class="sim-pill">Simulated</span>
+      </div>
+    </header>
+
+    <main class="main">
+
+      <div class="kicker"><span></span> Card vault</div>
+      <h1>Standing &amp; disposable inventory</h1>
+      <p class="lede">Vault holds standing card + short-lived disposables. Limits, burn controls, passkey reveal — product-dense for screenshots.</p>
+
+      <div class="states">
+        <button type="button" data-state="empty">Empty</button>
+        <button type="button" class="on" data-state="active">Stocked</button>
+        <button type="button" data-state="success">After burn</button>
+      </div>
+
+      <div class="state-panel" data-state="empty">
+        <div class="panel">
+          <div class="empty">
+            <h3>Vault is empty</h3>
+            <p>Mint a disposable or provision a standing card bound to this passport.</p>
+            <a class="btn-green" href="mint.html">Mint disposable</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="state-panel on" data-state="active">
+        <div class="grid-12">
+          <section class="span-8 panel panel-pad">
+            <div class="panel-head"><div class="panel-title">Cards</div><span class="meta">2 in vault</span></div>
+            <table class="table">
+              <thead><tr><th>Card</th><th>Type</th><th>Limit</th><th>Status</th><th></th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><span class="mono">···· 9183</span></td>
+                  <td>Disposable</td>
+                  <td>$120</td>
+                  <td><span class="chip live">Live · 14m</span></td>
+                  <td><button class="btn-danger btn-sm" type="button">Burn</button></td>
+                </tr>
+                <tr>
+                  <td><span class="mono">···· 4410</span></td>
+                  <td>Standing</td>
+                  <td>$2,000 / day</td>
+                  <td><span class="chip neutral">Idle</span></td>
+                  <td><button class="btn-ghost btn-sm" type="button">Freeze</button></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="divider"></div>
+            <div class="grid-2">
+              <div class="plastic">
+                <div style="display:flex;justify-content:space-between;position:relative"><div class="chip-icon"></div><span style="font-size:10px;letter-spacing:.1em;opacity:.7">DISPOSABLE</span></div>
+                <div class="num">4242 ···· ···· 9183</div>
+                <div class="meta-row"><div>MCC<strong>5734</strong></div><div>TTL<strong>14:52</strong></div></div>
+              </div>
+              <div class="stack">
+                <div class="passkey">
+                  <div class="icon">⌀</div>
+                  <div><div class="t">Reveal PAN / CVV</div><div class="s">Passkey · 30s window · audited</div></div>
+                </div>
+                <div class="field"><label>Billing</label><div class="value">Passport unified balance</div></div>
+                <div class="row">
+                  <button class="btn-primary" type="button"><span class="dot"></span>Reveal</button>
+                  <button class="btn-danger" type="button">Burn disposable</button>
+                </div>
+              </div>
+            </div>
+          </section>
+          <aside class="span-4 stack">
+            <div class="panel panel-pad limits-panel">
+              <div class="panel-title" style="margin-bottom:10px">Vault policy</div>
+              <div class="row-item"><span>Max live disposables</span><strong>3</strong></div>
+              <div class="row-item"><span>Default TTL</span><strong>15m</strong></div>
+              <div class="row-item"><span>Default ceiling</span><strong>$120</strong></div>
+              <div class="row-item"><span>Standing</span><span class="chip live">Enabled</span></div>
+            </div>
+            <div class="demo-dark">
+              <div class="meta" style="margin-bottom:6px">Mint API · Simulated</div>
+              <div style="font-family:var(--mono);font-size:12px;line-height:1.55">
+                <span class="g">POST</span> /v1/cards<br/>
+                type: disposable<br/>
+                limit: 12000<br/>
+                <span class="g">→</span> ···9183
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <div class="state-panel" data-state="success">
+        <div class="banner ok"><div class="ico">✓</div><div><strong>Disposable burned.</strong> ···9183 destroyed · standing ···4410 still idle.</div></div>
+        <div class="panel panel-pad">
+          <table class="table">
+            <thead><tr><th>Card</th><th>Type</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">···· 9183</td><td>Disposable</td><td><span class="chip danger">Burned</span></td></tr>
+              <tr><td class="mono">···· 4410</td><td>Standing</td><td><span class="chip neutral">Idle</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+<script>
+document.querySelectorAll('.states').forEach(group => {
+  const panels = group.parentElement.querySelectorAll(':scope > .state-panel');
+  group.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      group.querySelectorAll('button').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+      const id = btn.dataset.state;
+      panels.forEach(p => p.classList.toggle('on', p.dataset.state === id));
+    });
+  });
+});
+document.querySelectorAll('.toggle').forEach(group => {
+  group.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      group.querySelectorAll('button').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+    });
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mint · Agent Passport mockup v2</title>
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="side-brand"><div class="mark" aria-hidden="true"></div>Agent Passport</div>
+    <nav class="side-nav">
+        <div class="sec">Product</div>
+        <a class="" href="index.html"><span class="dot"></span>Overview</a>
+        <a class="" href="issue.html"><span class="dot"></span>Issue</a>
+        <a class="active" href="mint.html"><span class="dot"></span>Mint</a>
+        <a class="" href="call.html"><span class="dot"></span>Call</a>
+        <a class="" href="revoke.html"><span class="dot"></span>Revoke</a>
+        <a class="" href="ledger.html"><span class="dot"></span>Ledger</a>
+        <a class="" href="vault.html"><span class="dot"></span>Vault</a>
+    </nav>
+    <div class="side-foot">AllScale tokens · Simulated · light LOCKED</div>
+  </aside>
+  <div class="workspace">
+    <header class="topbar">
+      <div class="crumbs">Console <span>/</span> <strong>Mint</strong></div>
+      <div class="top-actions">
+        
+        <span class="sim-pill">Simulated</span>
+      </div>
+    </header>
+
+    <main class="main">
+
+      <div class="kicker"><span></span> Step 02 · Mint disposable</div>
+      <h1>Mint a disposable card</h1>
+      <p class="lede">Passkey-approve once. Fresh masked PAN, spend ceiling, merchant category — then burn it. Standing card stays in vault.</p>
+
+      <div class="steps">
+        <div class="step done"><div class="n">01</div><div class="t">Issue</div></div>
+        <div class="step active"><div class="n">02</div><div class="t">Mint</div></div>
+        <div class="step"><div class="n">03</div><div class="t">Call</div></div>
+        <div class="step"><div class="n">04</div><div class="t">Revoke</div></div>
+      </div>
+
+      <div class="states">
+        <button type="button" data-state="empty">Empty</button>
+        <button type="button" class="on" data-state="active">Active</button>
+        <button type="button" data-state="success">Success</button>
+      </div>
+
+      <div class="state-panel" data-state="empty">
+        <div class="grid-2">
+          <div class="plastic ghost" aria-label="No card">
+            <div style="display:flex;justify-content:space-between"><div class="chip-icon" style="opacity:.3"></div><span style="font-size:11px;letter-spacing:.1em;text-transform:uppercase">No card</span></div>
+            <div class="num">···· ···· ···· ····</div>
+            <div class="meta-row"><div>Holder<strong>—</strong></div><div>Limit<strong>—</strong></div></div>
+          </div>
+          <div class="panel panel-pad">
+            <div class="empty" style="padding:24px 8px">
+              <h3>Nothing minted</h3>
+              <p>Create a disposable card scoped to one merchant intent.</p>
+              <button class="btn-green" type="button">Start mint</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="state-panel on" data-state="active">
+        <div class="grid-12">
+          <section class="span-7 stack">
+            <div class="plastic" aria-label="Disposable card">
+              <div style="display:flex;justify-content:space-between;align-items:center;position:relative">
+                <div class="chip-icon"></div>
+                <span style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.7">Disposable</span>
+              </div>
+              <div class="num">4242&nbsp;····&nbsp;····&nbsp;9183</div>
+              <div class="meta-row">
+                <div>Holder<strong>OPS-AGENT-01</strong></div>
+                <div>Exp<strong>12 / 27</strong></div>
+                <div>Limit<strong>$120.00</strong></div>
+              </div>
+            </div>
+            <div class="panel panel-pad">
+              <div class="panel-head"><div class="panel-title">Spend &amp; category</div><span class="meta">$18.40 used</span></div>
+              <div class="field-row">
+                <div class="field"><label>Spend ceiling</label><div class="value">$120.00 USD</div>
+                  <div class="limit-bar"><i style="width:15%"></i></div>
+                  <div class="hint">$101.60 remaining · auto-revoke at TTL</div>
+                </div>
+                <div class="field"><label>Merchant category</label><div class="value">5734 · Computer software</div></div>
+              </div>
+              <div class="divider"></div>
+              <div class="field"><label>Merchant intent</label><div class="value">api.openai.com · inference</div></div>
+            </div>
+          </section>
+          <aside class="span-5 stack">
+            <div class="panel panel-pad">
+              <div class="panel-head"><div class="panel-title">Mint form</div><span class="chip">Simulated</span></div>
+              <div class="stack">
+                <div>
+                  <label style="font-size:11.5px;font-weight:550;color:var(--muted)">Card type</label>
+                  <div class="toggle" style="margin-top:6px">
+                    <button type="button" class="on">Disposable</button>
+                    <button type="button">Standing</button>
+                  </div>
+                </div>
+                <div class="field"><label>TTL</label><div class="value">15 minutes · auto-revoke</div></div>
+                <div class="passkey">
+                  <div class="icon">⌀</div>
+                  <div><div class="t">Passkey required</div><div class="s">Touch ID / security key · single use</div></div>
+                </div>
+                <div class="row">
+                  <button class="btn-green" type="button">Mint with passkey</button>
+                  <button class="btn-danger" type="button">Burn card</button>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-pad">
+              <div class="panel-head"><div class="panel-title">Vault snapshot</div><span class="meta">Standing idle</span></div>
+              <div class="kv">
+                <div class="k">Network</div><div class="v">Visa · virtual</div>
+                <div class="k">Billing</div><div class="v">Passport unified balance</div>
+                <div class="k">PAN</div><div class="v mono">masked · vaulted</div>
+                <div class="k">CVV</div><div class="v">reveal on passkey</div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <div class="state-panel" data-state="success">
+        <div class="banner ok"><div class="ico">✓</div><div><strong>Card minted.</strong> ···9183 live for 15m · $120 ceiling · MCC 5734.</div></div>
+        <div class="grid-2">
+          <div class="plastic">
+            <div style="display:flex;justify-content:space-between;position:relative"><div class="chip-icon"></div><span class="chip live">LIVE</span></div>
+            <div class="num">4242&nbsp;····&nbsp;····&nbsp;9183</div>
+            <div class="meta-row"><div>Limit<strong>$120.00</strong></div><div>TTL<strong>14:52</strong></div></div>
+          </div>
+          <div class="panel panel-pad stack">
+            <button class="btn-primary btn-block" type="button"><span class="dot"></span>Simulate call next</button>
+            <button class="btn-ghost btn-block" type="button">Copy last4</button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+<script>
+document.querySelectorAll('.states').forEach(group => {
+  const panels = group.parentElement.querySelectorAll(':scope > .state-panel');
+  group.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      group.querySelectorAll('button').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+      const id = btn.dataset.state;
+      panels.forEach(p => p.classList.toggle('on', p.dataset.state === id));
+    });
+  });
+});
+document.querySelectorAll('.toggle').forEach(group => {
+  group.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      group.querySelectorAll('button').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+    });
+  });
+});
+</script>
+</body>
+</html>

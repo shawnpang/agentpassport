@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ledger · Agent Passport mockup v2</title>
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="side-brand"><div class="mark" aria-hidden="true"></div>Agent Passport</div>
+    <nav class="side-nav">
+        <div class="sec">Product</div>
+        <a class="" href="index.html"><span class="dot"></span>Overview</a>
+        <a class="" href="issue.html"><span class="dot"></span>Issue</a>
+        <a class="" href="mint.html"><span class="dot"></span>Mint</a>
+        <a class="" href="call.html"><span class="dot"></span>Call</a>
+        <a class="" href="revoke.html"><span class="dot"></span>Revoke</a>
+        <a class="active" href="ledger.html"><span class="dot"></span>Ledger</a>
+        <a class="" href="vault.html"><span class="dot"></span>Vault</a>
+    </nav>
+    <div class="side-foot">AllScale tokens · Simulated · light LOCKED</div>
+  </aside>
+  <div class="workspace">
+    <header class="topbar">
+      <div class="crumbs">Console <span>/</span> <strong>Ledger</strong></div>
+      <div class="top-actions">
+        
+        <span class="sim-pill">Simulated</span>
+      </div>
+    </header>
+
+    <main class="main">
+
+      <div class="kicker"><span></span> Unified ledger</div>
+      <h1>One balance for every rail</h1>
+      <p class="lede">Cards, calls, and top-ups settle into a single Passport ledger. USD + stablecoin, freezes, limits panel.</p>
+
+      <div class="states">
+        <button type="button" data-state="empty">Empty</button>
+        <button type="button" class="on" data-state="active">Active</button>
+        <button type="button" data-state="success">After revoke</button>
+      </div>
+
+      <div class="state-panel" data-state="empty">
+        <div class="panel">
+          <div class="balance-hero">
+            <div class="balance-label">Available · USD</div>
+            <div class="balance-amt">0.00<span>USD</span></div>
+          </div>
+          <div class="empty">
+            <h3>No movements yet</h3>
+            <p>Top up to fund cards and calls from one balance.</p>
+            <button class="btn-primary" type="button"><span class="dot"></span>Top up</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="state-panel on" data-state="active">
+        <div class="grid-12">
+          <section class="span-8 panel" style="overflow:hidden">
+            <div class="balance-hero">
+              <div class="balance-label">Available · unified</div>
+              <div class="balance-amt">2,480.17<span>USD</span></div>
+              <div class="rail-pills">
+                <div class="rail-pill"><div class="l">USD</div><div class="v">$2,480.17</div></div>
+                <div class="rail-pill"><div class="l">USDC</div><div class="v">1,200.00</div></div>
+                <div class="rail-pill"><div class="l">Holds</div><div class="v">$0.00</div></div>
+              </div>
+              <div class="row" style="margin-top:16px">
+                <button class="btn-primary" type="button"><span class="dot"></span>Top up</button>
+                <button class="btn-ghost" type="button">Convert</button>
+                <button class="btn-danger" type="button">Revoke passport</button>
+              </div>
+            </div>
+            <div class="panel-pad">
+              <div class="panel-head"><div class="panel-title">Ledger</div><span class="meta">Last 24h · Simulated</span></div>
+              <ul class="ledger">
+                <li><div class="ico neg">C</div><div><div class="title">Disposable card · OpenAI</div><div class="sub">···9183 · authorized then settled</div></div><div class="amt neg">−$18.40</div></li>
+                <li><div class="ico neg">☎</div><div><div class="title">Outbound call</div><div class="sub">+1 415 555 0142 · 42s</div></div><div class="amt neg">−$0.02</div></li>
+                <li><div class="ico">R</div><div><div class="title">Card revoked</div><div class="sub">TTL burn · zero residual auth</div></div><div class="amt">$0.00</div></li>
+                <li><div class="ico">+</div><div><div class="title">Top-up</div><div class="sub">USDC → USD · mock rail</div></div><div class="amt pos">+$500.00</div></li>
+                <li><div class="ico neg">S</div><div><div class="title">SMS receive</div><div class="sub">OTP-style · redacted</div></div><div class="amt neg">−$0.01</div></li>
+                <li><div class="ico freeze">F</div><div><div class="title">Soft freeze · research-02</div><div class="sub">Prove-only agent · spend blocked</div></div><div class="amt">—</div></li>
+              </ul>
+            </div>
+          </section>
+          <aside class="span-4 stack">
+            <div class="panel panel-pad limits-panel">
+              <div class="panel-head"><div class="panel-title">Limits &amp; freezes</div><span class="chip warn">1 soft</span></div>
+              <div class="row-item"><span>Daily spend</span><strong>$500 / $2,000</strong></div>
+              <div class="limit-bar"><i style="width:25%"></i></div>
+              <div class="row-item"><span>Per-card ceiling</span><strong>$120</strong></div>
+              <div class="row-item"><span>Call minutes</span><strong>42s today</strong></div>
+              <div class="row-item"><span>research-02</span><span class="chip warn">Frozen spend</span></div>
+            </div>
+            <div class="panel panel-pad">
+              <div class="panel-head"><div class="panel-title">Passport</div><span class="chip live">Active</span></div>
+              <div class="kv">
+                <div class="k">ID</div><div class="v mono">APT-7F2C-91E0</div>
+                <div class="k">Agents</div><div class="v">2 bound</div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <div class="state-panel" data-state="success">
+        <div class="banner danger"><div class="ico">×</div><div><strong>Passport revoked.</strong> Balance remains with human · agent rails show zero authority.</div></div>
+        <div class="panel" style="overflow:hidden">
+          <div class="balance-hero">
+            <div class="balance-label">Human balance · preserved</div>
+            <div class="balance-amt">2,461.74<span>USD</span></div>
+          </div>
+          <div class="panel-pad">
+            <ul class="ledger">
+              <li><div class="ico freeze">×</div><div><div class="title">PASSPORT_REVOKED</div><div class="sub">All agent authority ended</div></div><div class="amt">$0.00</div></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+<script>
+document.querySelectorAll('.states').forEach(group => {
+  const panels = group.parentElement.querySelectorAll(':scope > .state-panel');
+  group.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      group.querySelectorAll('button').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+      const id = btn.dataset.state;
+      panels.forEach(p => p.classList.toggle('on', p.dataset.state === id));
+    });
+  });
+});
+document.querySelectorAll('.toggle').forEach(group => {
+  group.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      group.querySelectorAll('button').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+    });
+  });
+});
+</script>
+</body>
+</html>

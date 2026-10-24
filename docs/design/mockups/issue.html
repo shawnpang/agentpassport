@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Issue · Agent Passport mockup v2</title>
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="side-brand"><div class="mark" aria-hidden="true"></div>Agent Passport</div>
+    <nav class="side-nav">
+        <div class="sec">Product</div>
+        <a class="" href="index.html"><span class="dot"></span>Overview</a>
+        <a class="active" href="issue.html"><span class="dot"></span>Issue</a>
+        <a class="" href="mint.html"><span class="dot"></span>Mint</a>
+        <a class="" href="call.html"><span class="dot"></span>Call</a>
+        <a class="" href="revoke.html"><span class="dot"></span>Revoke</a>
+        <a class="" href="ledger.html"><span class="dot"></span>Ledger</a>
+        <a class="" href="vault.html"><span class="dot"></span>Vault</a>
+    </nav>
+    <div class="side-foot">AllScale tokens · Simulated · light LOCKED</div>
+  </aside>
+  <div class="workspace">
+    <header class="topbar">
+      <div class="crumbs">Console <span>/</span> <strong>Issue</strong></div>
+      <div class="top-actions">
+        
+        <span class="sim-pill">Simulated</span>
+      </div>
+    </header>
+
+    <main class="main">
+
+      <div class="kicker"><span></span> Step 01 · Issue</div>
+      <h1>Issue a passport</h1>
+      <p class="lede">One human verification → portable credential. Progressive disclosure layers, not a dossier dump. Switch states for hero screenshots.</p>
+
+      <div class="steps">
+        <div class="step active"><div class="n">01</div><div class="t">Issue</div></div>
+        <div class="step"><div class="n">02</div><div class="t">Mint</div></div>
+        <div class="step"><div class="n">03</div><div class="t">Call</div></div>
+        <div class="step"><div class="n">04</div><div class="t">Revoke</div></div>
+      </div>
+
+      <div class="states">
+        <button type="button" data-state="empty">Empty</button>
+        <button type="button" class="on" data-state="active">Active</button>
+        <button type="button" data-state="success">Success</button>
+      </div>
+
+      <div class="state-panel" data-state="empty">
+        <div class="panel">
+          <div class="empty">
+            <h3>No passport yet</h3>
+            <p>Verify once as a human. Issue a reusable credential your agents can carry.</p>
+            <button class="btn-primary" type="button"><span class="dot"></span>Start verification</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="state-panel on" data-state="active">
+        <div class="grid-12">
+          <section class="span-7 stack">
+            <div class="passport">
+              <div class="passport-top">
+                <div>
+                  <div class="passport-id">APT-7F2C-91E0</div>
+                  <h2>Operator credential</h2>
+                  <div class="meta" style="margin-top:4px">Bound to verified human · reusable across agents</div>
+                </div>
+                <div class="stamp">Issued</div>
+              </div>
+              <div class="attrs">
+                <div class="attr"><div class="l">Holder</div><div class="d">Verified human · US</div></div>
+                <div class="attr"><div class="l">Status</div><div class="d"><span class="chip live">Active</span></div></div>
+                <div class="attr"><div class="l">Issued</div><div class="d">2026-10-25 · 00:42 CST</div></div>
+                <div class="attr"><div class="l">Scope</div><div class="d">Cards · Phone · Balance</div></div>
+              </div>
+            </div>
+
+            <div class="panel panel-pad">
+              <div class="panel-head"><div class="panel-title">Progressive disclosure</div><span class="meta">Prove only what's needed</span></div>
+              <div class="disclosure">
+                <div class="layer"><div class="lvl">L1</div><div><div class="name">Authorized by human</div><div class="desc">Operator presence attested</div></div><span class="chip live">Shared</span></div>
+                <div class="layer"><div class="lvl">L2</div><div><div class="name">Acts on your behalf</div><div class="desc">Agency + mandate</div></div><span class="chip live">Shared</span></div>
+                <div class="layer"><div class="lvl">L3</div><div><div class="name">Adult · jurisdiction</div><div class="desc">Age + region selective</div></div><span class="chip neutral">On request</span></div>
+                <div class="layer"><div class="lvl">L4</div><div><div class="name">Full KYC dossier</div><div class="desc">Never default · vaulted</div></div><span class="chip neutral">Hidden</span></div>
+              </div>
+            </div>
+          </section>
+
+          <aside class="span-5 stack">
+            <div class="panel panel-pad">
+              <div class="panel-head"><div class="panel-title">Issue controls</div><span class="chip neutral">Mock</span></div>
+              <div class="stack">
+                <div class="field"><label>Agent name</label><div class="value">ops-agent-01</div></div>
+                <div class="field"><label>Authority scopes</label>
+                  <div class="chips" style="margin-top:6px">
+                    <span class="chip live">Spend</span><span class="chip live">Call</span><span class="chip live">Prove</span><span class="chip neutral">Wire</span>
+                  </div>
+                </div>
+                <div class="row">
+                  <button class="btn-primary" type="button"><span class="dot"></span>Re-issue</button>
+                  <button class="btn-ghost" type="button">Copy token</button>
+                  <button class="btn-danger btn-sm" type="button">Revoke preview</button>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-pad">
+              <div class="panel-head"><div class="panel-title">Bound agents</div><span class="meta">2</span></div>
+              <ul class="agent-list">
+                <li>
+                  <div class="avatar">O1</div>
+                  <div class="info"><div class="n">ops-agent-01</div><div class="s">Spend · Call · Active</div></div>
+                  <span class="chip live">Live</span>
+                </li>
+                <li>
+                  <div class="avatar">R2</div>
+                  <div class="info"><div class="n">research-02</div><div class="s">Prove only · idle</div></div>
+                  <span class="chip neutral">Idle</span>
+                </li>
+              </ul>
+            </div>
+            <div class="panel panel-pad">
+              <div class="panel-title" style="margin-bottom:10px">Token shape</div>
+              <div class="codeblock"><span class="c">// Simulated</span>
+{ <span class="g">"passport_id"</span>: "APT-7F2C-91E0",
+  <span class="g">"state"</span>: "ISSUED",
+  <span class="g">"disclosure"</span>: ["L1","L2"] }</div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <div class="state-panel" data-state="success">
+        <div class="banner ok"><div class="ico">✓</div><div><strong>Passport issued.</strong> APT-7F2C-91E0 is live. Agents can mint cards and place calls under this credential.</div></div>
+        <div class="grid-2">
+          <div class="passport">
+            <div class="passport-top">
+              <div><div class="passport-id">APT-7F2C-91E0</div><h2>Operator credential</h2></div>
+              <div class="stamp">Issued</div>
+            </div>
+            <div class="attrs">
+              <div class="attr"><div class="l">Layer 1–2</div><div class="d">Authorized · Acts for you</div></div>
+              <div class="attr"><div class="l">Next</div><div class="d">Mint disposable card →</div></div>
+            </div>
+          </div>
+          <div class="panel panel-pad stack">
+            <button class="btn-green btn-block" type="button">Continue to Mint</button>
+            <button class="btn-ghost btn-block" type="button">View disclosure layers</button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+<script>
+document.querySelectorAll('.states').forEach(group => {
+  const panels = group.parentElement.querySelectorAll(':scope > .state-panel');
+  group.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      group.querySelectorAll('button').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+      const id = btn.dataset.state;
+      panels.forEach(p => p.classList.toggle('on', p.dataset.state === id));
+    });
+  });
+});
+document.querySelectorAll('.toggle').forEach(group => {
+  group.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      group.querySelectorAll('button').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+    });
+  });
+});
+</script>
+</body>
+</html>

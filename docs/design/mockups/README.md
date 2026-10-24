@@ -1,7 +1,7 @@
-# Mockups (source)
+# Mockups v2 (source mirror)
 
-Static AllScale-aligned HTML boards — **light LOCKED**.  
-Served copy: `/public/demo/` (open `/demo/` when site runs).
+Served copy: `/public/demo/`.
 
-Boards: Overview · Passport · Card · Phone · Balance.  
-All UI labeled Simulated. No full dark mockup pack.
+Boards: Overview · Issue · Mint · Call · Revoke · Ledger · Vault — each with Empty/Active/Success (or equivalent) for hero screenshots.
+
+Taste: Linear/Cursor density, sparse green, no neon, no fake bezels. Brand LOCKED 2026-10-25.

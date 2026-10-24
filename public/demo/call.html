@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Call · Agent Passport mockup v2</title>
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="side-brand"><div class="mark" aria-hidden="true"></div>Agent Passport</div>
+    <nav class="side-nav">
+        <div class="sec">Product</div>
+        <a class="" href="index.html"><span class="dot"></span>Overview</a>
+        <a class="" href="issue.html"><span class="dot"></span>Issue</a>
+        <a class="" href="mint.html"><span class="dot"></span>Mint</a>
+        <a class="active" href="call.html"><span class="dot"></span>Call</a>
+        <a class="" href="revoke.html"><span class="dot"></span>Revoke</a>
+        <a class="" href="ledger.html"><span class="dot"></span>Ledger</a>
+        <a class="" href="vault.html"><span class="dot"></span>Vault</a>
+    </nav>
+    <div class="side-foot">AllScale tokens · Simulated · light LOCKED</div>
+  </aside>
+  <div class="workspace">
+    <header class="topbar">
+      <div class="crumbs">Console <span>/</span> <strong>Call</strong></div>
+      <div class="top-actions">
+        
+        <span class="sim-pill">Simulated</span>
+      </div>
+    </header>
+
+    <main class="main">
+
+      <div class="kicker"><span></span> Step 03 · Simulate call</div>
+      <h1>Agent phone number</h1>
+      <p class="lede">Dedicated line for the agent. Dial, outbound state, SMS/OTP stub, call timer. Flat panels — no fake phone chrome.</p>
+
+      <div class="steps">
+        <div class="step done"><div class="n">01</div><div class="t">Issue</div></div>
+        <div class="step done"><div class="n">02</div><div class="t">Mint</div></div>
+        <div class="step active"><div class="n">03</div><div class="t">Call</div></div>
+        <div class="step"><div class="n">04</div><div class="t">Revoke</div></div>
+      </div>
+
+      <div class="states">
+        <button type="button" data-state="empty">Empty / Dial</button>
+        <button type="button" class="on" data-state="active">In call</button>
+        <button type="button" data-state="success">Ended</button>
+      </div>
+
+      <div class="state-panel" data-state="empty">
+        <div class="grid-2">
+          <section class="panel">
+            <div class="call-stage">
+              <div class="meta">Agent line · ready</div>
+              <div class="call-number">+1 (415) 555-0142</div>
+              <div class="call-status">Enter number · Simulated</div>
+              <div class="dial" aria-label="Dial pad">
+                <button type="button">1</button><button type="button">2<small>ABC</small></button><button type="button">3<small>DEF</small></button>
+                <button type="button">4<small>GHI</small></button><button type="button">5<small>JKL</small></button><button type="button">6<small>MNO</small></button>
+                <button type="button">7<small>PQRS</small></button><button type="button">8<small>TUV</small></button><button type="button">9<small>WXYZ</small></button>
+                <button type="button">*</button><button type="button">0<small>+</small></button><button type="button">#</button>
+              </div>
+              <button class="btn-green" type="button">Place call</button>
+            </div>
+          </section>
+          <aside class="stack">
+            <div class="panel panel-pad">
+              <div class="panel-head"><div class="panel-title">Number</div><span class="chip neutral">Idle</span></div>
+              <div class="kv">
+                <div class="k">E.164</div><div class="v mono">+14155550142</div>
+                <div class="k">Caps</div><div class="v">Voice · SMS</div>
+                <div class="k">Bound</div><div class="v">APT-7F2C-91E0</div>
+              </div>
+            </div>
+            <div class="sms-stub">
+              <div class="from">SMS inbox · empty</div>
+              <div class="body">No messages yet. OTP stubs appear here.</div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <div class="state-panel on" data-state="active">
+        <div class="grid-2">
+          <section class="panel">
+            <div class="call-stage">
+              <div class="call-avatar">AP</div>
+              <div class="meta">Outbound · agent line</div>
+              <div class="call-number">+1 (628) 555-0199</div>
+              <div class="call-status">Connected · <span class="mono">00:42</span> · Simulated</div>
+              <div class="waveform" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="row" style="justify-content:center">
+                <button class="btn-ghost" type="button">Mute</button>
+                <button class="btn-danger" type="button">End call</button>
+                <button class="btn-primary" type="button"><span class="dot"></span>Add note</button>
+              </div>
+            </div>
+          </section>
+          <aside class="stack">
+            <div class="panel panel-pad">
+              <div class="panel-head"><div class="panel-title">Call audit</div><span class="chip live">Live</span></div>
+              <div class="kv">
+                <div class="k">Direction</div><div class="v">Outbound</div>
+                <div class="k">From</div><div class="v mono">+14155550142</div>
+                <div class="k">Rate</div><div class="v">$0.02 / min (mock)</div>
+                <div class="k">Ledger</div><div class="v">pending tick</div>
+              </div>
+            </div>
+            <div class="sms-stub">
+              <div class="from">SMS · just now · redacted</div>
+              <div class="body">Your verification code is</div>
+              <div class="otp">8 4 2 · · ·</div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <div class="state-panel" data-state="success">
+        <div class="banner ok"><div class="ico">✓</div><div><strong>Call ended.</strong> 42s billed · −$0.02 posted to unified ledger.</div></div>
+        <div class="panel panel-pad">
+          <ul class="ledger">
+            <li><div class="ico">☎</div><div><div class="title">Outbound call</div><div class="sub">+1 628 555 0199 · 00:42</div></div><div class="amt neg">−$0.02</div></li>
+            <li><div class="ico">S</div><div><div class="title">SMS received</div><div class="sub">OTP-style · redacted</div></div><div class="amt neg">−$0.01</div></li>
+          </ul>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+<script>
+document.querySelectorAll('.states').forEach(group => {
+  const panels = group.parentElement.querySelectorAll(':scope > .state-panel');
+  group.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      group.querySelectorAll('button').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+      const id = btn.dataset.state;
+      panels.forEach(p => p.classList.toggle('on', p.dataset.state === id));
+    });
+  });
+});
+document.querySelectorAll('.toggle').forEach(group => {
+  group.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      group.querySelectorAll('button').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+    });
+  });
+});
+</script>
+</body>
+</html>

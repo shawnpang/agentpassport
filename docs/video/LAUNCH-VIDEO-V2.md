@@ -1,6 +1,6 @@
 # Agent Passport — Launch Video V2
 
-**Status:** encoded · founder fine-screens approved (Active / In call / Armed density)  
+**Status:** scored remix · mean ≈ −22 dB (was −90 bug) · silent track unchanged
 **Brand LOCKED:** white `#FFFFFF` · ink `#0C0C0C` · green `#00C96D` · wash `#F4F8F5`  
 **Reject:** slideshow · lifestyle B-roll · cream paper · neon · fake phone bezels
 

@@ -152,27 +152,34 @@ export default function Home() {
           <Eyebrow>Live demo</Eyebrow>
           <H2>Issue · mint · call · revoke</H2>
           <p className="mt-3 text-[var(--text-muted)]">
-            Four Simulated steps. Click through the credential lifecycle on a paper passport page.
+            Four Simulated steps. Click through the credential lifecycle — Issue, mint, call, revoke.
           </p>
         </div>
         <LiveDemo />
       </Sec>
 
-      {/* Video placeholder */}
+      {/* Product video — locked light UI, silent captions */}
       <Sec id="video" className="pt-4">
         <div className="overflow-hidden rounded-sm border border-[var(--border)] bg-[var(--bg-elevated)]">
-          <div className="flex flex-col items-center justify-center gap-3 px-6 py-20 text-center sm:py-28">
-            <Eyebrow>Product film</Eyebrow>
-            <p className="font-display text-2xl tracking-tight sm:text-3xl">{c.video.title}</p>
-            <p className="max-w-md text-[var(--text-muted)]">{c.video.sub}</p>
-            <div className="mt-4 flex h-14 w-14 items-center justify-center rounded-full border border-[var(--border)] text-[var(--text-muted)]">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                <path d="M8 5v14l11-7z" />
-              </svg>
+          <div className="flex flex-col gap-4 px-6 pb-6 pt-8 sm:px-8 sm:pt-10">
+            <div className="max-w-2xl">
+              <Eyebrow>Product film</Eyebrow>
+              <p className="font-display mt-2 text-2xl tracking-tight sm:text-3xl">{c.video.title}</p>
+              <p className="mt-2 max-w-md text-[var(--text-muted)]">{c.video.sub}</p>
+              <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--text-muted)]">
+                60s · silent captions · Simulated UI
+              </p>
             </div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--text-muted)]">
-              {c.video.placeholder}
-            </p>
+            <video
+              className="aspect-video w-full rounded-sm border border-[var(--border)] bg-[var(--bg)] object-cover"
+              controls
+              playsInline
+              preload="metadata"
+              poster="/video/frames/01-title.png"
+            >
+              <source src="/video/agent-passport-60s.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
         </div>
       </Sec>

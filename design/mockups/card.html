@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Disposable card · Agent Passport mockup</title>
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand"><div class="mark" aria-hidden="true"></div>Agent Passport</div>
+      <nav class="nav">
+        <a href="index.html">Overview</a>
+        <a href="passport.html">Passport</a>
+        <a class="active" href="card.html">Card</a>
+        <a href="phone.html">Phone</a>
+        <a href="balance.html">Balance</a>
+      </nav>
+      <span class="sim-pill">Simulated</span>
+    </header>
+
+    <main class="main">
+      <div class="kicker"><span></span> Step 02 · Mint disposable</div>
+      <h1>Mint a disposable card</h1>
+      <p class="lede">Passkey-approve once. Fresh PAN for a single scoped purchase — then burn it.</p>
+
+      <div class="steps">
+        <div class="step"><div class="n">01</div><div class="t">Issue</div></div>
+        <div class="step active"><div class="n">02</div><div class="t">Mint disposable</div></div>
+        <div class="step"><div class="n">03</div><div class="t">Simulate call</div></div>
+        <div class="step"><div class="n">04</div><div class="t">Revoke</div></div>
+      </div>
+
+      <div class="grid-2">
+        <section class="stack">
+          <div class="plastic" aria-label="Disposable card preview">
+            <div style="display:flex;justify-content:space-between;align-items:center;position:relative">
+              <div class="chip-icon" aria-hidden="true"></div>
+              <span style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;opacity:.7">Disposable</span>
+            </div>
+            <div class="num">4242&nbsp;···&nbsp;···&nbsp;9183</div>
+            <div class="meta-row">
+              <div>Holder<strong>OPS-AGENT-01</strong></div>
+              <div>Exp<strong>12 / 27</strong></div>
+              <div>Limit<strong>$120.00</strong></div>
+            </div>
+          </div>
+          <div class="panel panel-pad">
+            <div class="panel-head">
+              <div class="panel-title">Card vault</div>
+              <span class="meta">Standing card idle</span>
+            </div>
+            <div class="kv">
+              <div class="k">Network</div><div class="v">Visa · virtual</div>
+              <div class="k">Billing</div><div class="v">Passport unified balance</div>
+              <div class="k">Auth</div><div class="v">Passkey · single use</div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="panel panel-pad">
+          <div class="panel-head">
+            <div class="panel-title">Mint controls</div>
+            <span class="chip">Simulated</span>
+          </div>
+          <div class="stack">
+            <div class="field">
+              <label>Merchant intent</label>
+              <div class="value">api.openai.com · inference</div>
+            </div>
+            <div class="field">
+              <label>Spend ceiling</label>
+              <div class="value">$120.00 USD</div>
+            </div>
+            <div class="field">
+              <label>TTL</label>
+              <div class="value">15 minutes · auto-revoke</div>
+            </div>
+            <div class="divider"></div>
+            <div class="row">
+              <button class="btn-green" type="button">Mint with passkey</button>
+              <button class="btn-danger" type="button">Revoke</button>
+            </div>
+            <p class="meta" style="margin:0">PAN never leaves the vault unscoped. UI labels Simulated — not a live network.</p>
+          </div>
+        </aside>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

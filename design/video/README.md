@@ -1,3 +1,5 @@
-# Product video
+# design/video/
 
-Placeholder for storyboard and final exports (60s silent UI + captions). Embed target: landing `#video` section.
+Video on hold until mockups are approved.
+Previous cream-theme reel is deprecated — see `agentpassport-design/out/README.md`.
+Storyboards / exports land here after founder locks taste.

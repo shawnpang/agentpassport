@@ -1,3 +1,4 @@
-# Mockups
+# design/mockups/
 
-Placeholder for passport / card / phone / balance UI exports. Drop PNGs or Figma links here for founder review.
+Static AllScale-aligned HTML boards (light first).
+Open `index.html` locally. Labels are Simulated.

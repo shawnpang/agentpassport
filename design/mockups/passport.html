@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Passport · Agent Passport mockup</title>
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand"><div class="mark" aria-hidden="true"></div>Agent Passport</div>
+      <nav class="nav">
+        <a href="index.html">Overview</a>
+        <a class="active" href="passport.html">Passport</a>
+        <a href="card.html">Card</a>
+        <a href="phone.html">Phone</a>
+        <a href="balance.html">Balance</a>
+      </nav>
+      <span class="sim-pill">Simulated</span>
+    </header>
+
+    <main class="main">
+      <div class="kicker"><span></span> Step 01 · Issue</div>
+      <h1>Passport issued</h1>
+      <p class="lede">One human verification → a portable credential. Progressive disclosure, not a full dossier dump.</p>
+
+      <div class="steps">
+        <div class="step active"><div class="n">01</div><div class="t">Issue</div></div>
+        <div class="step"><div class="n">02</div><div class="t">Mint disposable</div></div>
+        <div class="step"><div class="n">03</div><div class="t">Simulate call</div></div>
+        <div class="step"><div class="n">04</div><div class="t">Revoke</div></div>
+      </div>
+
+      <div class="grid-2">
+        <section class="passport">
+          <div class="passport-top">
+            <div>
+              <div class="passport-id">APT-7F2C-91E0</div>
+              <h2>Operator credential</h2>
+              <div class="meta" style="margin-top:4px">Bound to verified human · reusable across agents</div>
+            </div>
+            <div class="stamp">Issued</div>
+          </div>
+          <div class="attrs">
+            <div class="attr"><div class="l">Layer 1</div><div class="d">Authorized by human</div></div>
+            <div class="attr"><div class="l">Layer 2</div><div class="d">Acts on your behalf</div></div>
+            <div class="attr"><div class="l">Layer 3</div><div class="d">Adult · US · selective</div></div>
+            <div class="attr"><div class="l">Scope</div><div class="d">Cards · Phone · Balance</div></div>
+            <div class="attr"><div class="l">Issued</div><div class="d">2026-10-25 · 00:42 CST</div></div>
+            <div class="attr"><div class="l">Status</div><div class="d"><span class="chip live">Active</span></div></div>
+          </div>
+        </section>
+
+        <aside class="stack">
+          <div class="panel panel-pad">
+            <div class="panel-head">
+              <div class="panel-title">Issue controls</div>
+              <span class="chip neutral">Mock</span>
+            </div>
+            <div class="stack">
+              <div class="field">
+                <label>Agent name</label>
+                <div class="value">ops-agent-01</div>
+              </div>
+              <div class="field">
+                <label>Authority</label>
+                <div class="value">Spend · Call · Prove</div>
+              </div>
+              <div class="row">
+                <button class="btn-primary" type="button"><span class="dot"></span>Issue passport</button>
+                <button class="btn-ghost" type="button">Copy token</button>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-pad">
+            <div class="panel-title" style="margin-bottom:12px">Token shape</div>
+            <div class="codeblock">
+<span class="c">// Simulated response</span>
+{
+  <span class="g">"passport_id"</span>: "APT-7F2C-91E0",
+  <span class="g">"state"</span>: "ISSUED",
+  <span class="g">"disclosure"</span>: ["L1","L2","adult"]
+}
+            </div>
+          </div>
+        </aside>
+      </div>
+      <p class="footer-note">No cream paper · no amber seal · stamp uses brand green only.</p>
+    </main>
+  </div>
+</body>
+</html>

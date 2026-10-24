@@ -167,7 +167,7 @@ export default function Home() {
               <p className="font-display mt-2 text-2xl tracking-tight sm:text-3xl">{c.video.title}</p>
               <p className="mt-2 max-w-md text-[var(--text-muted)]">{c.video.sub}</p>
               <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--text-muted)]">
-                60s · silent captions · Simulated UI
+                51s · silent captions · LiveDemo UI
               </p>
             </div>
             <video
@@ -177,7 +177,7 @@ export default function Home() {
               preload="metadata"
               poster="/video/frames/01-title.png"
             >
-              <source src="/video/agent-passport-60s.mp4" type="video/mp4" />
+              <source src="/video/agent-passport-60s-v2-silent.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>

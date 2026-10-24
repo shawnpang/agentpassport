@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Agent Passport — Launch Video V2 (motion reel)</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+:root {
+  --bg: #ffffff;
+  --wash: #f4f8f5;
+  --ink: #0c0c0c;
+  --muted: #6b7280;
+  --green: #00c96d;
+  --green-deep: #24603a;
+  --border: #e1e6e1;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  width: 1280px; height: 720px; overflow: hidden;
+  background: var(--bg); color: var(--ink);
+  font-family: Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+#stage {
+  position: relative; width: 1280px; height: 720px;
+  background: radial-gradient(900px 420px at 85% -10%, rgba(0,201,109,0.07), transparent 60%), var(--bg);
+  overflow: hidden;
+}
+
+/* Chrome overlays */
+.brand {
+  position: absolute; top: 22px; left: 28px; z-index: 50;
+  display: flex; align-items: center; gap: 10px;
+  font-weight: 600; font-size: 14px; letter-spacing: -0.02em;
+  opacity: 0; transition: opacity .35s;
+}
+.brand.on { opacity: 1; }
+.mark {
+  width: 20px; height: 20px; border-radius: 6px; background: var(--ink); position: relative;
+}
+.mark::after {
+  content: ""; position: absolute; inset: 6px; background: var(--green);
+  border-radius: 2px; transform: rotate(45deg);
+}
+.sim {
+  position: absolute; top: 22px; right: 28px; z-index: 50;
+  font-family: "JetBrains Mono", monospace; font-size: 11px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--green-deep); background: rgba(0,201,109,0.12);
+  border: 1px solid rgba(0,201,109,0.28);
+  padding: 5px 10px; border-radius: 999px;
+  opacity: 0; transition: opacity .35s;
+}
+.sim.on { opacity: 1; }
+.sim::before {
+  content: ""; display: inline-block; width: 6px; height: 6px;
+  border-radius: 50%; background: var(--green); margin-right: 6px; vertical-align: middle;
+}
+
+.caption {
+  position: absolute; left: 0; right: 0; bottom: 36px; text-align: center;
+  font-size: 32px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.2;
+  color: var(--ink); opacity: 0; transform: translateY(10px);
+  transition: opacity .4s ease, transform .4s ease;
+  z-index: 40; padding: 0 72px; pointer-events: none;
+  text-shadow: 0 1px 0 rgba(255,255,255,.9), 0 8px 24px rgba(255,255,255,.6);
+}
+.caption.on { opacity: 1; transform: translateY(0); }
+.caption.hero {
+  bottom: auto; top: 50%; transform: translateY(-40%);
+  font-size: 48px; padding: 0 100px;
+}
+.caption.hero.on { transform: translateY(-50%); }
+
+/* UI viewport — scaled demo iframe */
+.ui-shell {
+  position: absolute;
+  left: 40px; right: 40px; top: 64px; bottom: 100px;
+  border-radius: 14px; overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 2px rgba(12,12,12,.04), 0 18px 48px rgba(12,12,12,.08);
+  background: #fff;
+  opacity: 0; transform: translateY(12px) scale(.985);
+  transition: opacity .45s ease, transform .5s cubic-bezier(.22,1,.36,1);
+  z-index: 10;
+}
+.ui-shell.on { opacity: 1; transform: none; }
+.ui-shell iframe {
+  position: absolute; left: 0; top: 0;
+  width: 1600px; height: 900px;
+  border: 0;
+  transform: scale(0.75);
+  transform-origin: 0 0;
+  pointer-events: none;
+}
+
+/* Cursor */
+#cursor {
+  position: absolute; width: 22px; height: 22px; z-index: 60;
+  pointer-events: none; opacity: 0;
+  transition: opacity .25s;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,.25));
+}
+#cursor.on { opacity: 1; }
+#cursor svg { display: block; }
+#cursor.clicking { transform: scale(.86); }
+.click-ripple {
+  position: absolute; width: 18px; height: 18px; border-radius: 50%;
+  border: 2px solid var(--green); pointer-events: none; z-index: 59;
+  opacity: 0; transform: scale(.4);
+}
+.click-ripple.go {
+  animation: rip .45s ease-out forwards;
+}
+@keyframes rip {
+  0% { opacity: .9; transform: scale(.4); }
+  100% { opacity: 0; transform: scale(2.4); }
+}
+
+/* CTA scene (no iframe) */
+.cta-scene {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity .4s; z-index: 15;
+}
+.cta-scene.on { opacity: 1; }
+.cta-logo { font-size: 34px; font-weight: 650; letter-spacing: -.03em; margin-bottom: 10px; text-align: center; }
+.cta-sub { color: var(--muted); font-size: 16px; text-align: center; }
+.cta-btn {
+  margin: 22px auto 0; display: inline-flex; align-items: center; gap: 8px;
+  background: var(--ink); color: #fff; font-weight: 600; font-size: 14px;
+  padding: 12px 18px; border-radius: 10px;
+}
+.cta-btn span { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+
+/* Soft dim under captions when UI showing */
+.caption-veil {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 120px;
+  background: linear-gradient(transparent, rgba(255,255,255,.92));
+  opacity: 0; transition: opacity .35s; z-index: 35; pointer-events: none;
+}
+.caption-veil.on { opacity: 1; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="brand" id="brand"><div class="mark"></div>Agent Passport</div>
+  <div class="sim" id="sim">Simulated</div>
+  <div class="caption-veil" id="veil"></div>
+
+  <div class="caption hero" id="cap-title">Every agent deserves a passport.</div>
+  <div class="caption hero" id="cap-pain">Internet still trusts only people.</div>
+  <div class="caption" id="cap-issue">Verify once. Issue a credential.</div>
+  <div class="caption" id="cap-mint">Passkey-mint. Per purchase.</div>
+  <div class="caption" id="cap-call">Card · Phone · One ledger.</div>
+  <div class="caption" id="cap-revoke">Revoke anytime. Full audit.</div>
+  <div class="caption" id="cap-cta">Agent Passport — early access.</div>
+
+  <div class="ui-shell" id="ui">
+    <iframe id="frame" title="demo" src="about:blank"></iframe>
+  </div>
+
+  <div class="cta-scene" id="sc-cta">
+    <div>
+      <div class="cta-logo">Agent Passport</div>
+      <div class="cta-sub">Verify once. Account · card · phone.</div>
+      <div class="cta-btn"><span></span>Request early access</div>
+    </div>
+  </div>
+
+  <div id="cursor" aria-hidden="true">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <path d="M5 3l14 8.2-6.2 1.6L9.4 21 5 3z" fill="#0c0c0c" stroke="#fff" stroke-width="1.2" stroke-linejoin="round"/>
+    </svg>
+  </div>
+  <div class="click-ripple" id="ripple"></div>
+</div>
+<script>
+const DEMO = '../demo';
+const TOTAL = 60;
+
+const frame = document.getElementById('frame');
+const ui = document.getElementById('ui');
+const cursor = document.getElementById('cursor');
+const ripple = document.getElementById('ripple');
+
+function show(ids){ ids.forEach(id => document.getElementById(id)?.classList.add('on')); }
+function hide(ids){ ids.forEach(id => document.getElementById(id)?.classList.remove('on')); }
+
+function setCursor(x, y, on=true) {
+  cursor.style.left = x + 'px';
+  cursor.style.top = y + 'px';
+  cursor.classList.toggle('on', on);
+}
+function clickAt(x, y) {
+  setCursor(x, y, true);
+  cursor.classList.add('clicking');
+  ripple.style.left = (x - 4) + 'px';
+  ripple.style.top = (y - 4) + 'px';
+  ripple.classList.remove('go');
+  void ripple.offsetWidth;
+  ripple.classList.add('go');
+  setTimeout(() => cursor.classList.remove('clicking'), 120);
+}
+
+let cursorAnim = null;
+function moveCursor(x1,y1,x2,y2,ms) {
+  return new Promise(resolve => {
+    const t0 = performance.now();
+    setCursor(x1,y1,true);
+    function step(now) {
+      const p = Math.min(1, (now - t0) / ms);
+      const e = 1 - Math.pow(1 - p, 3);
+      setCursor(x1 + (x2-x1)*e, y1 + (y2-y1)*e, true);
+      if (p < 1) cursorAnim = requestAnimationFrame(step);
+      else resolve();
+    }
+    cursorAnim = requestAnimationFrame(step);
+  });
+}
+
+function loadDemo(page) {
+  return new Promise((resolve) => {
+    frame.onload = () => {
+      // slight settle
+      setTimeout(resolve, 80);
+    };
+    frame.src = `${DEMO}/${page}?reel=1&t=${Date.now()}`;
+  });
+}
+
+async function pulseInFrame(selector) {
+  try {
+    const doc = frame.contentDocument;
+    if (!doc) return;
+    const el = doc.querySelector(selector);
+    if (!el) return;
+    const prev = el.style.boxShadow;
+    el.style.transition = 'box-shadow .2s, transform .15s';
+    el.style.boxShadow = '0 0 0 3px rgba(0,201,109,.35)';
+    el.style.transform = 'scale(0.985)';
+    setTimeout(() => {
+      el.style.boxShadow = prev || '';
+      el.style.transform = '';
+    }, 220);
+  } catch {}
+}
+
+async function bumpStamp() {
+  try {
+    const doc = frame.contentDocument;
+    const stamp = doc?.querySelector('.stamp');
+    if (!stamp) return;
+    stamp.style.transition = 'transform .4s cubic-bezier(.34,1.4,.64,1), opacity .3s';
+    stamp.style.transform = 'rotate(-8deg) scale(1.15)';
+    setTimeout(() => { stamp.style.transform = 'rotate(-8deg) scale(1)'; }, 350);
+  } catch {}
+}
+
+async function tickCallTimer(seconds) {
+  try {
+    const doc = frame.contentDocument;
+    const el = doc?.querySelector('.call-status .mono') || doc?.querySelector('.call-status');
+    if (!el) return;
+    let s = 42;
+    const id = setInterval(() => {
+      s += 1;
+      const mm = String(Math.floor(s/60)).padStart(2,'0');
+      const ss = String(s%60).padStart(2,'0');
+      if (el.classList?.contains('mono')) el.textContent = `${mm}:${ss}`;
+      else el.innerHTML = `Connected · <span class="mono">${mm}:${ss}</span> · Simulated`;
+    }, 1000);
+    setTimeout(() => clearInterval(id), seconds * 1000);
+  } catch {}
+}
+
+async function insertLedgerRow() {
+  try {
+    const doc = frame.contentDocument;
+    const list = doc?.querySelector('ul.ledger');
+    if (!list) return;
+    const li = document.createElement('li');
+    // match demo ledger markup loosely
+    li.innerHTML = `<div class="ico neg">☎</div><div><div class="title">Outbound call</div><div class="sub">+1 628 · just now</div></div><div class="amt neg">−$0.02</div>`;
+    li.style.opacity = '0';
+    li.style.transform = 'translateY(-6px)';
+    li.style.transition = 'opacity .35s, transform .35s';
+    list.insertBefore(li, list.firstChild);
+    requestAnimationFrame(() => {
+      li.style.opacity = '1';
+      li.style.transform = 'none';
+    });
+  } catch {}
+}
+
+// Beat timeline (continuous Computer-Use feel)
+const beats = [
+  { t: 0.0, on: async () => {
+      hide(['ui','sc-cta','veil','sim','brand','cap-pain','cap-issue','cap-mint','cap-call','cap-revoke','cap-cta']);
+      show(['cap-title']);
+      setCursor(0,0,false);
+    }},
+  { t: 3.5, on: async () => {
+      hide(['cap-title']); show(['cap-pain']);
+    }},
+  { t: 7.0, on: async () => {
+      hide(['cap-pain']);
+      show(['brand','sim','veil','ui','cap-issue']);
+      await loadDemo('issue.html');
+      setCursor(980, 420, true);
+    }},
+  { t: 9.5, on: async () => {
+      await moveCursor(980, 420, 860, 380, 700);
+      clickAt(860, 380);
+      await pulseInFrame('.btn-primary');
+      await bumpStamp();
+    }},
+  { t: 12.5, on: async () => {
+      await moveCursor(860, 380, 520, 280, 800);
+      clickAt(520, 280);
+      await pulseInFrame('.disclosure .layer');
+    }},
+  { t: 16.5, on: async () => {
+      // navigate feel: cursor to sidebar Mint
+      await moveCursor(520, 280, 120, 210, 650);
+      clickAt(120, 210);
+    }},
+  { t: 17.5, on: async () => {
+      hide(['cap-issue']); show(['cap-mint','ui','brand','sim','veil']);
+      await loadDemo('mint.html');
+      setCursor(900, 460, true);
+    }},
+  { t: 20.0, on: async () => {
+      await moveCursor(900, 460, 940, 430, 600);
+      clickAt(940, 430);
+      await pulseInFrame('.btn-green');
+      // subtle card pulse
+      await pulseInFrame('.plastic');
+    }},
+  { t: 24.0, on: async () => {
+      await moveCursor(940, 430, 640, 300, 700);
+      clickAt(640, 300);
+      await pulseInFrame('.limit-bar');
+    }},
+  { t: 28.0, on: async () => {
+      await moveCursor(640, 300, 120, 250, 600);
+      clickAt(120, 250);
+    }},
+  { t: 29.0, on: async () => {
+      hide(['cap-mint']); show(['cap-call','ui','brand','sim','veil']);
+      await loadDemo('call.html');
+      setCursor(640, 400, true);
+      tickCallTimer(10);
+    }},
+  { t: 32.0, on: async () => {
+      await moveCursor(640, 400, 700, 480, 550);
+      clickAt(700, 480);
+      await pulseInFrame('.btn-primary');
+    }},
+  { t: 35.5, on: async () => {
+      // flash ledger Active
+      await moveCursor(700, 480, 120, 320, 550);
+      clickAt(120, 320);
+      await loadDemo('ledger.html');
+      setTimeout(() => insertLedgerRow(), 200);
+    }},
+  { t: 39.5, on: async () => {
+      await moveCursor(120, 320, 120, 360, 450);
+      clickAt(120, 360);
+      await loadDemo('vault.html');
+    }},
+  { t: 43.0, on: async () => {
+      await moveCursor(400, 300, 120, 280, 500);
+      clickAt(120, 280);
+    }},
+  { t: 44.0, on: async () => {
+      hide(['cap-call']); show(['cap-revoke','ui','brand','sim','veil']);
+      await loadDemo('revoke.html');
+      setCursor(980, 480, true);
+    }},
+  { t: 47.0, on: async () => {
+      await moveCursor(980, 480, 980, 500, 500);
+      clickAt(980, 500);
+      await pulseInFrame('.btn-danger');
+      await bumpStamp();
+    }},
+  { t: 52.5, on: async () => {
+      hide(['ui','cap-revoke','sim','veil']);
+      show(['sc-cta','cap-cta','brand']);
+      setCursor(640, 400, true);
+      await moveCursor(640, 400, 640, 430, 400);
+      clickAt(640, 430);
+    }},
+  { t: 58.5, on: async () => {
+      // hold CTA
+    }},
+];
+
+let runningBeats = [];
+async function applySeek(sec) {
+  // For seek mode (frame capture): run all beats up to sec synchronously-ish
+  // Reset visuals
+  document.querySelectorAll('.on').forEach(el => el.classList.remove('on'));
+  setCursor(0,0,false);
+  // Find last loadDemo needed
+  let lastPage = null;
+  const pageAt = [
+    [7.0, 'issue.html'],
+    [17.5, 'mint.html'],
+    [29.0, 'call.html'],
+    [35.5, 'ledger.html'],
+    [39.5, 'vault.html'],
+    [44.0, 'revoke.html'],
+  ];
+  for (const [t, p] of pageAt) if (t <= sec) lastPage = p;
+
+  // Apply caption/chrome state by replaying sync parts
+  for (const b of beats) {
+    if (b.t > sec) break;
+    // Only run non-async chrome toggles via a simplified path:
+  }
+  // Simpler seek: load page + show appropriate caption
+  if (sec < 3.5) { show(['cap-title']); }
+  else if (sec < 7) { show(['cap-pain']); }
+  else if (sec < 17.5) { show(['brand','sim','veil','ui','cap-issue']); if (lastPage) await loadDemo(lastPage); setCursor(860,380,true); }
+  else if (sec < 29) { show(['brand','sim','veil','ui','cap-mint']); if (lastPage) await loadDemo(lastPage); setCursor(940,430,true); }
+  else if (sec < 44) { show(['brand','sim','veil','ui','cap-call']); if (lastPage) await loadDemo(lastPage); setCursor(700,480,true); }
+  else if (sec < 52.5) { show(['brand','sim','veil','ui','cap-revoke']); if (lastPage) await loadDemo(lastPage); setCursor(980,500,true); }
+  else { show(['brand','sc-cta','cap-cta']); setCursor(640,430,true); }
+
+  window.__REEL_READY__ = true;
+}
+
+async function play() {
+  window.__REEL_READY__ = true;
+  const t0 = performance.now();
+  let idx = 0;
+  // schedule all beats
+  for (const b of beats) {
+    const delay = Math.max(0, b.t * 1000 - (performance.now() - t0));
+    setTimeout(() => { b.on().catch(e => console.warn(e)); }, delay);
+  }
+}
+
+const params = new URLSearchParams(location.search);
+const seek = params.has('seek') ? parseFloat(params.get('seek')) : null;
+if (seek != null && !Number.isNaN(seek)) {
+  requestAnimationFrame(() => applySeek(seek));
+} else {
+  play();
+}
+window.__REEL_DURATION__ = TOTAL;
+</script>
+</body>
+</html>

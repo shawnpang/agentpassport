@@ -178,5 +178,29 @@ document.querySelectorAll('.toggle').forEach(group => {
   });
 });
 </script>
+
+<script>
+(function(){
+  const q=new URLSearchParams(location.search);
+  if(q.get('reel')!=='1') return;
+  document.documentElement.classList.add('reel-mode');
+  const s=document.createElement('style');
+  s.textContent=`
+    .reel-mode .states{display:none!important}
+    .reel-mode .lede{display:none!important}
+    .reel-mode html,.reel-mode body,.reel-mode .app{height:100%;overflow:hidden}
+    .reel-mode .sidebar{height:100vh}
+    .reel-mode .main{padding-bottom:28px}
+  `;
+  document.head.appendChild(s);
+  // Force Active / In call / Armed / Stocked panel (data-state=active)
+  document.querySelectorAll('.states').forEach(g=>{
+    const panels=[...g.parentElement.querySelectorAll(':scope > .state-panel')];
+    panels.forEach(p=>p.classList.toggle('on', p.dataset.state==='active'));
+    g.querySelectorAll('button').forEach(b=>b.classList.toggle('on', b.dataset.state==='active'));
+  });
+})();
+</script>
+
 </body>
 </html>

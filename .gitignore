@@ -1,3 +1,4 @@
 node_modules
 .next
 .vercel
+public/video/frames-v2/*.jpg

@@ -1,0 +1,21 @@
+/* Agent Passport — LOCKED visual tokens (2026-10-25, founder)
+   Site default: light (white + ink + AllScale green).
+   Demo section only: use [data-theme="demo-dark"] (black + green).
+   Do NOT ship a full-site dark theme or cream/amber/neon. */
+:root {
+  --ap-bg: #ffffff;
+  --ap-wash: #f4f8f5;
+  --ap-ink: #0c0c0c;
+  --ap-muted: #6b7280;
+  --ap-green: #00c96d;
+  --ap-green-deep: #24603a;
+  --ap-border: #e1e6e1;
+}
+[data-theme="demo-dark"] {
+  --ap-bg: #0c0c0c;
+  --ap-wash: #111111;
+  --ap-ink: #ffffff;
+  --ap-muted: #adb5bd;
+  --ap-green: #00c96d;
+  --ap-border: #222;
+}

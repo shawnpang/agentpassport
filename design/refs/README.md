@@ -1,1 +1,1 @@
-AllScale screenshots and token extracts go here.
+Moved to `docs/design/refs/`.

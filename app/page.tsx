@@ -175,7 +175,7 @@ export default function Home() {
               controls
               playsInline
               preload="metadata"
-              poster="/video/frames/01-title.png"
+              poster="/video/frames-v2/poster.png"
             >
               <source src="/video/agent-passport-60s-v2-silent.mp4" type="video/mp4" />
               Your browser does not support the video tag.

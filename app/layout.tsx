@@ -1,20 +1,15 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Playfair_Display, Inter, IBM_Plex_Mono } from "next/font/google";
+import { Archivo, DM_Mono } from "next/font/google";
 
-const display = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-display",
-  display: "swap",
-});
-
-const body = Inter({
+const body = Archivo({
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",
 });
 
-const mono = IBM_Plex_Mono({
+const mono = DM_Mono({
   subsets: ["latin"],
   weight: ["400", "500"],
   variable: "--font-mono",
@@ -29,7 +24,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable}`}>
+    <html lang="en" className={`${body.variable} ${mono.variable}`}>
       <body className="antialiased">{children}</body>
     </html>
   );

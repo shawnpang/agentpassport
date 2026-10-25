@@ -2,21 +2,26 @@
 
 /* AllScale-inspired tokens — easy re-skin via these variables only */
 :root {
-  --bg: #ffffff;
-  --bg-wash: #f4f8f5;
-  --bg-elevated: #ffffff;
-  --text: #0c0c0c;
-  --text-muted: #6b7280;
-  --accent: #00c96d;
-  --accent-ink: #0c0c0c;
-  --accent-soft: #e8f8f0;
-  --accent-deep: #24603a;
-  --border: #e1e6e1;
-  --code-bg: #0c0c0c;
-  --code-text: #f3f3f3;
-  --code-accent: #00c96d;
-  --stamp: #00c96d;
-  --danger: #c2410c;
+  /* AllScale design system tokens */
+  --bg: #FDFFFE;
+  --bg-wash: #F2F8F5;
+  --bg-elevated: #FAFBFA;
+  --text: #0C3124;
+  --text-muted: #5B7268;
+  --accent: #009859;
+  --accent-hover: #0CAA67;
+  --accent-pressed: #087E4C;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #E6F5EE;
+  --accent-deep: #087E4C;
+  --border: #E5EEEA;
+  --code-bg: #0C3124;
+  --code-text: #F2F8F5;
+  --code-accent: #12D16B;
+  --stamp: #009859;
+  --danger: #C53030;
+  --shadow-md: 0 4px 24px rgba(0,0,0,0.08);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
 }
 
 html {
@@ -28,12 +33,15 @@ body {
   color: var(--text);
   font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   font-size: 17px;
+  font-weight: 500;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
 }
 
 .font-display {
-  font-family: var(--font-display), Georgia, "Times New Roman", serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
 }
 
 .font-mono {
@@ -47,7 +55,7 @@ body {
 .stamp {
   color: var(--stamp);
   border: 2px solid var(--stamp);
-  font-family: var(--font-display), Georgia, serif;
+  font-family: var(--font-mono), ui-monospace, monospace;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -112,8 +120,8 @@ details summary {
   position: relative;
   overflow: hidden;
   border: 1px solid var(--border);
-  border-radius: 12px;
-  background: linear-gradient(160deg, #fff 0%, #f4f8f5 55%, #eef6f1 100%);
+  border-radius: 18px;
+  background: var(--bg-wash);
   padding: 1.25rem 1.35rem;
   min-height: 10rem;
 }
@@ -121,7 +129,7 @@ details summary {
   content: "";
   position: absolute;
   inset: 8px;
-  border: 1px dashed rgba(36, 96, 58, 0.28);
+  border: 1px dashed rgba(0, 152, 89, 0.28);
   border-radius: 8px;
   pointer-events: none;
 }
@@ -144,8 +152,8 @@ details summary {
 
 .demo-plastic {
   aspect-ratio: 1.586;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #0c0c0c 0%, #1a1f1c 55%, #122018 100%);
+  border-radius: 18px;
+  background: #0C3124;
   color: #fff;
   padding: 1.15rem 1.25rem;
   display: flex;
@@ -153,7 +161,7 @@ details summary {
   justify-content: space-between;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 1px 2px rgba(12, 12, 12, 0.04), 0 8px 24px rgba(12, 12, 12, 0.06);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.06);
 }
 .demo-plastic::after {
   content: "";
@@ -164,13 +172,7 @@ details summary {
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 .demo-plastic-ghost {
-  background: repeating-linear-gradient(
-    -45deg,
-    #f7f9f7,
-    #f7f9f7 8px,
-    #eef2ee 8px,
-    #eef2ee 16px
-  );
+  background: #F2F8F5;
   color: var(--text-muted);
   border: 1px dashed var(--border);
   box-shadow: none;
@@ -185,7 +187,7 @@ details summary {
   width: 32px;
   height: 24px;
   border-radius: 4px;
-  background: linear-gradient(135deg, #d4af37, #f5e6a3);
+  background: #12D16B;
   opacity: 0.9;
   display: inline-block;
 }
@@ -238,3 +240,12 @@ details summary {
   0%, 100% { transform: scaleY(0.55); opacity: 0.5; }
   50% { transform: scaleY(1); opacity: 1; }
 }
+
+/* AllScale primitives */
+.as-card { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 18px; box-shadow: var(--shadow-md); }
+.btn-primary { background: var(--accent); color: #fff; border-radius: 40px; transition: background .15s; }
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-primary:active { background: var(--accent-pressed); }
+.btn-secondary { background: #fff; color: var(--text); border: 1px solid var(--border); border-radius: 40px; transition: background .15s; }
+.btn-secondary:hover { background: var(--bg-wash); }
+.btn-secondary:active { background: var(--border); }

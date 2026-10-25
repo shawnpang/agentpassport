@@ -38,11 +38,11 @@ export default function Waitlist() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder={w.placeholder}
-        className="flex-1 rounded-sm border border-[var(--border)] bg-[var(--bg)] px-4 py-3 text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--accent)]"
+        className="flex-1 rounded-xl border border-[var(--border)] bg-[var(--bg)] px-4 py-3 text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--accent)]"
       />
       <button
         type="submit"
-        className="rounded-sm bg-[var(--accent)] px-6 py-3 text-sm font-medium text-[var(--accent-ink)] transition hover:brightness-105"
+        className="btn-primary bg-[var(--accent)] px-6 py-3 text-sm font-medium "
       >
         {w.button}
       </button>

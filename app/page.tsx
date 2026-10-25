@@ -38,7 +38,7 @@ function Sec({
 
 function PassportPanel() {
   return (
-    <div className="relative w-full max-w-md overflow-hidden rounded-sm border border-[var(--border)] bg-[var(--bg-elevated)] shadow-[0_24px_60px_-32px_rgba(12,12,12,0.28)]">
+    <div className="relative w-full max-w-md overflow-hidden as-card ">
       <div className="absolute bottom-5 left-0 top-5 w-3.5 binding-holes opacity-80" aria-hidden />
       <div className="border-b border-[var(--border)] bg-[var(--bg)]/60 px-6 py-3 pl-9">
         <div className="flex items-center justify-between">
@@ -61,10 +61,10 @@ function PassportPanel() {
           <dd className="font-mono text-[13px]">$1,240.00</dd>
         </dl>
         <div className="mt-5 flex gap-2 border-t border-[var(--border)] pt-4">
-          <span className="rounded-sm border border-[var(--border)] px-2 py-1 font-mono text-[11px] text-[var(--text-muted)]">
+          <span className="rounded-xl border border-[var(--border)] px-2 py-1 font-mono text-[11px] text-[var(--text-muted)]">
             Revoke
           </span>
-          <span className="rounded-sm border border-[var(--border)] px-2 py-1 font-mono text-[11px] text-[var(--text-muted)]">
+          <span className="rounded-xl border border-[var(--border)] px-2 py-1 font-mono text-[11px] text-[var(--text-muted)]">
             Freeze
           </span>
         </div>
@@ -80,7 +80,7 @@ export default function Home() {
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-3.5">
           <a href="#" className="flex items-center gap-2 font-medium tracking-tight">
             <span
-              className="grid h-6 w-6 place-items-center rounded-sm bg-[var(--accent)] font-display text-xs font-semibold text-[var(--accent-ink)]"
+              className="grid h-7 w-7 place-items-center rounded-lg bg-[var(--accent)] font-mono text-[11px] font-medium text-white"
               aria-hidden
             >
               AP
@@ -96,7 +96,7 @@ export default function Home() {
           </nav>
           <a
             href="#waitlist"
-            className="rounded-sm bg-[var(--accent)] px-3.5 py-1.5 text-sm font-medium text-[var(--accent-ink)] transition hover:brightness-105"
+            className="btn-primary bg-[var(--accent)] px-3.5 py-1.5 text-sm font-medium "
           >
             {c.hero.primary}
           </a>
@@ -114,7 +114,7 @@ export default function Home() {
             <p className="mt-5 max-w-xl text-lg text-[var(--text)] sm:text-xl">{c.hero.sub}</p>
             <p className="mt-3 max-w-xl text-[var(--text-muted)]">{c.hero.truth}</p>
 
-            <pre className="font-mono mt-8 max-w-lg overflow-x-auto rounded-sm border border-[var(--border)] bg-[var(--code-bg)] px-4 py-3.5 text-[13px] leading-6 text-[var(--code-text)]">
+            <pre className="font-mono mt-8 max-w-lg overflow-x-auto rounded-[18px] bg-[var(--code-bg)] px-4 py-3.5 text-[13px] leading-6 text-[var(--code-text)]">
               <code>
                 {c.hero.code.map((line) => (
                   <span key={line} className="block">
@@ -128,13 +128,13 @@ export default function Home() {
             <div className="mt-8 flex flex-wrap gap-3">
               <a
                 href="#waitlist"
-                className="rounded-sm bg-[var(--accent)] px-5 py-2.5 text-sm font-medium text-[var(--accent-ink)] transition hover:brightness-105"
+                className="btn-primary bg-[var(--accent)] px-5 py-2.5 text-sm font-medium "
               >
                 {c.hero.primary}
               </a>
               <a
                 href="#demo"
-                className="rounded-sm border border-[var(--border)] bg-[var(--bg-elevated)] px-5 py-2.5 text-sm font-medium text-[var(--text)] transition hover:bg-[var(--accent-soft)]"
+                className="btn-secondary px-5 py-2.5 text-sm font-medium"
               >
                 {c.hero.secondary}
               </a>
@@ -147,7 +147,7 @@ export default function Home() {
       </section>
 
       {/* Live demo */}
-      <Sec id="demo" className="pt-4 sm:pt-8 rounded-sm">
+      <Sec id="demo" className="pt-4 sm:pt-8 rounded-xl">
         <div className="mb-8 max-w-2xl">
           <Eyebrow>Live demo</Eyebrow>
           <H2>Verify · trusted to act · revoke</H2>
@@ -160,7 +160,7 @@ export default function Home() {
 
       {/* Product video — locked light UI, silent captions */}
       <Sec id="video" className="pt-4">
-        <div className="overflow-hidden rounded-sm border border-[var(--border)] bg-[var(--bg-elevated)]">
+        <div className="overflow-hidden as-card">
           <div className="flex flex-col gap-4 px-6 pb-6 pt-8 sm:px-8 sm:pt-10">
             <div className="max-w-2xl">
               <Eyebrow>Product film</Eyebrow>
@@ -171,7 +171,7 @@ export default function Home() {
               </p>
             </div>
             <video
-              className="aspect-video w-full rounded-sm border border-[var(--border)] bg-[var(--bg)] object-cover"
+              className="aspect-video w-full rounded-xl border border-[var(--border)] bg-[var(--bg)] object-cover"
               controls
               playsInline
               preload="metadata"
@@ -203,11 +203,11 @@ export default function Home() {
       <Sec id="how">
         <Eyebrow>How it works</Eyebrow>
         <H2>{c.flow.title}</H2>
-        <ol className="mt-12 grid gap-0 sm:grid-cols-2 lg:grid-cols-3">
+        <ol className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {c.flow.steps.map((s, i) => (
             <li
               key={s.t}
-              className="relative border border-[var(--border)] bg-[var(--bg-elevated)] p-6 -mt-px sm:-ml-px"
+              className="relative as-card p-6"
             >
               <span className="font-mono text-xs text-[var(--accent)]">
                 {String(i + 1).padStart(2, "0")}
@@ -223,11 +223,11 @@ export default function Home() {
       <Sec id="passport">
         <Eyebrow>The credential</Eyebrow>
         <H2>{c.passport.title}</H2>
-        <div className="mt-10 grid gap-0 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {c.passport.cards.map((f, i) => (
             <div
               key={f.t}
-              className="border border-[var(--border)] bg-[var(--bg-elevated)] p-6 -mt-px sm:-ml-px"
+              className="as-card p-6"
             >
               <div className="flex items-baseline justify-between gap-2">
                 <p className="font-display text-lg tracking-tight">{f.t}</p>
@@ -249,7 +249,7 @@ export default function Home() {
           {c.scenarios.items.map((s) => (
             <article
               key={s.t}
-              className="flex flex-col border border-[var(--border)] bg-[var(--bg-elevated)] p-6"
+              className="flex flex-col as-card p-6"
             >
               <p className="font-display text-lg tracking-tight">{s.t}</p>
               <p className="mt-3 flex-1 text-sm leading-relaxed text-[var(--text-muted)]">{s.d}</p>
@@ -269,7 +269,7 @@ export default function Home() {
             <H2>{c.developers.title}</H2>
             <p className="mt-4 max-w-md text-[var(--text-muted)]">{c.developers.sub}</p>
           </div>
-          <pre className="font-mono overflow-x-auto rounded-sm border border-[var(--border)] bg-[var(--code-bg)] p-5 text-[12.5px] leading-6 text-[var(--code-text)] sm:p-6">
+          <pre className="font-mono overflow-x-auto rounded-[18px] bg-[var(--code-bg)] p-5 text-[12.5px] leading-6 text-[var(--code-text)] sm:p-6">
             <code>{c.developers.code}</code>
           </pre>
         </div>
@@ -307,7 +307,10 @@ export default function Home() {
       </section>
 
       <footer className="border-t border-[var(--border)] py-8 text-center text-sm text-[var(--text-muted)]">
-        {c.footer}
+        <p>{c.footer}</p>
+        <p className="mt-3 flex items-center justify-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em]">
+          Built on <img src="/allscale/allscale-logo.svg" alt="AllScale" width={73} height={23} className="inline-block" />
+        </p>
       </footer>
     </main>
   );

@@ -186,7 +186,7 @@ export default function LiveDemo() {
           settledCall.current = true;
           window.clearInterval(tick);
           pushLedger({
-            ico: "☎",
+            ico: "T",
             title: "Trusted call · hotel front desk",
             sub: `${HOTEL_NUM} · ${formatCall(n)}`,
             amt: "−$0.42",
@@ -248,7 +248,7 @@ export default function LiveDemo() {
   else if (revoked) main = <RevokeSurface hadCard={hadCard} />;
 
   return (
-    <div className="overflow-hidden rounded-sm border border-[var(--border)] bg-[var(--bg-elevated)] shadow-[0_1px_0_rgba(26,25,21,0.04)]">
+    <div className="overflow-hidden as-card ">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] px-5 py-3 sm:px-6">
         <div className="flex items-center gap-3">
           <span className="font-display text-lg tracking-tight">Travel · trusted to act</span>
@@ -270,7 +270,7 @@ export default function LiveDemo() {
         ).map((s) => (
           <div
             key={s.n}
-            className={`min-w-[5.5rem] flex-1 rounded-sm border px-3 py-2 ${
+            className={`min-w-[5.5rem] flex-1 rounded-xl border px-3 py-2 ${
               s.on
                 ? "border-[var(--accent)]/50 bg-[var(--bg-elevated)]"
                 : "border-[var(--border)] bg-[var(--bg-elevated)]/60"
@@ -344,7 +344,7 @@ export default function LiveDemo() {
 
 function EmptySurface({ onIssue }: { onIssue: () => void }) {
   return (
-    <div className="fade-up flex min-h-[320px] flex-col items-center justify-center rounded-sm border border-dashed border-[var(--border)] bg-[var(--bg-wash)] px-6 py-12 text-center">
+    <div className="fade-up flex min-h-[320px] flex-col items-center justify-center rounded-xl border border-dashed border-[var(--border)] bg-[var(--bg-wash)] px-6 py-12 text-center">
       <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--text-muted)]">
         No passport yet
       </p>
@@ -356,7 +356,7 @@ function EmptySurface({ onIssue }: { onIssue: () => void }) {
       <button
         type="button"
         onClick={onIssue}
-        className="mt-5 inline-flex items-center gap-2 rounded-sm bg-[var(--text)] px-4 py-2.5 text-sm font-medium text-white hover:brightness-110"
+        className="mt-5 inline-flex items-center gap-2 rounded-xl bg-[var(--text)] px-4 py-2.5 text-sm font-medium text-white hover:brightness-110"
       >
         <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" aria-hidden />
         Start verification
@@ -394,7 +394,7 @@ function IssueSurface({ revoked }: { revoked: boolean }) {
         </div>
       </div>
 
-      <div className="rounded-sm border border-[var(--border)] bg-[var(--bg-elevated)]">
+      <div className="as-card">
         <div className="flex items-center justify-between border-b border-[var(--border)] px-4 py-3">
           <p className="text-sm font-medium">Progressive disclosure</p>
           <p className="text-xs text-[var(--text-muted)]">Prove only what&apos;s needed</p>
@@ -472,7 +472,7 @@ function MintingSurface() {
 function MintSurface({ revoked }: { revoked: boolean }) {
   return (
     <div className={`fade-up space-y-4 ${revoked ? "opacity-70" : ""}`}>
-      <div className="rounded-sm border border-[var(--accent)]/40 bg-[var(--accent-soft)] px-4 py-4">
+      <div className="rounded-xl border border-[var(--accent)]/40 bg-[var(--accent-soft)] px-4 py-4">
         <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent-deep)]">
           Site ↔ agent
         </p>
@@ -491,7 +491,7 @@ function MintSurface({ revoked }: { revoked: boolean }) {
         </div>
       </div>
 
-      <div className="rounded-sm border border-[var(--border)] bg-[var(--bg-wash)] px-4 py-3">
+      <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-wash)] px-4 py-3">
         <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--text-muted)]">
           Spend proof · secondary
         </p>
@@ -531,7 +531,7 @@ function CallSurface({
 }) {
   return (
     <div className="fade-up space-y-4">
-      <div className="rounded-sm border border-[var(--accent)]/40 bg-[var(--accent-soft)] px-4 py-4">
+      <div className="rounded-xl border border-[var(--accent)]/40 bg-[var(--accent-soft)] px-4 py-4">
         <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent-deep)]">
           Act · site trusts agent
         </p>
@@ -550,7 +550,7 @@ function CallSurface({
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2">
-        <div className="rounded-sm border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-4">
+        <div className="as-card px-4 py-4">
           <div className="flex items-center justify-between gap-2">
             <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--text-muted)]">
               Using trust · call · secondary
@@ -574,7 +574,7 @@ function CallSurface({
           )}
         </div>
 
-        <div className="rounded-sm border border-[var(--border)] bg-[var(--bg-wash)] px-4 py-4">
+        <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-wash)] px-4 py-4">
           <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--text-muted)]">
             Using trust · OTP · secondary
           </p>
@@ -591,7 +591,7 @@ function CallSurface({
 function RevokeSurface({ hadCard }: { hadCard: boolean }) {
   return (
     <div className="fade-up space-y-4">
-      <div className="flex items-start gap-3 rounded-sm border border-[var(--danger)]/30 bg-[#fff5f5] px-4 py-3 text-sm">
+      <div className="flex items-start gap-3 rounded-xl border border-[var(--danger)]/30 bg-[#FDF2F2] px-4 py-3 text-sm">
         <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[var(--danger)] text-[11px] font-bold text-white">
           ×
         </span>
@@ -601,7 +601,7 @@ function RevokeSurface({ hadCard }: { hadCard: boolean }) {
         </p>
       </div>
 
-      <div className="rounded-sm border border-[var(--danger)]/25 bg-[#fff5f5] p-4">
+      <div className="rounded-xl border border-[var(--danger)]/25 bg-[#FDF2F2] p-4">
         <div className="mb-2 flex items-center justify-between gap-2">
           <p className="text-sm font-medium">Authority map · wiped</p>
           <Chip danger>0 scopes live</Chip>
@@ -618,7 +618,7 @@ function RevokeSurface({ hadCard }: { hadCard: boolean }) {
           ].map((s) => (
             <span
               key={s}
-              className="rounded-sm border border-[var(--danger)]/30 bg-white px-1.5 py-0.5 font-mono text-[11px] text-[var(--danger)] line-through"
+              className="rounded-xl border border-[var(--danger)]/30 bg-white px-1.5 py-0.5 font-mono text-[11px] text-[var(--danger)] line-through"
             >
               {s}
             </span>
@@ -629,7 +629,7 @@ function RevokeSurface({ hadCard }: { hadCard: boolean }) {
         </p>
       </div>
 
-      <div className="rounded-sm border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-3">
+      <div className="as-card px-4 py-3">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--text-muted)]">
@@ -647,7 +647,7 @@ function RevokeSurface({ hadCard }: { hadCard: boolean }) {
       </div>
 
       {hadCard && (
-        <div className="rounded-sm border border-[var(--border)] bg-[var(--bg-wash)] px-4 py-3">
+        <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-wash)] px-4 py-3">
           <div className="flex items-center justify-between gap-2">
             <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--text-muted)]">
               Spend proof · secondary · burned
@@ -663,7 +663,7 @@ function RevokeSurface({ hadCard }: { hadCard: boolean }) {
         </div>
       )}
 
-      <div className="rounded-sm border border-[var(--border)] bg-[var(--bg-elevated)]">
+      <div className="as-card">
         <div className="border-b border-[var(--border)] px-4 py-3">
           <p className="text-sm font-medium">Progressive disclosure</p>
         </div>
@@ -717,7 +717,7 @@ function VaultPanel({
                 : "—"}
         </span>
       </div>
-      <div className="mt-2 overflow-hidden rounded-sm border border-[var(--border)] bg-[var(--bg)]">
+      <div className="mt-2 overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--bg)]">
         {vault.length === 0 ? (
           <p className="px-3 py-4 text-center text-xs text-[var(--text-muted)]">
             Vault empty · spend proofs land after trust
@@ -766,7 +766,7 @@ function LedgerPanel({ rows }: { rows: LedgerRow[] }) {
       <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--text-muted)]">
         Ledger
       </p>
-      <ul className="mt-2 max-h-44 space-y-0 overflow-y-auto rounded-sm border border-[var(--border)] bg-[var(--bg)]">
+      <ul className="mt-2 max-h-44 space-y-0 overflow-y-auto rounded-xl border border-[var(--border)] bg-[var(--bg)]">
         {rows.length === 0 && (
           <li className="px-3 py-4 text-center text-xs text-[var(--text-muted)]">
             No movements yet
@@ -778,9 +778,9 @@ function LedgerPanel({ rows }: { rows: LedgerRow[] }) {
             className="fade-up grid grid-cols-[2rem_1fr_auto] items-center gap-2 border-b border-[var(--border)] px-3 py-2.5 last:border-0"
           >
             <span
-              className={`grid h-7 w-7 place-items-center rounded-sm border border-[var(--border)] text-[11px] font-semibold ${
+              className={`grid h-7 w-7 place-items-center rounded-xl border border-[var(--border)] text-[11px] font-semibold ${
                 r.kind === "freeze"
-                  ? "bg-[#fffaeb] text-[#b54708]"
+                  ? "bg-[#FEF6E7] text-[#B45309]"
                   : r.kind === "neg"
                     ? "bg-[var(--bg-wash)] text-[var(--text)]"
                     : "bg-[var(--accent-soft)] text-[var(--accent-deep)]"
@@ -844,7 +844,7 @@ function Field({ label, value }: { label: string; value: string }) {
   return (
     <div>
       <label className="block text-[11px] font-medium text-[var(--text-muted)]">{label}</label>
-      <div className="mt-1 flex h-9 items-center rounded-sm border border-[var(--border)] bg-[var(--bg-wash)] px-2.5 text-[13px]">
+      <div className="mt-1 flex h-9 items-center rounded-xl border border-[var(--border)] bg-[var(--bg-wash)] px-2.5 text-[13px]">
         {value}
       </div>
     </div>
@@ -861,7 +861,7 @@ function Chip({
   danger?: boolean;
 }) {
   const cls = danger
-    ? "border-[#f1c8c8] bg-[#fff5f5] text-[var(--danger)]"
+    ? "border-[#f1c8c8] bg-[#FDF2F2] text-[var(--danger)]"
     : live
       ? "border-[var(--accent)]/30 bg-[var(--accent-soft)] text-[var(--accent-deep)]"
       : "border-[var(--border)] bg-[var(--bg-wash)] text-[var(--text-muted)]";
@@ -888,7 +888,7 @@ function DemoBtn({
   danger?: boolean;
 }) {
   const base =
-    "rounded-sm px-3 py-2.5 text-left text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-35";
+    "rounded-xl px-3 py-2.5 text-left text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-35";
   const style = danger
     ? "border border-[var(--danger)]/40 text-[var(--danger)] hover:bg-[var(--accent-soft)]"
     : primary

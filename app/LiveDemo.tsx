@@ -623,30 +623,6 @@ function RevokeSurface({ hadCard }: { hadCard: boolean }) {
         </div>
       </div>
 
-      {hadCard && (
-        <div className="demo-plastic demo-plastic-void relative">
-          <div className="flex items-center justify-between">
-            <span className="demo-chip-icon opacity-50" />
-            <span className="text-[11px] uppercase tracking-[0.12em] opacity-70">Burned</span>
-          </div>
-          <p className="font-mono text-[17px] tracking-[0.12em] line-through opacity-50">
-            4242&nbsp;····&nbsp;····&nbsp;{CARD_LAST4}
-          </p>
-          <div className="text-[10px] uppercase tracking-[0.06em] text-white/50">
-            Limit
-            <strong className="mt-0.5 block text-[12px] font-semibold normal-case tracking-normal text-white/70 line-through">
-              {CARD_LIMIT}
-            </strong>
-          </div>
-          <div
-            className="pointer-events-none absolute inset-0 flex items-center justify-center"
-            aria-hidden
-          >
-            <span className="stamp stamp-revoked stamp-enter px-3 py-1.5 text-lg">Void</span>
-          </div>
-        </div>
-      )}
-
       <div className="rounded-sm border border-[var(--danger)]/25 bg-[#fff5f5] p-4">
         <div className="mb-2 flex items-center justify-between gap-2">
           <p className="text-sm font-medium">Authority map · wiped</p>
@@ -674,6 +650,30 @@ function RevokeSurface({ hadCard }: { hadCard: boolean }) {
           Every grant that let the agent act is invalid. Re-verify required to trust again.
         </p>
       </div>
+
+      {hadCard && (
+        <div className="demo-plastic demo-plastic-void relative">
+          <div className="flex items-center justify-between">
+            <span className="demo-chip-icon opacity-50" />
+            <span className="text-[10px] uppercase tracking-[0.12em] opacity-60">Spend proof · burned</span>
+          </div>
+          <p className="font-mono text-[17px] tracking-[0.12em] line-through opacity-50">
+            4242&nbsp;····&nbsp;····&nbsp;{CARD_LAST4}
+          </p>
+          <div className="text-[10px] uppercase tracking-[0.06em] text-white/50">
+            Limit
+            <strong className="mt-0.5 block text-[12px] font-semibold normal-case tracking-normal text-white/70 line-through">
+              {CARD_LIMIT}
+            </strong>
+          </div>
+          <div
+            className="pointer-events-none absolute inset-0 flex items-center justify-center"
+            aria-hidden
+          >
+            <span className="stamp stamp-revoked stamp-enter px-3 py-1.5 text-lg">Void</span>
+          </div>
+        </div>
+      )}
 
       <div className="rounded-sm border border-[var(--border)] bg-[var(--bg-elevated)]">
         <div className="border-b border-[var(--border)] px-4 py-3">
@@ -732,7 +732,7 @@ function VaultPanel({
       <div className="mt-2 overflow-hidden rounded-sm border border-[var(--border)] bg-[var(--bg)]">
         {vault.length === 0 ? (
           <p className="px-3 py-4 text-center text-xs text-[var(--text-muted)]">
-            Vault empty · mint a disposable after issue
+            Vault empty · spend proofs land after trust
           </p>
         ) : (
           <table className="w-full text-left text-[12px]">

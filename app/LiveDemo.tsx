@@ -128,11 +128,11 @@ export default function LiveDemo() {
         live: false,
       },
     ]);
-    pushLog(`passport.issue · ${PASSPORT_ID} · holder verified`);
+    pushLog(`trust.verify · ${PASSPORT_ID} · human attested · travel-ops`);
     pushLedger({
       ico: "P",
-      title: "Passport issued",
-      sub: `${PASSPORT_ID} · progressive L1–L2 shared`,
+      title: "Trust verified",
+      sub: `${PASSPORT_ID} · human→agent L1–L2 · Austin hotel mandate`,
       amt: "$0.00",
       kind: "zero",
     });
@@ -142,7 +142,7 @@ export default function LiveDemo() {
     if (phase !== "issued") return;
     clearTimers();
     setPhase("minting");
-    pushLog("passkey.confirm · mint disposable · waiting");
+    pushLog("trust.authorize · scoped spend proof · waiting passkey");
     const t = window.setTimeout(() => {
       setPhase("minted");
       setHadCard(true);
@@ -156,11 +156,11 @@ export default function LiveDemo() {
         },
         ...prev.filter((c) => c.type === "Standing"),
       ]);
-      pushLog(`card.mint · disposable ···· ${CARD_LAST4} · ${CARD_LIMIT} limit`);
+      pushLog(`proof.land · spend credential ···· ${CARD_LAST4} · ${CARD_LIMIT}`);
       pushLedger({
         ico: "C",
-        title: "Disposable card minted",
-        sub: `···· ${CARD_LAST4} · hotel intent · passkey`,
+        title: "Spend proof landed",
+        sub: `···· ${CARD_LAST4} · hotel checkout proof · passkey`,
         amt: "$0.00",
         kind: "zero",
       });
@@ -174,7 +174,7 @@ export default function LiveDemo() {
     settledCall.current = false;
     setPhase("calling");
     setCallSecs(0);
-    pushLog(`phone.dial · hotel front desk · ${HOTEL_NUM}`);
+    pushLog(`act.call · hotel front desk trusts agent · ${HOTEL_NUM}`);
     const t1 = window.setTimeout(() => {
       setPhase("connected");
       pushLog("phone.connected · hotel front desk");
@@ -187,7 +187,7 @@ export default function LiveDemo() {
           window.clearInterval(tick);
           pushLedger({
             ico: "☎",
-            title: "Outbound call · hotel",
+            title: "Trusted call · hotel front desk",
             sub: `${HOTEL_NUM} · ${formatCall(n)}`,
             amt: "−$0.42",
             kind: "neg",
@@ -212,11 +212,11 @@ export default function LiveDemo() {
         status: c.type === "Disposable" ? "Burned" : "Frozen",
       })),
     );
-    pushLog("revoke · all scopes · card void · line released");
+    pushLog("trust.revoke · all scopes · proofs void · line released");
     pushLedger({
       ico: "×",
-      title: "PASSPORT_REVOKED",
-      sub: "Cards burned · number suspended · L1–L2 invalid",
+      title: "TRUST_REVOKED",
+      sub: "Spend proofs burned · number suspended · L1–L2 invalid",
       amt: "$0.00",
       kind: "freeze",
     });
@@ -251,7 +251,7 @@ export default function LiveDemo() {
     <div className="overflow-hidden rounded-sm border border-[var(--border)] bg-[var(--bg-elevated)] shadow-[0_1px_0_rgba(26,25,21,0.04)]">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] px-5 py-3 sm:px-6">
         <div className="flex items-center gap-3">
-          <span className="font-display text-lg tracking-tight">Issue & revoke</span>
+          <span className="font-display text-lg tracking-tight">Travel · trusted to act</span>
           <span className="rounded-full bg-[var(--accent-soft)] px-2.5 py-0.5 font-mono text-[11px] tracking-wide text-[var(--accent)]">
             {content.demo.badge}
           </span>
@@ -262,9 +262,9 @@ export default function LiveDemo() {
       <div className="flex flex-wrap gap-2 border-b border-[var(--border)] bg-[var(--bg-wash)] px-5 py-3 sm:px-6">
         {(
           [
-            { n: "01", t: "Issue", on: phase === "blank" || phase === "issued" },
-            { n: "02", t: "Mint", on: phase === "minting" || phase === "minted" },
-            { n: "03", t: "Call", on: calling || connected },
+            { n: "01", t: "Verify", on: phase === "blank" || phase === "issued" },
+            { n: "02", t: "Authorize", on: phase === "minting" || phase === "minted" },
+            { n: "03", t: "Act", on: calling || connected },
             { n: "04", t: "Revoke", on: revoked },
           ] as const
         ).map((s) => (
@@ -298,25 +298,25 @@ export default function LiveDemo() {
         <div className="flex flex-col gap-5 p-5 sm:p-6">
           <div className="grid grid-cols-2 gap-2">
             <DemoBtn
-              label="1 · Issue"
+              label="1 · Verify trust"
               onClick={issue}
               disabled={phase !== "blank" && phase !== "revoked"}
               primary={phase === "blank"}
             />
             <DemoBtn
-              label="2 · Mint disposable"
+              label="2 · Land spend proof"
               onClick={mint}
               disabled={phase !== "issued"}
               primary={phase === "issued"}
             />
             <DemoBtn
-              label="3 · Simulate call"
+              label="3 · Call hotel"
               onClick={call}
               disabled={phase !== "minted" || calling}
               primary={phase === "minted"}
             />
             <DemoBtn
-              label="4 · Revoke"
+              label="4 · Revoke trust"
               onClick={revoke}
               disabled={phase === "blank" || revoked}
               danger
@@ -348,10 +348,10 @@ function EmptySurface({ onIssue }: { onIssue: () => void }) {
       <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--text-muted)]">
         No passport yet
       </p>
-      <h3 className="font-display mt-2 text-xl tracking-tight">Verify once as a human</h3>
+      <h3 className="font-display mt-2 text-xl tracking-tight">Verify who trusts this agent</h3>
       <p className="mt-2 max-w-sm text-sm text-[var(--text-muted)]">
-        Issue a reusable credential your agents can carry — progressive disclosure, not a dossier
-        dump.
+        One human check for a Travel mandate — sites and counterparties can trust travel-ops, and
+        you can take it back.
       </p>
       <button
         type="button"
@@ -372,9 +372,9 @@ function IssueSurface({ revoked }: { revoked: boolean }) {
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="font-mono text-[11px] text-[var(--text-muted)]">{PASSPORT_ID}</p>
-            <h3 className="font-display mt-1 text-xl tracking-tight">Operator credential</h3>
+            <h3 className="font-display mt-1 text-xl tracking-tight">Trusted Travel mandate</h3>
             <p className="mt-1 text-sm text-[var(--text-muted)]">
-              Bound to verified human · reusable across agents
+              Human verified · sites can trust this agent · reusable across agents
             </p>
           </div>
           {revoked ? (
@@ -390,7 +390,7 @@ function IssueSurface({ revoked }: { revoked: boolean }) {
             value={revoked ? <Chip danger>Revoked</Chip> : <Chip live>Active</Chip>}
           />
           <Attr label="Agent" value={<span className="font-mono text-[13px]">{AGENT}</span>} />
-          <Attr label="Scope" value="Cards · Phone · Balance" />
+          <Attr label="Mandate" value="Austin hotel · $400 · phone" />
         </div>
       </div>
 
@@ -461,7 +461,7 @@ function MintingSurface() {
         <div>
           <p className="text-sm font-medium">Confirm with passkey</p>
           <p className="text-xs text-[var(--text-muted)]">
-            Mint disposable · {CARD_LIMIT} limit · hotel intent
+            Land spend proof · {CARD_LIMIT} · hotel checkout
           </p>
         </div>
       </div>
@@ -640,7 +640,7 @@ function RevokeSurface({ hadCard }: { hadCard: boolean }) {
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="font-mono text-[11px] text-[var(--text-muted)]">{PASSPORT_ID}</p>
-            <h3 className="font-display mt-1 text-xl tracking-tight">Operator credential</h3>
+            <h3 className="font-display mt-1 text-xl tracking-tight">Trusted Travel mandate</h3>
           </div>
           <span className="stamp stamp-revoked stamp-enter px-2 py-1 text-[11px]">Revoked</span>
         </div>

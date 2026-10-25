@@ -150,9 +150,9 @@ export default function Home() {
       <Sec id="demo" className="pt-4 sm:pt-8 rounded-sm">
         <div className="mb-8 max-w-2xl">
           <Eyebrow>Live demo</Eyebrow>
-          <H2>Issue · mint · call · revoke</H2>
+          <H2>Verify · trusted to act · revoke</H2>
           <p className="mt-3 text-[var(--text-muted)]">
-            Four Simulated steps. Click through the credential lifecycle — Issue, mint, call, revoke.
+            Travel flagship, Simulated. Prove who trusts whom — then book, then take it back.
           </p>
         </div>
         <LiveDemo />

@@ -3,12 +3,12 @@ export const content = {
   brand: "Agent Passport",
   nav: ["Live demo", "How it works", "Passport", "Scenarios", "Developers", "FAQ"],
   hero: {
-    eyebrow: "Portable credential for agents",
-    title: "Every agent deserves a passport.",
-    // Honest PRODUCT line — not "in one API call"
-    sub: "Verify once. Your agent gets an account, a card and a phone number.",
+    eyebrow: "Trust layer for agents",
+    title: "Agents need trust, not your card.",
+    // Trust-first — card/phone are proofs of trust, not the product
+    sub: "Verify once. Sites and other agents can trust who it acts for — and you can revoke anytime.",
     truth:
-      "One human verification, then a portable credential — identity, rails, and authority — that travels with every agent you run.",
+      "Human ↔ agent, site ↔ agent, agent ↔ agent. A Passport is portable proof of that trust; cards and numbers are just how it lands.",
     primary: "Request early access",
     secondary: "See live demo",
     code: [
@@ -18,13 +18,13 @@ export const content = {
     ],
   },
   demo: {
-    title: "Issue & revoke",
-    sub: "Try the credential lifecycle. Pure frontend mock — no KYC, no real funds.",
-    badge: "Simulated · no real funds",
+    title: "Travel · trusted to act",
+    sub: "Verify → trusted to book → revoke. Pure frontend mock — no KYC, no real funds.",
+    badge: "Simulated · Travel flagship",
   },
   video: {
     title: "See it in motion",
-    sub: "60-second walkthrough: verify → issue → mint → call → revoke.",
+    sub: "Walkthrough: verify who trusts whom → agent acts → you revoke.",
     placeholder: "Demo video coming soon",
   },
   problem: {
@@ -45,14 +45,14 @@ export const content = {
     ],
   },
   flow: {
-    title: "From verification to work, in minutes.",
+    title: "Prove trust, then let the agent work.",
     steps: [
-      { t: "Verify identity", d: "A one-time human verification, signed with your passkey." },
-      { t: "Open account", d: "An agent-native account opens once, after verification." },
-      { t: "Get cards & number", d: "Disposable or standing cards, plus a phone number on the Passport." },
-      { t: "Top up", d: "Fund one balance in USD or stablecoins." },
-      { t: "Agent works", d: "It pays, calls and texts — within limits you set." },
-      { t: "Freeze or revoke", d: "Cut authority anytime. Every step stays in the audit trail." },
+      { t: "Verify as human", d: "One passkey verification — who you are, and that you meant to delegate." },
+      { t: "Bound the trust", d: "Task, spend ceiling, and expiry the agent (and sites) can rely on." },
+      { t: "Land the proofs", d: "Scoped card and phone appear only as proof the agent is allowed to act." },
+      { t: "Agent is trusted", d: "Sites and counterparties see authorized agency — not a naked bot." },
+      { t: "Work gets done", d: "Book, pay, call — within the mandate you set." },
+      { t: "Revoke anytime", d: "Cut authority in one step. Money stays yours; the trail stays in the ledger." },
     ],
   },
   passport: {
@@ -88,9 +88,9 @@ export const content = {
     title: "One sentence in. Real work out.",
     items: [
       {
-        t: "The one-sentence business trip",
-        d: "“Book me two nights in Austin under $400.” The agent pays with a one-time card capped at $400, then calls the hotel. The card voids itself afterwards.",
-        scope: "card · phone · $400 limit",
+        t: "Travel · trusted to book",
+        d: "“Two nights in Austin under $400.” You verify once. The hotel site trusts the agent; it pays and calls the front desk. You revoke — authority gone, money still yours.",
+        scope: "verify · trust · revoke · $400",
       },
       {
         t: "Agent hires agent",
@@ -106,7 +106,7 @@ export const content = {
   },
   developers: {
     title: "One plugin. Your agent is ready.",
-    sub: "Connect Passport to any agent. Verify once, then grant scoped authority — no secrets pasted into every runtime.",
+    sub: "Connect Passport to any agent. Verify once, prove trust to sites and counterparties — no secrets pasted into every runtime.",
     code: `# illustrative — API not final
 $ npx agentpassport init
 ✔ Passport issued: ap_7f3k…
@@ -149,7 +149,7 @@ $ agentpassport ledger
   ],
   vision: {
     lead: "Every authorization leaves a record; the further agents go, the deeper the trust.",
-    title: "Verify once. Carry authority everywhere your agents run.",
+    title: "Verify once. Be trusted everywhere your agents run.",
   },
   waitlist: {
     title: "Request early access",

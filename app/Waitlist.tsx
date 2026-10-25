@@ -42,12 +42,12 @@ export default function Waitlist() {
       />
       <button
         type="submit"
-        className="btn-primary bg-[var(--accent)] px-6 py-3 text-sm font-medium "
+        className="btn-primary px-6 py-3 text-sm font-medium "
       >
         {w.button}
       </button>
       {err && (
-        <p className="w-full text-left text-sm text-[var(--stamp)] sm:col-span-2">
+        <p className="w-full text-left text-sm text-[var(--accent-deep)] sm:col-span-2">
           Something went wrong — try again.
         </p>
       )}

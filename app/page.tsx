@@ -80,7 +80,7 @@ export default function Home() {
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-3.5">
           <a href="#" className="flex items-center gap-2 font-medium tracking-tight">
             <span
-              className="grid h-7 w-7 place-items-center rounded-lg bg-[var(--accent)] font-mono text-[11px] font-medium text-white"
+              className="grid h-7 w-7 place-items-center rounded-lg bg-[var(--accent-text)] font-mono text-[11px] font-medium text-white"
               aria-hidden
             >
               AP
@@ -96,7 +96,7 @@ export default function Home() {
           </nav>
           <a
             href="#waitlist"
-            className="btn-primary bg-[var(--accent)] px-3.5 py-1.5 text-sm font-medium "
+            className="btn-primary px-3.5 py-1.5 text-sm font-medium "
           >
             {c.hero.primary}
           </a>
@@ -128,7 +128,7 @@ export default function Home() {
             <div className="mt-8 flex flex-wrap gap-3">
               <a
                 href="#waitlist"
-                className="btn-primary bg-[var(--accent)] px-5 py-2.5 text-sm font-medium "
+                className="btn-primary px-5 py-2.5 text-sm font-medium "
               >
                 {c.hero.primary}
               </a>
@@ -209,7 +209,7 @@ export default function Home() {
               key={s.t}
               className="relative as-card p-6"
             >
-              <span className="font-mono text-xs text-[var(--accent)]">
+              <span className="font-mono text-xs text-[var(--accent-deep)]">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <p className="mt-3 font-medium tracking-tight">{s.t}</p>
@@ -253,7 +253,7 @@ export default function Home() {
             >
               <p className="font-display text-lg tracking-tight">{s.t}</p>
               <p className="mt-3 flex-1 text-sm leading-relaxed text-[var(--text-muted)]">{s.d}</p>
-              <p className="mt-5 border-t border-[var(--border)] pt-3 font-mono text-[11px] text-[var(--accent)]">
+              <p className="mt-5 border-t border-[var(--border)] pt-3 font-mono text-[11px] text-[var(--accent-deep)]">
                 scope · {s.scope}
               </p>
             </article>

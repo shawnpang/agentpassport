@@ -252,7 +252,7 @@ export default function LiveDemo() {
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] px-5 py-3 sm:px-6">
         <div className="flex items-center gap-3">
           <span className="font-display text-lg tracking-tight">Travel · trusted to act</span>
-          <span className="rounded-full bg-[var(--accent-soft)] px-2.5 py-0.5 font-mono text-[11px] tracking-wide text-[var(--accent)]">
+          <span className="rounded-full bg-[var(--accent-soft)] px-2.5 py-0.5 font-mono text-[11px] tracking-wide text-[var(--accent-deep)]">
             {content.demo.badge}
           </span>
         </div>
@@ -273,10 +273,10 @@ export default function LiveDemo() {
             className={`min-w-[5.5rem] flex-1 rounded-xl border px-3 py-2 ${
               s.on
                 ? "border-[var(--accent)]/50 bg-[var(--bg-elevated)]"
-                : "border-[var(--border)] bg-[var(--bg-elevated)]/60"
+                : "border-[var(--border)] bg-[var(--bg-elevated)]"
             }`}
           >
-            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-muted)]">
+            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-muted-strong)]">
               {s.n}
             </p>
             <p
@@ -327,7 +327,7 @@ export default function LiveDemo() {
             <button
               type="button"
               onClick={restore}
-              className="text-left text-sm text-[var(--accent)] underline-offset-2 hover:underline"
+              className="text-left text-sm text-[var(--accent-deep)] underline-offset-2 hover:underline"
             >
               Reset playground
             </button>
@@ -892,7 +892,7 @@ function DemoBtn({
   const style = danger
     ? "border border-[var(--danger)]/40 text-[var(--danger)] hover:bg-[var(--accent-soft)]"
     : primary
-      ? "bg-[var(--accent)] text-[var(--accent-ink)] hover:brightness-105"
+      ? "bg-[var(--accent-text)] text-[var(--accent-ink)] hover:bg-[var(--accent-text-hover)]"
       : "border border-[var(--border)] bg-[var(--bg-elevated)] text-[var(--text)] hover:bg-[var(--accent-soft)]";
   return (
     <button type="button" onClick={onClick} disabled={disabled} className={`${base} ${style}`}>

@@ -14,6 +14,10 @@
   --accent-ink: #FFFFFF;
   --accent-soft: #E6F5EE;
   --accent-deep: #087E4C;
+  --accent-text: #087E4C; /* AA: 5.12:1 on white */
+  --accent-text-hover: #066B41;
+  --accent-text-pressed: #055A37;
+  --text-muted-strong: #4A5F56;
   --border: #E5EEEA;
   --code-bg: #0C3124;
   --code-text: #F2F8F5;
@@ -243,9 +247,9 @@ details summary {
 
 /* AllScale primitives */
 .as-card { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 18px; box-shadow: var(--shadow-md); }
-.btn-primary { background: var(--accent); color: #fff; border-radius: 40px; transition: background .15s; }
-.btn-primary:hover { background: var(--accent-hover); }
-.btn-primary:active { background: var(--accent-pressed); }
+.btn-primary { background: var(--accent-text); color: #fff; border-radius: 40px; transition: background .15s; }
+.btn-primary:hover { background: var(--accent-text-hover); }
+.btn-primary:active { background: var(--accent-text-pressed); }
 .btn-secondary { background: #fff; color: var(--text); border: 1px solid var(--border); border-radius: 40px; transition: background .15s; }
 .btn-secondary:hover { background: var(--bg-wash); }
 .btn-secondary:active { background: var(--border); }

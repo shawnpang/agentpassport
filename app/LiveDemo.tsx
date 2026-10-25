@@ -553,7 +553,7 @@ function CallSurface({
         <div className="rounded-sm border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-4">
           <div className="flex items-center justify-between gap-2">
             <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--text-muted)]">
-              Using trust · call
+              Using trust · call · secondary
             </p>
             <Chip live={connected}>{calling ? "Dialing" : connected ? "Live" : "Idle"}</Chip>
           </div>

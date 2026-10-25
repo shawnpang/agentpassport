@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Agent Passport — Travel Launch Video V4</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap');
+:root {
+  --bg: #ffffff;
+  --wash: #f4f8f5;
+  --ink: #0c0c0c;
+  --muted: #6b7280;
+  --green: #00c96d;
+  --green-deep: #24603a;
+  --danger: #c0392b;
+  --border: #e1e6e1;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  width: 1280px; height: 720px; overflow: hidden;
+  background: var(--bg); color: var(--ink);
+  font-family: Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+#stage {
+  position: relative; width: 1280px; height: 720px;
+  background: var(--bg); overflow: hidden;
+}
+.brand {
+  position: absolute; top: 22px; left: 28px; z-index: 50;
+  display: flex; align-items: center; gap: 10px;
+  font-weight: 600; font-size: 14px; letter-spacing: -0.02em;
+  opacity: 0; transition: opacity .25s;
+}
+.brand.on { opacity: 1; }
+.mark {
+  width: 20px; height: 20px; border-radius: 6px; background: var(--ink); position: relative;
+}
+.mark::after {
+  content: ""; position: absolute; inset: 6px; background: var(--green);
+  border-radius: 2px; transform: rotate(45deg);
+}
+.sim {
+  position: absolute; top: 22px; right: 28px; z-index: 50;
+  font-family: "JetBrains Mono", monospace; font-size: 11px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--green-deep); background: rgba(0,201,109,0.12);
+  border: 1px solid rgba(0,201,109,0.28);
+  padding: 5px 10px; border-radius: 999px;
+  opacity: 0; transition: opacity .25s;
+}
+.sim.on { opacity: 1; }
+.sim::before {
+  content: ""; display: inline-block; width: 6px; height: 6px;
+  border-radius: 50%; background: var(--green); margin-right: 6px; vertical-align: middle;
+}
+
+.caption {
+  position: absolute; left: 0; right: 0; z-index: 40;
+  text-align: center; padding: 0 64px; pointer-events: none;
+  font-weight: 700; letter-spacing: -0.035em; line-height: 1.18;
+  color: var(--ink);
+  opacity: 0; transform: translateY(14px) scale(.98);
+  transition: opacity .28s ease, transform .32s cubic-bezier(.22,1,.36,1);
+  text-shadow: 0 1px 0 rgba(255,255,255,.95), 0 10px 28px rgba(255,255,255,.75);
+}
+.caption.on { opacity: 1; transform: none; }
+.caption.hero { top: 42%; font-size: 42px; padding: 0 80px; }
+.caption.mid { bottom: 42px; font-size: 28px; }
+.caption.big { top: 38%; font-size: 46px; }
+.caption .g { color: var(--green-deep); }
+.caption-veil {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 130px;
+  background: linear-gradient(transparent, rgba(255,255,255,.94));
+  opacity: 0; transition: opacity .25s; z-index: 35; pointer-events: none;
+}
+.caption-veil.on { opacity: 1; }
+
+.ink-bg {
+  position: absolute; inset: 0; background: var(--ink); opacity: 0; z-index: 5;
+  transition: opacity .35s;
+}
+.ink-bg.on { opacity: 1; }
+.caption.on-ink { color: #fff; text-shadow: none; }
+.caption.on-ink .g { color: var(--green); }
+
+/* Shared panel shell */
+.panel {
+  position: absolute;
+  left: 80px; right: 80px; top: 72px; bottom: 118px;
+  border-radius: 16px; overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 2px rgba(12,12,12,.04), 0 18px 48px rgba(12,12,12,.08);
+  background: #fff;
+  opacity: 0; transform: translateY(10px) scale(.985);
+  transition: opacity .35s ease, transform .4s cubic-bezier(.22,1,.36,1);
+  z-index: 10;
+  padding: 28px 32px;
+}
+.panel.on { opacity: 1; transform: none; }
+
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: "JetBrains Mono", monospace; font-size: 11px;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 999px;
+  border: 1px solid var(--border); color: var(--muted); background: var(--wash);
+}
+.chip.bad { color: var(--danger); border-color: rgba(192,57,43,.35); background: #fdf2f1; }
+.chip.ok { color: var(--green-deep); border-color: rgba(0,201,109,.35); background: rgba(0,201,109,.12); }
+.chip.sec { color: var(--muted); font-size: 10px; opacity: .85; }
+
+.row { display: flex; gap: 18px; height: 100%; }
+.col { flex: 1; min-width: 0; }
+.h1 { font-size: 26px; font-weight: 750; letter-spacing: -.03em; }
+.sub { margin-top: 6px; color: var(--muted); font-size: 14px; line-height: 1.45; }
+.card {
+  margin-top: 16px; padding: 16px 18px; border-radius: 12px;
+  border: 1px solid var(--border); background: var(--wash);
+}
+.card strong { display: block; font-size: 15px; margin-bottom: 4px; }
+.mono { font-family: "JetBrains Mono", monospace; font-size: 12px; color: var(--muted); }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: 14px; background: var(--ink); color: #fff;
+  font-weight: 600; font-size: 13px; padding: 11px 16px; border-radius: 10px;
+}
+.btn span { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+.btn.ghost { background: #fff; color: var(--ink); border: 1px solid var(--border); }
+.btn.danger { background: var(--danger); }
+
+/* Pain hotel */
+#sc-pain .hotel-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-bottom: 14px; border-bottom: 1px solid var(--border); margin-bottom: 16px;
+}
+#sc-pain .hotel-name { font-weight: 700; font-size: 18px; }
+#sc-pain .block {
+  margin-top: 18px; padding: 18px; border-radius: 12px;
+  border: 1.5px solid rgba(192,57,43,.4); background: #fff7f6;
+}
+#sc-pain .block .t { font-weight: 700; color: var(--danger); font-size: 16px; }
+#sc-pain .block .d { margin-top: 6px; color: var(--muted); font-size: 13px; }
+
+/* Verify mandate */
+#sc-verify .mandate {
+  margin-top: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+}
+#sc-verify .field {
+  padding: 14px 16px; border-radius: 12px; border: 1px solid var(--border); background: #fff;
+}
+#sc-verify .field .k { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-family: "JetBrains Mono", monospace; }
+#sc-verify .field .v { margin-top: 6px; font-weight: 650; font-size: 16px; }
+
+/* Hotel recognizes */
+#sc-hotel .banner {
+  margin-top: 14px; padding: 20px 22px; border-radius: 14px;
+  background: linear-gradient(135deg, rgba(0,201,109,.12), rgba(244,248,245,.9));
+  border: 1px solid rgba(0,201,109,.35);
+}
+#sc-hotel .banner .big {
+  font-size: 22px; font-weight: 750; letter-spacing: -.02em; color: var(--green-deep);
+}
+#sc-hotel .proofs {
+  margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap;
+}
+#sc-hotel .proof {
+  flex: 1; min-width: 160px; padding: 12px 14px; border-radius: 10px;
+  border: 1px dashed var(--border); background: #fff;
+}
+#sc-hotel .proof .k { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-family: "JetBrains Mono", monospace; }
+#sc-hotel .proof .v { margin-top: 4px; font-size: 13px; font-weight: 600; color: var(--muted); }
+
+/* Ledger */
+#sc-ledger table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 14px; }
+#sc-ledger th, #sc-ledger td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--border); }
+#sc-ledger th { color: var(--muted); font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+#sc-ledger .okcell { color: var(--green-deep); font-weight: 650; }
+
+/* Authority wiped */
+#sc-revoke .map {
+  margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+}
+#sc-revoke .scope {
+  padding: 14px 16px; border-radius: 12px; border: 1px solid var(--border); background: #fff;
+  display: flex; justify-content: space-between; align-items: center;
+}
+#sc-revoke .scope .name { font-weight: 650; }
+#sc-revoke .scope .was { font-size: 12px; color: var(--muted); text-decoration: line-through; margin-right: 8px; }
+#sc-revoke .zero {
+  margin-top: 16px; text-align: center; padding: 14px;
+  border-radius: 12px; background: var(--wash); border: 1px solid var(--border);
+  font-family: "JetBrains Mono", monospace; font-size: 14px; color: var(--green-deep); font-weight: 600;
+}
+
+/* CTA */
+.cta-scene {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity .35s; z-index: 15;
+  background: radial-gradient(700px 360px at 50% 40%, rgba(0,201,109,.08), transparent 65%), var(--bg);
+}
+.cta-scene.on { opacity: 1; }
+.cta-logo { font-size: 36px; font-weight: 750; letter-spacing: -.03em; text-align: center; }
+.cta-sub { color: var(--muted); font-size: 16px; text-align: center; margin-top: 8px; }
+.cta-btn {
+  margin: 22px auto 0; display: inline-flex; align-items: center; gap: 8px;
+  background: var(--ink); color: #fff; font-weight: 600; font-size: 14px;
+  padding: 12px 18px; border-radius: 10px;
+}
+.cta-btn span { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+
+#cursor {
+  position: absolute; width: 22px; height: 22px; z-index: 60;
+  pointer-events: none; opacity: 0; transition: opacity .2s;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,.25));
+}
+#cursor.on { opacity: 1; }
+#cursor.clicking { transform: scale(.86); }
+.click-ripple {
+  position: absolute; width: 18px; height: 18px; border-radius: 50%;
+  border: 2px solid var(--green); pointer-events: none; z-index: 59;
+  opacity: 0; transform: scale(.4);
+}
+.click-ripple.go { animation: rip .4s ease-out forwards; }
+@keyframes rip {
+  0% { opacity: .9; transform: scale(.4); }
+  100% { opacity: 0; transform: scale(2.4); }
+}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="ink-bg" id="ink"></div>
+  <div class="brand" id="brand"><div class="mark"></div>Agent Passport</div>
+  <div class="sim" id="sim">Simulated</div>
+  <div class="caption-veil" id="veil"></div>
+
+  <div class="caption hero" id="cap-a">Agents can plan. Sites still only trust people.</div>
+  <div class="caption mid" id="cap-b">No proof you authorized it.</div>
+  <div class="caption mid" id="cap-c">Stuck booking. Stuck calling the desk.</div>
+  <div class="caption big" id="cap-d">Verify once → <span class="g">Agent Passport</span></div>
+  <div class="caption mid" id="cap-e">Hotel recognizes this mandate.</div>
+  <div class="caption mid" id="cap-f">Booked. Desk confirmed. One ledger.</div>
+  <div class="caption mid" id="cap-g">Revoke. Authority gone.</div>
+  <div class="caption mid" id="cap-h">One Passport. Many agents. Request access.</div>
+
+  <!-- Pain: hotel won't trust -->
+  <div class="panel" id="sc-pain">
+    <div class="hotel-bar">
+      <div class="hotel-name">Austin · Downtown Inn</div>
+      <div class="chip bad">Unauthorized · bot challenge</div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="h1">Checkout blocked</div>
+        <div class="sub">Agent planned the trip. Site still only trusts a human session.</div>
+        <div class="block">
+          <div class="t">No proof you authorized this agent</div>
+          <div class="d">Booking held. Front desk needs a real number. Payment refuses the agent.</div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card"><strong>Room</strong><div class="mono">King · Oct 28–30 · $289/night</div></div>
+        <div class="card"><strong>Agent attempt</strong><div class="mono">ops-travel · stalled at verify</div></div>
+        <div class="card"><strong>Desk</strong><div class="mono">OTP / call required · no line</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Verify once + mandate -->
+  <div class="panel" id="sc-verify">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div class="chip ok">Verify once</div>
+        <div class="h1" style="margin-top:10px;">Delegate travel-ops</div>
+        <div class="sub">Human verifies once. Mandate bound to this Passport.</div>
+      </div>
+      <div class="chip">APT-7F2C-91E0</div>
+    </div>
+    <div class="mandate">
+      <div class="field"><div class="k">City</div><div class="v">Austin, TX</div></div>
+      <div class="field"><div class="k">Budget</div><div class="v">$900 · hotel only</div></div>
+      <div class="field"><div class="k">Window</div><div class="v">Oct 28–30 · 48h</div></div>
+      <div class="field"><div class="k">Scopes</div><div class="v">Book · Call desk · Spend</div></div>
+    </div>
+    <div class="btn"><span></span>Issue mandate</div>
+  </div>
+
+  <!-- Hotel recognizes mandate -->
+  <div class="panel" id="sc-hotel">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div class="hotel-name" style="font-weight:700;font-size:18px;">Austin · Downtown Inn</div>
+      <div class="chip ok">Mandate accepted</div>
+    </div>
+    <div class="banner">
+      <div class="big">Hotel recognizes travel-ops — Austin mandate</div>
+      <div class="sub" style="margin-top:8px;color:var(--green-deep);">Site trusted this delegated authority. Agent may finish the booking.</div>
+    </div>
+    <div class="proofs">
+      <div class="proof"><div class="k">Spend proof · secondary</div><div class="v">Limited card attached</div></div>
+      <div class="proof"><div class="k">Using trust · call · secondary</div><div class="v">Desk line on Passport number</div></div>
+      <div class="proof"><div class="k">OTP · secondary</div><div class="v">Code routed to agent line</div></div>
+    </div>
+  </div>
+
+  <!-- Booked + ledger -->
+  <div class="panel" id="sc-ledger">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div class="chip ok">One ledger</div>
+        <div class="h1" style="margin-top:10px;">Booked · desk confirmed</div>
+        <div class="sub">Room, spend, and desk call on one Passport.</div>
+      </div>
+      <div class="chip sec">Phone · secondary proof</div>
+    </div>
+    <table>
+      <thead><tr><th>Item</th><th>Detail</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Hotel</td><td>Downtown Inn · King · Oct 28–30</td><td class="okcell">Booked</td></tr>
+        <tr><td>Spend</td><td>$578 · within $900 mandate</td><td class="okcell">Paid</td></tr>
+        <tr><td>Desk</td><td>Confirmation call · 1:42</td><td class="okcell">Confirmed</td></tr>
+        <tr><td>Authority</td><td>travel-ops · Austin</td><td class="okcell">Live · 3 scopes</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Authority wiped — NOT burned card -->
+  <div class="panel" id="sc-revoke">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div class="chip bad">Revoke</div>
+        <div class="h1" style="margin-top:10px;">Authority map · wiped</div>
+        <div class="sub">Scopes gone. Money stays with you.</div>
+      </div>
+      <div class="chip">0 scopes live</div>
+    </div>
+    <div class="map">
+      <div class="scope"><div><div class="name">Book hotel</div><div class="mono">travel-ops</div></div><div><span class="was">Live</span><span class="chip bad">Wiped</span></div></div>
+      <div class="scope"><div><div class="name">Call desk</div><div class="mono">+1 415 ··· 0142</div></div><div><span class="was">Live</span><span class="chip bad">Wiped</span></div></div>
+      <div class="scope"><div><div class="name">Spend proof</div><div class="mono">mandate $900</div></div><div><span class="was">Live</span><span class="chip bad">Wiped</span></div></div>
+      <div class="scope"><div><div class="name">Disclose L1–L2</div><div class="mono">authorized agent</div></div><div><span class="was">Shared</span><span class="chip bad">Invalid</span></div></div>
+    </div>
+    <div class="zero">Authority map · wiped · 0 scopes live</div>
+  </div>
+
+  <div class="cta-scene" id="sc-cta">
+    <div>
+      <div class="cta-logo">Agent Passport</div>
+      <div class="cta-sub">Verify once. Trusted to act. Revoke anytime.</div>
+      <div class="cta-btn"><span></span>Request early access · agentpassport.sh</div>
+    </div>
+  </div>
+
+  <div id="cursor" aria-hidden="true">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <path d="M5 3l14 8.2-6.2 1.6L9.4 21 5 3z" fill="#0c0c0c" stroke="#fff" stroke-width="1.2" stroke-linejoin="round"/>
+    </svg>
+  </div>
+  <div class="click-ripple" id="ripple"></div>
+</div>
+<script>
+const TOTAL = 42;
+const cursor = document.getElementById('cursor');
+const ripple = document.getElementById('ripple');
+const PANELS = ['sc-pain','sc-verify','sc-hotel','sc-ledger','sc-revoke','sc-cta'];
+const CAPS = ['cap-a','cap-b','cap-c','cap-d','cap-e','cap-f','cap-g','cap-h'];
+
+function show(ids){ ids.forEach(id => document.getElementById(id)?.classList.add('on')); }
+function hide(ids){ ids.forEach(id => document.getElementById(id)?.classList.remove('on')); }
+function hideAllCaps(){ CAPS.forEach(id => document.getElementById(id)?.classList.remove('on','on-ink')); }
+function hidePanels(){ PANELS.forEach(id => document.getElementById(id)?.classList.remove('on')); }
+function setCursor(x, y, on=true) {
+  cursor.style.left = x + 'px';
+  cursor.style.top = y + 'px';
+  cursor.classList.toggle('on', on);
+}
+function clickAt(x, y) {
+  setCursor(x, y, true);
+  cursor.classList.add('clicking');
+  ripple.style.left = (x - 4) + 'px';
+  ripple.style.top = (y - 4) + 'px';
+  ripple.classList.remove('go');
+  void ripple.offsetWidth;
+  ripple.classList.add('go');
+  setTimeout(() => cursor.classList.remove('clicking'), 120);
+}
+
+async function applySeek(sec) {
+  document.querySelectorAll('.on').forEach(el => el.classList.remove('on'));
+  hideAllCaps();
+  hidePanels();
+  setCursor(0,0,false);
+
+  if (sec < 3) {
+    show(['ink']);
+    document.getElementById('cap-a').classList.add('on','on-ink');
+  } else if (sec < 8) {
+    show(['brand','veil','sc-pain','cap-b']);
+    document.getElementById('cap-b').classList.add('on');
+  } else if (sec < 12) {
+    show(['brand','veil','sc-pain','cap-c']);
+    document.getElementById('cap-c').classList.add('on');
+  } else if (sec < 17) {
+    show(['brand','sim','veil','sc-verify','cap-d']);
+    document.getElementById('cap-d').classList.add('on');
+    setCursor(220, 520, true);
+  } else if (sec < 24) {
+    show(['brand','sim','veil','sc-hotel','cap-e']);
+    document.getElementById('cap-e').classList.add('on');
+    setCursor(640, 260, true);
+  } else if (sec < 30) {
+    show(['brand','sim','veil','sc-ledger','cap-f']);
+    document.getElementById('cap-f').classList.add('on');
+    setCursor(700, 300, true);
+  } else if (sec < 36) {
+    show(['brand','sim','veil','sc-revoke','cap-g']);
+    document.getElementById('cap-g').classList.add('on');
+    setCursor(980, 200, true);
+  } else {
+    show(['brand','sc-cta','cap-h']);
+    document.getElementById('cap-h').classList.add('on');
+    setCursor(640, 430, true);
+  }
+  window.__REEL_READY__ = true;
+}
+
+async function play() {
+  window.__REEL_READY__ = true;
+  // live preview only; capture uses seek=
+}
+
+const params = new URLSearchParams(location.search);
+const seek = params.has('seek') ? parseFloat(params.get('seek')) : null;
+if (seek != null && !Number.isNaN(seek)) {
+  requestAnimationFrame(() => applySeek(seek));
+} else {
+  applySeek(0);
+  play();
+}
+window.__REEL_DURATION__ = TOTAL;
+window.applySeek = applySeek;
+</script>
+</body>
+</html>

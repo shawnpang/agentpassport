@@ -167,7 +167,7 @@ export default function Home() {
               <p className="font-display mt-2 text-2xl tracking-tight sm:text-3xl">{c.video.title}</p>
               <p className="mt-2 max-w-md text-[var(--text-muted)]">{c.video.sub}</p>
               <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--text-muted)]">
-                ~42s · silent captions · problem-first
+                ~43s · silent captions · Travel trust arc
               </p>
             </div>
             <video
@@ -175,9 +175,9 @@ export default function Home() {
               controls
               playsInline
               preload="metadata"
-              poster="/video/frames-v3-poster.jpg"
+              poster="/video/frames-travel-poster.jpg"
             >
-              <source src="/video/agent-passport-60s-v3-silent.mp4" type="video/mp4" />
+              <source src="/video/agent-passport-travel-silent.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>

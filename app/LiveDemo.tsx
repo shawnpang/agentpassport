@@ -142,7 +142,7 @@ export default function LiveDemo() {
     if (phase !== "issued") return;
     clearTimers();
     setPhase("minting");
-    pushLog("trust.authorize · scoped spend proof · waiting passkey");
+    pushLog("trust.site · hotel recognizes mandate · waiting passkey");
     const t = window.setTimeout(() => {
       setPhase("minted");
       setHadCard(true);
@@ -156,11 +156,11 @@ export default function LiveDemo() {
         },
         ...prev.filter((c) => c.type === "Standing"),
       ]);
-      pushLog(`proof.land · spend credential ···· ${CARD_LAST4} · ${CARD_LIMIT}`);
+      pushLog(`trust.accepted · hotel site · spend/OTP proofs secondary · ${CARD_LIMIT}`);
       pushLedger({
         ico: "C",
-        title: "Spend proof landed",
-        sub: `···· ${CARD_LAST4} · hotel checkout proof · passkey`,
+        title: "Hotel recognized mandate",
+        sub: `Austin hotel · mandate accepted · proofs attached`,
         amt: "$0.00",
         kind: "zero",
       });
@@ -263,7 +263,7 @@ export default function LiveDemo() {
         {(
           [
             { n: "01", t: "Verify", on: phase === "blank" || phase === "issued" },
-            { n: "02", t: "Authorize", on: phase === "minting" || phase === "minted" },
+            { n: "02", t: "Trusted", on: phase === "minting" || phase === "minted" },
             { n: "03", t: "Act", on: calling || connected },
             { n: "04", t: "Revoke", on: revoked },
           ] as const
@@ -304,7 +304,7 @@ export default function LiveDemo() {
               primary={phase === "blank"}
             />
             <DemoBtn
-              label="2 · Land spend proof"
+              label="2 · Site trusts mandate"
               onClick={mint}
               disabled={phase !== "issued"}
               primary={phase === "issued"}
@@ -459,9 +459,9 @@ function MintingSurface() {
           ⌀
         </span>
         <div>
-          <p className="text-sm font-medium">Confirm with passkey</p>
+          <p className="text-sm font-medium">Confirm: hotel may trust this agent</p>
           <p className="text-xs text-[var(--text-muted)]">
-            Land spend proof · {CARD_LIMIT} · hotel checkout
+            Passkey · Travel mandate · Austin · {CARD_LIMIT}
           </p>
         </div>
       </div>
@@ -472,76 +472,48 @@ function MintingSurface() {
 function MintSurface({ revoked }: { revoked: boolean }) {
   return (
     <div className={`fade-up space-y-4 ${revoked ? "opacity-70" : ""}`}>
-      <div
-        className={`demo-plastic relative ${revoked ? "demo-plastic-void" : ""}`}
-        aria-label="Disposable card"
-      >
-        <div className="flex items-center justify-between">
-          <span className="demo-chip-icon" />
-          <span className="text-[11px] uppercase tracking-[0.12em] opacity-70">
-            {revoked ? "Void" : "Disposable"}
-          </span>
-        </div>
-        <p
-          className={`font-mono text-[17px] tracking-[0.12em] ${
-            revoked ? "line-through opacity-60" : ""
-          }`}
-        >
-          4242&nbsp;····&nbsp;····&nbsp;{CARD_LAST4}
+      <div className="rounded-sm border border-[var(--accent)]/40 bg-[var(--accent-soft)] px-4 py-4">
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent-deep)]">
+          Site ↔ agent
         </p>
-        <div className="flex justify-between gap-3 text-[10px] uppercase tracking-[0.06em] text-white/65">
-          <span>
-            Holder
-            <strong className="mt-0.5 block text-[12.5px] font-semibold normal-case tracking-[0.03em] text-white">
-              {AGENT.toUpperCase()}
-            </strong>
-          </span>
-          <span>
-            Exp
-            <strong className="mt-0.5 block text-[12.5px] font-semibold normal-case tracking-[0.03em] text-white">
-              12 / 27
-            </strong>
-          </span>
-          <span>
-            Limit
-            <strong
-              className={`mt-0.5 block text-[12.5px] font-semibold normal-case tracking-[0.03em] text-white ${
-                revoked ? "line-through" : ""
-              }`}
-            >
-              {CARD_LIMIT}
-            </strong>
-          </span>
+        <h3 className="font-display mt-1 text-xl tracking-tight">
+          {revoked ? "Hotel no longer trusts this mandate" : "Hotel recognized this mandate"}
+        </h3>
+        <p className="mt-2 text-sm text-[var(--text-muted)]">
+          {revoked
+            ? "Authorization withdrawn — checkout and front desk will refuse the agent."
+            : "The booking site accepts travel-ops as acting for a verified human on this Austin stay."}
+        </p>
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          <Chip live={false}>{revoked ? "Mandate invalid" : "Mandate accepted"}</Chip>
+          <Chip>Agent: {AGENT}</Chip>
+          <Chip>Ceiling {CARD_LIMIT}</Chip>
         </div>
-        {revoked && (
-          <div
-            className="pointer-events-none absolute inset-0 flex items-center justify-center"
-            aria-hidden
-          >
-            <span className="stamp stamp-revoked stamp-enter px-3 py-1.5 text-lg">Void</span>
-          </div>
-        )}
       </div>
 
-      <div className="rounded-sm border border-[var(--border)] bg-[var(--bg-elevated)] p-4">
-        <div className="flex items-center justify-between gap-2">
-          <p className="text-sm font-medium">Mint form</p>
-          <Chip>Simulated</Chip>
+      <div className="rounded-sm border border-[var(--border)] bg-[var(--bg-wash)] px-4 py-3">
+        <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--text-muted)]">
+          Proofs attached · secondary
+        </p>
+        <div className="mt-2 grid gap-2 sm:grid-cols-2">
+          <p className="text-xs text-[var(--text-muted)]">
+            Spend{" "}
+            <span className={`font-mono text-[var(--text)] ${revoked ? "line-through" : ""}`}>
+              ···· {CARD_LAST4}
+            </span>{" "}
+            · {CARD_LIMIT} · 15m
+          </p>
+          <p className="text-xs text-[var(--text-muted)]">
+            OTP / front desk line{" "}
+            <span className={`font-mono text-[var(--text)] ${revoked ? "line-through" : ""}`}>
+              {AGENT_LINE}
+            </span>
+          </p>
         </div>
-        <div className="mt-3 grid gap-3 sm:grid-cols-2">
-          <Field label="Card type" value="Disposable · single-use" />
-          <Field label="Spend ceiling" value={CARD_LIMIT} />
-          <Field label="TTL" value="15 minutes · auto-revoke" />
-          <Field label="Merchant intent" value="Hotel · Austin booking" />
-        </div>
-        <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-[var(--bg-wash)]">
-          <i
-            className="block h-full rounded-full bg-[var(--accent)]"
-            style={{ width: revoked ? "0%" : "8%" }}
-          />
-        </div>
-        <p className="mt-1.5 text-[11px] text-[var(--text-muted)]">
-          {revoked ? "Card burned · zero residual auth" : "$0.00 used · remaining under ceiling"}
+        <p className="mt-2 text-[11px] text-[var(--text-muted)]">
+          {revoked
+            ? "Card + line burned with the mandate — zero residual auth."
+            : "Card and number exist only as proof the agent is allowed to pay and call."}
         </p>
       </div>
     </div>
@@ -631,8 +603,8 @@ function RevokeSurface({ hadCard }: { hadCard: boolean }) {
           ×
         </span>
         <p>
-          <strong>Passport revoked.</strong> All agent rails dead. Audit event written. Human
-          balance preserved.
+          <strong>Trust revoked — authority wiped.</strong> Site no longer recognizes this agent.
+          Pay / phone / identity shares are dead. Human balance preserved.
         </p>
       </div>
 
@@ -682,18 +654,32 @@ function RevokeSurface({ hadCard }: { hadCard: boolean }) {
         </div>
       )}
 
-      <div className="rounded-sm border border-[var(--border)] bg-[var(--bg)] p-4">
-        <p className="mb-2 text-sm font-medium">Scopes</p>
+      <div className="rounded-sm border border-[var(--danger)]/25 bg-[#fff5f5] p-4">
+        <div className="mb-2 flex items-center justify-between gap-2">
+          <p className="text-sm font-medium">Authority map · wiped</p>
+          <Chip danger>0 scopes live</Chip>
+        </div>
         <div className="flex flex-wrap gap-1.5">
-          {["identity", "pay", "sms", "card", "phone"].map((s) => (
+          {[
+            "site trust",
+            "identity L1–L2",
+            "pay",
+            "sms / OTP",
+            "card",
+            "phone",
+            "hotel mandate",
+          ].map((s) => (
             <span
               key={s}
-              className="rounded-sm border border-[var(--border)] px-1.5 py-0.5 font-mono text-[11px] text-[var(--text-muted)] line-through"
+              className="rounded-sm border border-[var(--danger)]/30 bg-white px-1.5 py-0.5 font-mono text-[11px] text-[var(--danger)] line-through"
             >
               {s}
             </span>
           ))}
         </div>
+        <p className="mt-3 text-xs text-[var(--text-muted)]">
+          Every grant that let the agent act is invalid. Re-verify required to trust again.
+        </p>
       </div>
 
       <div className="rounded-sm border border-[var(--border)] bg-[var(--bg-elevated)]">

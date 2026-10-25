@@ -493,7 +493,7 @@ function MintSurface({ revoked }: { revoked: boolean }) {
 
       <div className="rounded-sm border border-[var(--border)] bg-[var(--bg-wash)] px-4 py-3">
         <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--text-muted)]">
-          Proofs attached · secondary
+          Spend proof · secondary
         </p>
         <div className="mt-2 grid gap-2 sm:grid-cols-2">
           <p className="text-xs text-[var(--text-muted)]">
@@ -530,65 +530,58 @@ function CallSurface({
   callSecs: number;
 }) {
   return (
-    <div className="fade-up grid gap-4 sm:grid-cols-[1.1fr_0.9fr]">
-      <div className="rounded-sm border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-6 text-center">
-        <div className="mx-auto mb-3 grid h-14 w-14 place-items-center rounded-full border border-[var(--border)] bg-[var(--bg-wash)] text-sm font-semibold text-[var(--accent-deep)]">
-          HT
-        </div>
-        <p className="text-xs text-[var(--text-muted)]">Outbound · agent line · hotel</p>
-        <p className="font-mono mt-1 text-xl tracking-wide">{HOTEL_NUM}</p>
-        <p className="mt-2 text-sm text-[var(--text-muted)]">
-          {calling ? (
-            "Ringing…"
-          ) : (
-            <>
-              Connected · <span className="font-mono">{formatCall(callSecs)}</span> · Simulated
-            </>
-          )}
+    <div className="fade-up space-y-4">
+      <div className="rounded-sm border border-[var(--accent)]/40 bg-[var(--accent-soft)] px-4 py-4">
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent-deep)]">
+          Act · site trusts agent
         </p>
-        {connected && (
-          <div className="demo-waveform mx-auto mt-4" aria-hidden>
-            <i />
-            <i />
-            <i />
-            <i />
-            <i />
-            <i />
-            <i />
-          </div>
-        )}
-        <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
-          <span className="rounded-sm border border-[var(--border)] px-3 py-1.5 text-xs text-[var(--text-muted)]">
-            Mute
-          </span>
-          <span className="rounded-sm border border-[var(--danger)]/40 px-3 py-1.5 text-xs text-[var(--danger)]">
-            End call
-          </span>
+        <h3 className="font-display mt-1 text-xl tracking-tight sm:text-2xl">
+          Hotel recognizes travel-ops — Austin mandate
+        </h3>
+        <p className="mt-2 text-sm text-[var(--text-muted)]">
+          Booking site and front desk treat the agent as authorized. Calling and OTP are just how
+          that trust gets used — not the story.
+        </p>
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          <Chip live>Mandate live</Chip>
+          <Chip>Agent: {AGENT}</Chip>
+          <Chip>Austin · {CARD_LIMIT}</Chip>
         </div>
       </div>
-      <div className="space-y-3">
-        <div className="rounded-sm border border-[var(--border)] bg-[var(--bg-elevated)] p-4">
-          <div className="flex items-center justify-between">
-            <p className="text-sm font-medium">Call audit</p>
-            <Chip live>{calling ? "Dialing" : "Live"}</Chip>
+
+      <div className="grid gap-3 sm:grid-cols-2">
+        <div className="rounded-sm border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-4">
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--text-muted)]">
+              Using trust · call
+            </p>
+            <Chip live={connected}>{calling ? "Dialing" : connected ? "Live" : "Idle"}</Chip>
           </div>
-          <dl className="mt-3 grid grid-cols-[5.5rem_1fr] gap-x-3 gap-y-2 text-sm">
-            <dt className="text-[var(--text-muted)]">Direction</dt>
-            <dd>Outbound</dd>
-            <dt className="text-[var(--text-muted)]">From</dt>
-            <dd className="font-mono text-[13px]">{AGENT_LINE}</dd>
-            <dt className="text-[var(--text-muted)]">To</dt>
-            <dd>Hotel front desk</dd>
-            <dt className="text-[var(--text-muted)]">Rate</dt>
-            <dd>$0.02 / min (mock)</dd>
-            <dt className="text-[var(--text-muted)]">Ledger</dt>
-            <dd>{connected && callSecs >= 12 ? "−$0.42 posted" : "pending tick"}</dd>
-          </dl>
+          <p className="font-mono mt-2 text-lg tracking-wide">{HOTEL_NUM}</p>
+          <p className="mt-1 text-xs text-[var(--text-muted)]">
+            Front desk · from {AGENT_LINE}
+            {connected ? (
+              <>
+                {" "}
+                · <span className="font-mono">{formatCall(callSecs)}</span>
+              </>
+            ) : calling ? (
+              " · ringing…"
+            ) : null}
+          </p>
+          {connected && callSecs >= 12 && (
+            <p className="mt-2 text-xs text-[var(--text-muted)]">Ledger −$0.42 posted</p>
+          )}
         </div>
-        <div className="rounded-sm border border-[var(--border)] bg-[var(--bg-wash)] px-4 py-3">
-          <p className="text-[11px] text-[var(--text-muted)]">SMS · redacted stub</p>
-          <p className="mt-1 text-sm">Your verification code is</p>
-          <p className="font-mono mt-2 text-lg tracking-[0.2em]">8 4 2 · · ·</p>
+
+        <div className="rounded-sm border border-[var(--border)] bg-[var(--bg-wash)] px-4 py-4">
+          <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--text-muted)]">
+            Using trust · OTP · secondary
+          </p>
+          <p className="mt-2 text-xs text-[var(--text-muted)]">SMS stub · redacted</p>
+          <p className="font-mono mt-2 text-base tracking-[0.18em] text-[var(--text-muted)]">
+            8 4 2 · · ·
+          </p>
         </div>
       </div>
     </div>

@@ -601,28 +601,6 @@ function RevokeSurface({ hadCard }: { hadCard: boolean }) {
         </p>
       </div>
 
-      <div className="demo-passport relative">
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <p className="font-mono text-[11px] text-[var(--text-muted)]">{PASSPORT_ID}</p>
-            <h3 className="font-display mt-1 text-xl tracking-tight">Trusted Travel mandate</h3>
-          </div>
-          <span className="stamp stamp-revoked stamp-enter px-2 py-1 text-[11px]">Revoked</span>
-        </div>
-        <div className="mt-4 grid grid-cols-2 gap-3">
-          <Attr label="Revoked at" value="Just now · Simulated" />
-          <Attr label="Actor" value="Human operator" />
-        </div>
-        <div
-          className="pointer-events-none absolute inset-0 flex items-center justify-center"
-          aria-hidden
-        >
-          <span className="stamp stamp-revoked stamp-enter px-4 py-2 text-2xl sm:text-3xl">
-            Revoked
-          </span>
-        </div>
-      </div>
-
       <div className="rounded-sm border border-[var(--danger)]/25 bg-[#fff5f5] p-4">
         <div className="mb-2 flex items-center justify-between gap-2">
           <p className="text-sm font-medium">Authority map · wiped</p>
@@ -651,27 +629,37 @@ function RevokeSurface({ hadCard }: { hadCard: boolean }) {
         </p>
       </div>
 
+      <div className="rounded-sm border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-3">
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--text-muted)]">
+              Mandate · secondary
+            </p>
+            <p className="mt-1 text-sm font-medium">Trusted Travel mandate</p>
+            <p className="font-mono mt-0.5 text-[11px] text-[var(--text-muted)]">{PASSPORT_ID}</p>
+          </div>
+          <Chip danger>Revoked</Chip>
+        </div>
+        <div className="mt-3 grid grid-cols-2 gap-3">
+          <Attr label="Revoked at" value="Just now · Simulated" />
+          <Attr label="Actor" value="Human operator" />
+        </div>
+      </div>
+
       {hadCard && (
-        <div className="demo-plastic demo-plastic-void relative">
-          <div className="flex items-center justify-between">
-            <span className="demo-chip-icon opacity-50" />
-            <span className="text-[10px] uppercase tracking-[0.12em] opacity-60">Spend proof · burned</span>
+        <div className="rounded-sm border border-[var(--border)] bg-[var(--bg-wash)] px-4 py-3">
+          <div className="flex items-center justify-between gap-2">
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--text-muted)]">
+              Spend proof · secondary · burned
+            </p>
+            <Chip danger>Void</Chip>
           </div>
-          <p className="font-mono text-[17px] tracking-[0.12em] line-through opacity-50">
-            4242&nbsp;····&nbsp;····&nbsp;{CARD_LAST4}
+          <p className="font-mono mt-2 text-sm tracking-[0.12em] text-[var(--text-muted)] line-through">
+            4242 ···· ···· {CARD_LAST4}
           </p>
-          <div className="text-[10px] uppercase tracking-[0.06em] text-white/50">
-            Limit
-            <strong className="mt-0.5 block text-[12px] font-semibold normal-case tracking-normal text-white/70 line-through">
-              {CARD_LIMIT}
-            </strong>
-          </div>
-          <div
-            className="pointer-events-none absolute inset-0 flex items-center justify-center"
-            aria-hidden
-          >
-            <span className="stamp stamp-revoked stamp-enter px-3 py-1.5 text-lg">Void</span>
-          </div>
+          <p className="mt-1 text-xs text-[var(--text-muted)]">
+            Limit {CARD_LIMIT} · no longer a live proof
+          </p>
         </div>
       )}
 
